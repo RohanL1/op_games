@@ -63,6 +63,8 @@ flutter:
      - assets/home_screen.png
      - assets/heading.png
      - assets/background.png
+     - assets/home_screen_vertical.png
+     - assets/background_vertical.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
