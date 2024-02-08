@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:op_games/image.dart';
+import 'package:op_games/operator.dart';
 
 
 class LearnPage extends StatelessWidget {
@@ -29,7 +30,7 @@ class LearnPage extends StatelessWidget {
                       SizedBox(width: 200),
                       InkWell(
                         onTap: () {
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => LearnPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => OperatorPage()));
                         },
                         borderRadius: BorderRadius.circular(30),
                         child: Container(

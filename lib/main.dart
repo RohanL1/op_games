@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
             child: Column(
                 children :[
                   SizedBox(height: 100),
-                  ImageBanner("assets/heading.png"),
+                  ImageBanner("assets/heading.png", 350, 700),
                   SizedBox(height: 70),
                   Row(
                     children :[
@@ -115,6 +115,7 @@ class HomePage extends StatelessWidget {
           )
       ),
     );
+
   }
 }
 
