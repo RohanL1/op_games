@@ -201,7 +201,7 @@ class LearnPage extends StatelessWidget {
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text('/',
+                              Text('%',
                                 style: TextStyle(color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 100),
                               ),
                             ],
