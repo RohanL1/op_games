@@ -35,13 +35,13 @@ class _ScorePageState extends State<ScorePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Score: \$${score}',
+                'Score : ${score}',
                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 40),
               ),
-              const SizedBox(height: 50),
+              const SizedBox(width: 300),
               ElevatedButton(
                 onPressed: incrementScore,
-                child: Text('Select correct answer'),
+                child: Text('Working on this page'),
               ),
             ],
           ),

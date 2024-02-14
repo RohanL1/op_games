@@ -5,6 +5,7 @@ import 'package:op_games/color.dart';
 import 'package:op_games/learn_main.dart';
 import 'package:op_games/play_main.dart';
 import 'package:op_games/Score_page.dart';
+import 'package:op_games/Quiz_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -68,7 +69,7 @@ class HomePage extends StatelessWidget {
                       SizedBox(width: 100),
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => PlayPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => QuizPage()));
                         },
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
