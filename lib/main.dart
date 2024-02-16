@@ -82,7 +82,7 @@ class HomePage extends StatelessWidget {
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text('Play',
+                              Text('PlayQ',
                                 style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 40),
                               ),
                             ],
