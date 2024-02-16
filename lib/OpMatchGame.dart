@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+
 class OperatorsMatchingGamePage extends StatefulWidget {
   const OperatorsMatchingGamePage({Key? key}) : super(key: key);
+
   @override
   _OperatorsMatchingGamePageState createState() =>
       _OperatorsMatchingGamePageState();
@@ -91,7 +93,7 @@ class _OperatorsMatchingGamePageState
         padding: EdgeInsets.all(16),
         margin: EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
-          color: selectedOperator == operator ? Colors.blue : Colors.yellow,
+          color: selectedOperator == operator ? Colors.blue : Colors.orangeAccent,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
@@ -193,3 +195,4 @@ class _OperatorsMatchingGamePageState
       ),
     );
   }
+}
