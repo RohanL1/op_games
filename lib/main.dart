@@ -3,9 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:op_games/image.dart';
 import 'package:op_games/color.dart';
 import 'package:op_games/learn_main.dart';
-import 'package:op_games/play_main.dart';
+// import 'package:op_games/play_main.dart';
 import 'package:op_games/Score_page.dart';
 import 'package:op_games/Quiz_page.dart';
+import 'package:op_games/Play_Page.dart';
 
 void main() => runApp(MyApp());
 
@@ -69,7 +70,7 @@ class HomePage extends StatelessWidget {
                       SizedBox(width: 100),
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => QuizPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PlayPage()));
                         },
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
