@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:op_games/flash_cards.dart';
 import 'package:op_games/image.dart';
+import 'package:op_games/practice_screen.dart';
 
 
 class OperatorPage extends StatelessWidget {
@@ -61,7 +62,7 @@ class OperatorPage extends StatelessWidget {
                         SizedBox(width: 100),
                         InkWell(
                           onTap: () {
-                            // Navigator.push(context, MaterialPageRoute(builder: (context) => PlayPage()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => PracticeScreen()));
                           },
                           borderRadius: BorderRadius.circular(30),
                           child: Container(
