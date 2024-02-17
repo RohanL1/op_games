@@ -17,7 +17,7 @@ class _OperatorsMatchingGamePageState
   final Map<String, String> operators = {
     'Add': '+',
     'Subtract': '-',
-    'Multiply': '*',
+    'Multiply': '×',
     'Divide': '/',
   };
 
@@ -99,7 +99,7 @@ class _OperatorsMatchingGamePageState
         child: Text(
           operator,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 26,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -128,7 +128,7 @@ class _OperatorsMatchingGamePageState
         child: Text(
           symbol,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 26,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -180,11 +180,11 @@ class _OperatorsMatchingGamePageState
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 24),
               Text(
                 'Score: ${score > 100 ? 100 : score}',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 26,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
