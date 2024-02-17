@@ -21,16 +21,32 @@ class _QuizPageState extends State<QuizPage> {
       questionText: 'What is 2 + 2?',
       options: ['4', '3', '5', '2'],
       correctAnswer: '4',
+      icons: [
+        Icons.local_florist,
+        Icons.local_florist,
+        Icons.local_florist,
+        Icons.local_florist,
+      ],
     ),
     Question(
       questionText: 'What is 5 - 3?',
       options: ['2', '3', '4', '5'],
       correctAnswer: '2',
+      icons: [
+        Icons.local_florist,
+        Icons.local_florist,
+      ],
     ),
     Question(
       questionText: 'What is 3 * 4?',
       options: ['10', '12', '14', '8'],
       correctAnswer: '12',
+      icons: [
+        Icons.local_florist,
+        Icons.local_florist,
+        Icons.local_florist,
+        Icons.local_florist,
+      ],
     ),
   ];
 
@@ -97,18 +113,32 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: List.generate(
+                  questions[currentQuestionIndex].icons.length,
+                      (index) => Icon(
+                    questions[currentQuestionIndex].icons[index],
+                    size: 50,
+                    color: Colors.green, // Change color as needed
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
               ...List.generate(
                 questions[currentQuestionIndex].options.length,
                     (index) => ElevatedButton(
                   onPressed: () {
-                    checkAnswer(questions[currentQuestionIndex].options[index]);
+                    checkAnswer(
+                        questions[currentQuestionIndex].options[index]);
                   },
                   child: Text(
                     questions[currentQuestionIndex].options[index],
                     style: TextStyle(color: Colors.black),
                   ),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(CommonDesign.primaryColor),
+                    backgroundColor:
+                    MaterialStateProperty.all(CommonDesign.primaryColor),
                   ),
                 ),
               ),
@@ -124,10 +154,12 @@ class Question {
   final String questionText;
   final List<String> options;
   final String correctAnswer;
+  final List<IconData> icons;
 
   Question({
     required this.questionText,
     required this.options,
     required this.correctAnswer,
+    required this.icons,
   });
 }
