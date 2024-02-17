@@ -39,6 +39,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flip_card: ^0.7.0
+  number_to_words_english: ^2.0.2
+#  tts: ^1.0.2
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -66,6 +69,7 @@ flutter:
      - assets/home_screen_vertical.png
      - assets/background_vertical.png
      - assets/plus.png
+     - assets/orange.png
      - assets/despicable-me-minions.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
