@@ -3,7 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:op_games/image.dart';
 import 'package:op_games/color.dart';
 import 'package:op_games/learn_main.dart';
-import 'package:op_games/play_main.dart';
+// import 'package:op_games/play_main.dart';
+import 'package:op_games/Score_page.dart';
+import 'package:op_games/Quiz_page.dart';
+import 'package:op_games/Play_Page.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -79,7 +83,7 @@ class HomePage extends StatelessWidget {
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text('Play',
+                              Text('PlayQ',
                                 style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 40),
                               ),
                             ],
@@ -88,19 +92,26 @@ class HomePage extends StatelessWidget {
                       ),
                       SizedBox(width: 100),
                       InkWell(
-                        onTap: () {SystemNavigator.pop();},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ScorePage(),
+                            ),
+                          );
+                        },
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
                           width: 200,
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
-                            color: Colors.red,
+                            color: Colors.orange,
                           ),
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text('Exit',
+                              Text('Score',
                                 style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 40),
                               ),
                             ],
