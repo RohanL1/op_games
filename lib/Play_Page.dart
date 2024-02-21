@@ -28,11 +28,11 @@ class PlayPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => QuizPage()),
+                    MaterialPageRoute(builder: (context) => OperatorsMatchingGamePage()),
                   );
                 },
                 child: Text(
-                  'Play Quiz Game',
+                  'Level 0',
                   style: TextStyle(fontSize: 20),
                 ),
               ),
@@ -41,11 +41,11 @@ class PlayPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => OperatorsMatchingGamePage()),
+                    MaterialPageRoute(builder: (context) => QuizPage()),
                   );
                 },
                 child: Text(
-                  'Play Operator Matching Game',
+                  'Level 1',
                   style: TextStyle(fontSize: 20),
                 ),
               ),

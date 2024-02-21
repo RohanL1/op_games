@@ -35,6 +35,9 @@ class _OperatorsMatchingGamePageState
         operatorStatus[selectedOperator!] = true;
         operatorStatus[symbol] = true;
       });
+      if (operatorStatus.containsValue(false)) {
+        return; // If there are still operators not selected correctly, return without showing success animation
+      }
       _showSuccessAnimation();
     } else {
       setState(() {
@@ -43,6 +46,9 @@ class _OperatorsMatchingGamePageState
       });
     }
   }
+
+
+
 
   void _showSuccessAnimation() {
     showDialog(
