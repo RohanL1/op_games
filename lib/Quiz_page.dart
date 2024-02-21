@@ -34,6 +34,7 @@ class _QuizPageState extends State<QuizPage> {
         '2',
       ],
       correctAnswer: '4',
+
       numberOfOranges: 4,
       orangeSets: [2, 2],
     ),
