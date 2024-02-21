@@ -27,21 +27,51 @@ class _QuizPageState extends State<QuizPage> {
   List<Question> questions = [
     Question(
       questionText: 'How many oranges are there?',
-      options: ['4', '3', '5', '2'],
+      options: [
+        '4',
+        '3',
+        '5',
+        '2',
+      ],
       correctAnswer: '4',
       numberOfOranges: 4,
+      orangeSets: [2, 2],
     ),
     Question(
       questionText: 'How many oranges are there?',
-      options: ['2', '3', '4', '5'],
+      options: [
+        '2',
+        '3',
+        '4',
+        '5',
+      ],
       correctAnswer: '2',
       numberOfOranges: 2,
+      orangeSets: [1, 1],
     ),
     Question(
       questionText: 'How many oranges are there?',
-      options: ['3', '6', '4', '8'],
-      correctAnswer: '4',
-      numberOfOranges: 4,
+      options: [
+        '3',
+        '6',
+        '4',
+        '8',
+      ],
+      correctAnswer: '8',
+      numberOfOranges: 8,
+      orangeSets: [4, 4],
+    ),
+    Question(
+      questionText: 'Select the correct option:',
+      options: [
+        '2 oranges + 3 oranges = 5 oranges',
+        '3 oranges + 2 oranges = 4 oranges',
+        '4 oranges + 1 orange = 5 oranges',
+        '2 oranges + 4 oranges = 6 oranges'
+      ],
+      correctAnswer: '2 oranges + 3 oranges = 5 oranges',
+      numberOfOranges: 5,
+      orangeSets: [2, 3],
     ),
   ];
 
@@ -145,16 +175,9 @@ class _QuizPageState extends State<QuizPage> {
           child: Column(
             children: [
               SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  questions[currentQuestionIndex].numberOfOranges,
-                      (index) => Image.asset(
-                    'assets/orange.png',
-                    width: 60,
-                    height: 60,
-                  ),
-                ),
+              OrangesDisplay(
+                firstSetOfOranges: questions[currentQuestionIndex].orangeSets[0],
+                secondSetOfOranges: questions[currentQuestionIndex].orangeSets[1],
               ),
               SizedBox(height: 20),
               Text(
@@ -203,11 +226,73 @@ class Question {
   final List<String> options;
   final String correctAnswer;
   final int numberOfOranges;
+  final List<int> orangeSets;
 
   Question({
     required this.questionText,
     required this.options,
     required this.correctAnswer,
     required this.numberOfOranges,
+    required this.orangeSets,
   });
+}
+
+class OrangesDisplay extends StatelessWidget {
+  final int firstSetOfOranges;
+  final int secondSetOfOranges;
+
+  const OrangesDisplay({Key? key, required this.firstSetOfOranges, required this.secondSetOfOranges}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _Oranges(count: firstSetOfOranges),
+        SizedBox(width: 10), // Add some space between sets of oranges
+        Icon(Icons.add, size: 40, color: Colors.green), // Plus sign
+        SizedBox(width: 10), // Add some space between plus sign and second set of oranges
+        _Oranges(count: secondSetOfOranges),
+      ],
+    );
+  }
+}
+
+class _Oranges extends StatelessWidget {
+  final int count;
+
+  const _Oranges({Key? key, required this.count}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: List.generate(
+        count,
+            (index) => index == count - 1 ? _Orange() : _OrangeWithSpacing(),
+      ),
+    );
+  }
+}
+
+class _Orange extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      'assets/orange.png',
+      width: 60,
+      height: 60,
+    );
+  }
+}
+
+class _OrangeWithSpacing extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        _Orange(),
+        SizedBox(width: 10), // Add some space between oranges
+      ],
+    );
+  }
 }
