@@ -44,7 +44,7 @@ class HomePage extends StatelessWidget {
                   SizedBox(height: 70),
                   Row(
                     children :[
-                      SizedBox(width: 250),
+                      SizedBox(width: 400),
                       InkWell(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => LearnPage()));
@@ -58,7 +58,7 @@ class HomePage extends StatelessWidget {
                           color: Colors.lightGreen,
                         ),
                         child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             Text('Learn',
                               style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 40),
@@ -81,9 +81,9 @@ class HomePage extends StatelessWidget {
                             color: Colors.lightBlue,
                           ),
                           child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              Text('PlayQ',
+                              Text('Play',
                                 style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 40),
                               ),
                             ],
@@ -91,33 +91,33 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 100),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ScorePage(),
-                            ),
-                          );
-                        },
-                        borderRadius: BorderRadius.circular(30),
-                        child: Container(
-                          width: 200,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.orange,
-                          ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text('Score',
-                                style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 40),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) => ScorePage(),
+                      //       ),
+                      //     );
+                      //   },
+                      //   borderRadius: BorderRadius.circular(30),
+                      //   child: Container(
+                      //     width: 200,
+                      //     padding: const EdgeInsets.all(10),
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(30),
+                      //       color: Colors.orange,
+                      //     ),
+                      //     child: const Row(
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       children: <Widget>[
+                      //         Text('Score',
+                      //           style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 40),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                     ]
                   ),
 

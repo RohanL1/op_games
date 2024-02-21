@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+
 class OperatorsMatchingGamePage extends StatefulWidget {
   const OperatorsMatchingGamePage({Key? key}) : super(key: key);
+
   @override
   _OperatorsMatchingGamePageState createState() =>
       _OperatorsMatchingGamePageState();
@@ -15,7 +17,7 @@ class _OperatorsMatchingGamePageState
   final Map<String, String> operators = {
     'Add': '+',
     'Subtract': '-',
-    'Multiply': '*',
+    'Multiply': '×',
     'Divide': '/',
   };
 
@@ -33,6 +35,9 @@ class _OperatorsMatchingGamePageState
         operatorStatus[selectedOperator!] = true;
         operatorStatus[symbol] = true;
       });
+      if (operatorStatus.containsValue(false)) {
+        return; // If there are still operators not selected correctly, return without showing success animation
+      }
       _showSuccessAnimation();
     } else {
       setState(() {
@@ -41,6 +46,9 @@ class _OperatorsMatchingGamePageState
       });
     }
   }
+
+
+
 
   void _showSuccessAnimation() {
     showDialog(
@@ -92,13 +100,13 @@ class _OperatorsMatchingGamePageState
         padding: EdgeInsets.all(16),
         margin: EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
-          color: selectedOperator == operator ? Colors.blue : Colors.yellow,
+          color: selectedOperator == operator ? Colors.blue : Colors.orangeAccent,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
           operator,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 26,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -127,7 +135,7 @@ class _OperatorsMatchingGamePageState
         child: Text(
           symbol,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 26,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -179,11 +187,11 @@ class _OperatorsMatchingGamePageState
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 24),
               Text(
                 'Score: ${score > 100 ? 100 : score}',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 26,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -195,3 +203,4 @@ class _OperatorsMatchingGamePageState
     );
   }
 }
+

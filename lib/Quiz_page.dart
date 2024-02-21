@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class CommonDesign {
   static const String backgroundImage = 'assets/home_screen.png';
   static const Color primaryColor = Colors.white; // Change as needed
+}
+
+enum Language {
+  English,
+  Spanish,
 }
 
 class QuizPage extends StatefulWidget {
@@ -15,24 +21,72 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   int score = 0;
   int currentQuestionIndex = 0;
+  Language selectedLanguage = Language.English;
+  late FlutterTts flutterTts;
 
   List<Question> questions = [
     Question(
-      questionText: 'What is 2 + 2?',
-      options: ['4', '3', '5', '2'],
+      questionText: 'How many oranges are there?',
+      options: [
+        '4',
+        '3',
+        '5',
+        '2',
+      ],
       correctAnswer: '4',
+
+      numberOfOranges: 4,
+      orangeSets: [2, 2],
     ),
     Question(
-      questionText: 'What is 5 - 3?',
-      options: ['2', '3', '4', '5'],
+      questionText: 'How many oranges are there?',
+      options: [
+        '2',
+        '3',
+        '4',
+        '5',
+      ],
       correctAnswer: '2',
+      numberOfOranges: 2,
+      orangeSets: [1, 1],
     ),
     Question(
-      questionText: 'What is 3 * 4?',
-      options: ['10', '12', '14', '8'],
-      correctAnswer: '12',
+      questionText: 'How many oranges are there?',
+      options: [
+        '3',
+        '6',
+        '4',
+        '8',
+      ],
+      correctAnswer: '8',
+      numberOfOranges: 8,
+      orangeSets: [4, 4],
+    ),
+    Question(
+      questionText: 'Select the correct option:',
+      options: [
+        '2 oranges + 3 oranges = 5 oranges',
+        '3 oranges + 2 oranges = 4 oranges',
+        '4 oranges + 1 orange = 5 oranges',
+        '2 oranges + 4 oranges = 6 oranges'
+      ],
+      correctAnswer: '2 oranges + 3 oranges = 5 oranges',
+      numberOfOranges: 5,
+      orangeSets: [2, 3],
     ),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    flutterTts = FlutterTts();
+  }
+
+  Future<void> speakQuestion(String text) async {
+    await flutterTts.setLanguage(selectedLanguage == Language.English ? 'en-US' : 'es-ES');
+    await flutterTts.setSpeechRate(0.5);
+    await flutterTts.speak(text);
+  }
 
   void checkAnswer(String selectedAnswer) {
     String correctAnswer = questions[currentQuestionIndex].correctAnswer;
@@ -40,6 +94,7 @@ class _QuizPageState extends State<QuizPage> {
       if (selectedAnswer == correctAnswer) {
         score = (score + 10).clamp(0, 100);
       } else {
+        showCorrectAnswerDialog(correctAnswer);
         score = (score - 5).clamp(0, 100);
       }
       if (currentQuestionIndex < questions.length - 1) {
@@ -50,11 +105,65 @@ class _QuizPageState extends State<QuizPage> {
     });
   }
 
+  void showCorrectAnswerDialog(String correctAnswer) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Wrong Answer'),
+        content: Text('The correct answer is $correctAnswer.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String getQuestionText() {
+    return selectedLanguage == Language.English
+        ? questions[currentQuestionIndex].questionText
+        : '¿Cuántas naranjas hay?'; // Translate to Spanish or other languages
+  }
+
+  String getOptionText(String option) {
+    return selectedLanguage == Language.English
+        ? option
+        : option; // Translate to Spanish or other languages
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Quiz'),
+        actions: [
+          DropdownButton<Language>(
+            value: selectedLanguage,
+            onChanged: (Language? newValue) {
+              if (newValue != null) {
+                setState(() {
+                  selectedLanguage = newValue;
+                });
+              }
+            },
+            items: Language.values.map<DropdownMenuItem<Language>>((lang) {
+              return DropdownMenuItem<Language>(
+                value: lang,
+                child: Text(lang == Language.English ? 'English' : 'Spanish'),
+              );
+            }).toList(),
+          ),
+          IconButton(
+            onPressed: () {
+              speakQuestion(getQuestionText());
+            },
+            icon: Icon(Icons.volume_up),
+          ),
+        ],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -65,51 +174,44 @@ class _QuizPageState extends State<QuizPage> {
         ),
         child: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Score: $score',
-                      style: TextStyle(
-                        color: CommonDesign.primaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                    Icon(
-                      Icons.emoji_events,
-                      color: Colors.yellow,
-                      size: 30,
-                    ),
-                  ],
-                ),
+              SizedBox(height: 20),
+              OrangesDisplay(
+                firstSetOfOranges: questions[currentQuestionIndex].orangeSets[0],
+                secondSetOfOranges: questions[currentQuestionIndex].orangeSets[1],
               ),
               SizedBox(height: 20),
               Text(
-                questions[currentQuestionIndex].questionText,
+                getQuestionText(),
                 style: TextStyle(
                   color: CommonDesign.primaryColor,
                   fontSize: 18,
                 ),
               ),
               SizedBox(height: 20),
-              ...List.generate(
-                questions[currentQuestionIndex].options.length,
-                    (index) => ElevatedButton(
-                  onPressed: () {
-                    checkAnswer(questions[currentQuestionIndex].options[index]);
-                  },
-                  child: Text(
-                    questions[currentQuestionIndex].options[index],
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(CommonDesign.primaryColor),
-                  ),
+              Column(
+                children: questions[currentQuestionIndex].options.map((option) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      checkAnswer(option);
+                    },
+                    child: Text(
+                      getOptionText(option),
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(CommonDesign.primaryColor),
+                    ),
+                  );
+                }).toList(),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Score: $score',
+                style: TextStyle(
+                  color: CommonDesign.primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
                 ),
               ),
             ],
@@ -124,10 +226,74 @@ class Question {
   final String questionText;
   final List<String> options;
   final String correctAnswer;
+  final int numberOfOranges;
+  final List<int> orangeSets;
 
   Question({
     required this.questionText,
     required this.options,
     required this.correctAnswer,
+    required this.numberOfOranges,
+    required this.orangeSets,
   });
+}
+
+class OrangesDisplay extends StatelessWidget {
+  final int firstSetOfOranges;
+  final int secondSetOfOranges;
+
+  const OrangesDisplay({Key? key, required this.firstSetOfOranges, required this.secondSetOfOranges}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _Oranges(count: firstSetOfOranges),
+        SizedBox(width: 10), // Add some space between sets of oranges
+        Icon(Icons.add, size: 40, color: Colors.green), // Plus sign
+        SizedBox(width: 10), // Add some space between plus sign and second set of oranges
+        _Oranges(count: secondSetOfOranges),
+      ],
+    );
+  }
+}
+
+class _Oranges extends StatelessWidget {
+  final int count;
+
+  const _Oranges({Key? key, required this.count}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: List.generate(
+        count,
+            (index) => index == count - 1 ? _Orange() : _OrangeWithSpacing(),
+      ),
+    );
+  }
+}
+
+class _Orange extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      'assets/orange.png',
+      width: 60,
+      height: 60,
+    );
+  }
+}
+
+class _OrangeWithSpacing extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        _Orange(),
+        SizedBox(width: 10), // Add some space between oranges
+      ],
+    );
+  }
 }
