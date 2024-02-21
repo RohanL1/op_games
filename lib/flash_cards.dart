@@ -47,17 +47,71 @@ class FlashCard extends StatelessWidget {
                 ),Text(data["op_name"],
                   style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 50),
                 ),
-              Text(data["op_def"],
-              style: TextStyle(color: Colors.black45, fontWeight: FontWeight.bold, fontSize: 30, ),
+                Text(data["op_def"],
+                  style: TextStyle(color: Colors.black45, fontWeight: FontWeight.bold, fontSize: 30, ),
                 ),
                 Text("Num to text 10 : " + NumberToWordsEnglish.convert(10),
                   style: TextStyle(color: Colors.black45, fontWeight: FontWeight.bold, fontSize: 30, ),
+                ),
+                SizedBox(height: 80),
+                Row(
+
+                  children: [
+                    SizedBox(width: 350),
+                    InkWell(
+                      onTap: () {
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => LearnPage()));
+                      },
+                      borderRadius: BorderRadius.circular(30),
+                      child: Container(
+                        width: 100,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.lightGreen,
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.translate,
+                              size: 50,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 200),
+                    InkWell(
+                      onTap: () {
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => LearnPage()));
+                      },
+                      borderRadius: BorderRadius.circular(30),
+                      child: Container(
+                        width: 100,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.lightGreen,
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.volume_up,
+                              size: 50,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 )
               ],
             ),
           ),
           back: Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(50),
             decoration: BoxDecoration(
               color: Colors.white70,
               borderRadius: BorderRadius.all(Radius.circular(8.0)),
@@ -66,6 +120,60 @@ class FlashCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 FlashCardInfo(data["op_sign"],5,6),
+                SizedBox(height: 80),
+                Row(
+
+                  children: [
+                    SizedBox(width: 350),
+                    InkWell(
+                      onTap: () {
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => LearnPage()));
+                      },
+                      borderRadius: BorderRadius.circular(30),
+                      child: Container(
+                        width: 100,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.lightGreen,
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.translate,
+                              size: 50,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 200),
+                    InkWell(
+                      onTap: () {
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => LearnPage()));
+                      },
+                      borderRadius: BorderRadius.circular(30),
+                      child: Container(
+                        width: 100,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.lightGreen,
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.volume_up,
+                              size: 50,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),
@@ -84,9 +192,9 @@ class FlashCard extends StatelessWidget {
             child: Column(
                 children :[
                   Container(
-                    padding: const EdgeInsets.fromLTRB(100, 100, 100, 50),
-                    width: 1500,
-                    height: 600,
+                    padding: const EdgeInsets.fromLTRB(20, 50, 20, 50),
+                    width: 1800,
+                    height: 700,
                     child: _renderFlashCard(data),
                   )
 
