@@ -45,38 +45,39 @@ class _OperatorsMatchingGamePageState
   void _showSuccessAnimation() {
     showDialog(
       context: context,
-      builder: (_) => AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(
-              'assets/despicable-me-minions.gif',
-              height: 200,
+      builder: (_) =>
+          AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  'assets/despicable-me-minions.gif',
+                  height: 200,
+                ),
+                Text(
+                  'Congratulations!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'You got it right!',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              'Congratulations!',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('OK'),
               ),
-            ),
-            Text(
-              'You got it right!',
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text('OK'),
+            ],
           ),
-        ],
-      ),
     );
   }
 
@@ -193,3 +194,4 @@ class _OperatorsMatchingGamePageState
       ),
     );
   }
+}
