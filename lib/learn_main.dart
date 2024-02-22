@@ -10,6 +10,18 @@ class LearnPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.lightBlue,
+        shape: CircleBorder(),
+
+        child: const Icon(Icons.arrow_back_ios),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+
       body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(

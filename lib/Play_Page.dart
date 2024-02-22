@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:op_games/OpMatchGame.dart';
-import 'package:op_games/quiz_page.dart';
+import 'package:op_games/Quiz_page.dart';
 
 class PlayPage extends StatelessWidget {
   const PlayPage({Key? key}) : super(key: key);
