@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:number_to_words_english/number_to_words_english.dart';
+import 'package:op_games/learn_complete.dart';
 import 'package:op_games/operator.dart';
 import 'flash_card_info.dart';
 
@@ -330,8 +331,11 @@ class _FlashCardState extends State<FlashCard> {
         currentCardIndex = newIndex;
       });
     }
+    else if (newIndex < 0 ){
+      Navigator.pop(context);
+    }
     else {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => OperatorPage()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => LearnComplete()));
     }
   }
 }
