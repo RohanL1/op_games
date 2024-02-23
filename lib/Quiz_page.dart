@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:translator/translator.dart';
 
 class CommonDesign {
   static const String backgroundImage = 'assets/home_screen.png';
@@ -23,6 +24,7 @@ class _QuizPageState extends State<QuizPage> {
   int currentQuestionIndex = 0;
   Language selectedLanguage = Language.English;
   late FlutterTts flutterTts;
+  final translator = GoogleTranslator();
 
   List<Question> questions = [
     Question(
@@ -80,6 +82,18 @@ class _QuizPageState extends State<QuizPage> {
   void initState() {
     super.initState();
     flutterTts = FlutterTts();
+  }
+
+  Future<void> _translateToSpanish(String text) async {
+    Translation translation = await translator.translate(
+      text,
+      from: 'en',
+      to: 'es',
+    );
+    setState(() {
+      // Display the translated text or use it as needed
+      print(translation.text);
+    });
   }
 
   Future<void> speakQuestion(String text) async {
@@ -216,6 +230,28 @@ class _QuizPageState extends State<QuizPage> {
               ),
             ],
           ),
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 20.0, right: 18.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              onPressed: () {
+                // Add functionality for the first FAB button
+              },
+              child: Icon(Icons.translate),
+            ),
+            SizedBox(height: 40, width: 16,),
+            FloatingActionButton(
+              onPressed: () {
+                // Add functionality for the second FAB button
+              },
+              child: Icon(Icons.volume_up),
+            ),
+          ],
         ),
       ),
     );
