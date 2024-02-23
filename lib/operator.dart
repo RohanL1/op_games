@@ -11,6 +11,17 @@ class OperatorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.lightBlue,
+        shape: CircleBorder(),
+
+        child: const Icon(Icons.arrow_back_ios),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -75,7 +86,7 @@ class OperatorPage extends StatelessWidget {
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text('Play',
+                                Text('Practice',
                                   style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 40),
                                 ),
                               ],
