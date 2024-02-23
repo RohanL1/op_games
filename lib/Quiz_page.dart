@@ -241,7 +241,7 @@ class _QuizPageState extends State<QuizPage> {
             SizedBox(height: 40, width: 20),
             FloatingActionButton(
               onPressed: () {
-                // Add functionality for the second FAB button
+
               },
               child: Icon(Icons.g_translate_sharp, size: 40),
             ),
