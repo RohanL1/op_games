@@ -29,6 +29,17 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          SystemNavigator.pop();
+        },
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.red,
+        shape: CircleBorder(),
+
+        child: const Icon(Icons.clear, size: 40,),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -83,7 +94,7 @@ class HomePage extends StatelessWidget {
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              Text('Play',
+                              Text('Quiz',
                                 style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 40),
                               ),
                             ],
