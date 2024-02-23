@@ -171,12 +171,6 @@ class _QuizPageState extends State<QuizPage> {
               );
             }).toList(),
           ),
-          IconButton(
-            onPressed: () {
-              speakQuestion(getQuestionText());
-            },
-            icon: Icon(Icons.volume_up),
-          ),
         ],
       ),
       body: Container(
@@ -233,23 +227,23 @@ class _QuizPageState extends State<QuizPage> {
         ),
       ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 20.0, right: 18.0),
+        padding: const EdgeInsets.only(bottom: 16.0, right: 16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             FloatingActionButton(
               onPressed: () {
-                // Add functionality for the first FAB button
+                speakQuestion(getQuestionText());
               },
-              child: Icon(Icons.translate),
+              child: Icon(Icons.volume_up, size: 40),
             ),
-            SizedBox(height: 40, width: 16,),
+            SizedBox(height: 40, width: 20),
             FloatingActionButton(
               onPressed: () {
                 // Add functionality for the second FAB button
               },
-              child: Icon(Icons.volume_up),
+              child: Icon(Icons.g_translate_sharp, size: 40),
             ),
           ],
         ),
