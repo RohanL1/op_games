@@ -98,7 +98,7 @@ class _QuizPageState extends State<QuizPage> {
 
   Future<void> speakQuestion(String text) async {
     await flutterTts.setLanguage(selectedLanguage == Language.English ? 'en-US' : 'es-ES');
-    await flutterTts.setSpeechRate(0.5);
+    await flutterTts.setSpeechRate(0.3);
     await flutterTts.speak(text);
   }
 
@@ -241,7 +241,7 @@ class _QuizPageState extends State<QuizPage> {
             SizedBox(height: 40, width: 20),
             FloatingActionButton(
               onPressed: () {
-                // Add functionality for the second FAB button
+
               },
               child: Icon(Icons.g_translate_sharp, size: 40),
             ),
