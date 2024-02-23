@@ -98,7 +98,7 @@ class _QuizPageState extends State<QuizPage> {
 
   Future<void> speakQuestion(String text) async {
     await flutterTts.setLanguage(selectedLanguage == Language.English ? 'en-US' : 'es-ES');
-    await flutterTts.setSpeechRate(0.5);
+    await flutterTts.setSpeechRate(0.3);
     await flutterTts.speak(text);
   }
 
