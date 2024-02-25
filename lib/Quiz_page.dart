@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:translator/translator.dart';
+import 'package:op_games/widgets/next_button.dart';
 
 class CommonDesign {
-  static const String backgroundImage = 'assets/home_screen.png';
+  static const String backgroundImage = 'assets/background.png';
   static const Color primaryColor = Colors.white; // Change as needed
 }
 
@@ -25,42 +26,42 @@ class _QuizPageState extends State<QuizPage> {
   Language selectedLanguage = Language.English;
   late FlutterTts flutterTts;
   final translator = GoogleTranslator();
+  bool isLastQuestion = false;
 
   List<Question> questions = [
     Question(
       questionText: 'How many oranges are there?',
       options: [
-        '4',
-        '3',
-        '5',
-        '2',
+        'Four',
+        'Three',
+        'Five',
+        'Two',
       ],
-      correctAnswer: '4',
-
+      correctAnswer: 'Four',
       numberOfOranges: 4,
       orangeSets: [2, 2],
     ),
     Question(
       questionText: 'How many oranges are there?',
       options: [
-        '2',
-        '3',
-        '4',
-        '5',
+        'Two',
+        'Three',
+        'Four',
+        'Five',
       ],
-      correctAnswer: '2',
+      correctAnswer: 'Two',
       numberOfOranges: 2,
       orangeSets: [1, 1],
     ),
     Question(
       questionText: 'How many oranges are there?',
       options: [
-        '3',
-        '6',
-        '4',
-        '8',
+        'Three',
+        'Six',
+        'Four',
+        'Eight',
       ],
-      correctAnswer: '8',
+      correctAnswer: 'Eight',
       numberOfOranges: 8,
       orangeSets: [4, 4],
     ),
@@ -98,7 +99,7 @@ class _QuizPageState extends State<QuizPage> {
 
   Future<void> speakQuestion(String text) async {
     await flutterTts.setLanguage(selectedLanguage == Language.English ? 'en-US' : 'es-ES');
-    await flutterTts.setSpeechRate(0.3);
+    await flutterTts.setSpeechRate(0.5);
     await flutterTts.speak(text);
   }
 
@@ -106,7 +107,7 @@ class _QuizPageState extends State<QuizPage> {
     String correctAnswer = questions[currentQuestionIndex].correctAnswer;
     setState(() {
       if (selectedAnswer == correctAnswer) {
-        score = (score + 10).clamp(0, 100);
+        score = (score + 25).clamp(0, 100);
       } else {
         showCorrectAnswerDialog(correctAnswer);
         score = (score - 5).clamp(0, 100);
@@ -114,7 +115,7 @@ class _QuizPageState extends State<QuizPage> {
       if (currentQuestionIndex < questions.length - 1) {
         currentQuestionIndex++;
       } else {
-        currentQuestionIndex = 0;
+        isLastQuestion = true;
       }
     });
   }
@@ -144,9 +145,7 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   String getOptionText(String option) {
-    return selectedLanguage == Language.English
-        ? option
-        : option; // Translate to Spanish or other languages
+    return selectedLanguage == Language.English ? option : option; // Translate to Spanish or other languages
   }
 
   @override
@@ -222,6 +221,16 @@ class _QuizPageState extends State<QuizPage> {
                   fontSize: 20,
                 ),
               ),
+              if (isLastQuestion)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: RectangularButton(
+                    onPressed: () {
+                      // Handle back button action
+                    },
+                    label: 'Back',
+                  ),
+                ),
             ],
           ),
         ),
@@ -240,9 +249,7 @@ class _QuizPageState extends State<QuizPage> {
             ),
             SizedBox(height: 40, width: 20),
             FloatingActionButton(
-              onPressed: () {
-
-              },
+              onPressed: () {},
               child: Icon(Icons.g_translate_sharp, size: 40),
             ),
           ],
@@ -327,3 +334,4 @@ class _OrangeWithSpacing extends StatelessWidget {
     );
   }
 }
+
