@@ -193,22 +193,25 @@ class _QuizPageState extends State<QuizPage> {
                 getQuestionText(),
                 style: TextStyle(
                   color: CommonDesign.primaryColor,
-                  fontSize: 18,
+                  fontSize: 24,
                 ),
               ),
               SizedBox(height: 20),
               Column(
                 children: questions[currentQuestionIndex].options.map((option) {
-                  return ElevatedButton(
-                    onPressed: () {
+                  return Container(
+                    width: 200,
+                    child: ElevatedButton(
+                      onPressed: () {
                       checkAnswer(option);
                     },
                     child: Text(
                       getOptionText(option),
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.black, fontSize: 20),
                     ),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(CommonDesign.primaryColor),
+                      ),
                     ),
                   );
                 }).toList(),
@@ -219,7 +222,7 @@ class _QuizPageState extends State<QuizPage> {
                 style: TextStyle(
                   color: CommonDesign.primaryColor,
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: 24,
                 ),
               ),
               if (isLastQuestion)
@@ -316,10 +319,16 @@ class _Oranges extends StatelessWidget {
 class _Orange extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      'assets/orange.png',
-      width: 60,
-      height: 60,
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black, width: 2),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Image.asset(
+        'assets/orange.png',
+        width: 60,
+        height: 60,
+      ),
     );
   }
 }
