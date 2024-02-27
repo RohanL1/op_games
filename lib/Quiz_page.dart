@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:translator/translator.dart';
 import 'package:op_games/widgets/next_button.dart';
+import 'package:op_games/Play_Page.dart';
 
 class CommonDesign {
   static const String backgroundImage = 'assets/background.png';
@@ -226,7 +227,7 @@ class _QuizPageState extends State<QuizPage> {
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: RectangularButton(
                     onPressed: () {
-                      // Handle back button action
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => PlayPage()));
                     },
                     label: 'Back',
                   ),
