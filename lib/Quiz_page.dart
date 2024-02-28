@@ -148,7 +148,11 @@ class _QuizPageState extends State<QuizPage> {
   String getOptionText(String option) {
     return selectedLanguage == Language.English ? option : option; // Translate to Spanish or other languages
   }
-
+  void toggleLanguage() {
+    setState(() {
+      selectedLanguage = selectedLanguage == Language.English ? Language.Spanish : Language.English;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -192,8 +196,8 @@ class _QuizPageState extends State<QuizPage> {
               Text(
                 getQuestionText(),
                 style: TextStyle(
-                  color: CommonDesign.primaryColor,
-                  fontSize: 24,
+                  color: Colors.black87,
+                  fontSize: 36,fontWeight: FontWeight.w900
                 ),
               ),
               SizedBox(height: 20),
@@ -222,7 +226,7 @@ class _QuizPageState extends State<QuizPage> {
                 style: TextStyle(
                   color: CommonDesign.primaryColor,
                   fontWeight: FontWeight.bold,
-                  fontSize: 24,
+                  fontSize: 30,
                 ),
               ),
               if (isLastQuestion)
@@ -253,7 +257,7 @@ class _QuizPageState extends State<QuizPage> {
             ),
             SizedBox(height: 40, width: 20),
             FloatingActionButton(
-              onPressed: () {},
+              onPressed: toggleLanguage,
               child: Icon(Icons.g_translate_sharp, size: 40),
             ),
           ],
