@@ -16,11 +16,11 @@ class PlayPage extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/home_screen.png'),
-            fit: BoxFit.cover,
+            fit: BoxFit.fitWidth,
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(250.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -34,7 +34,7 @@ class PlayPage extends StatelessWidget {
                 },
                 child: Text(
                   'Level 0',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 34, fontWeight: FontWeight.w800),
                 ),
               ),
               SizedBox(height: 20),
@@ -47,7 +47,7 @@ class PlayPage extends StatelessWidget {
                 },
                 child: Text(
                   'Level 1',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 34, fontWeight: FontWeight.w800),
                 ),
               ),
               SizedBox(height: 20),

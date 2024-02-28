@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:translator/translator.dart';
 import 'package:op_games/widgets/next_button.dart';
 import 'package:op_games/Play_Page.dart';
 
@@ -26,8 +25,9 @@ class _QuizPageState extends State<QuizPage> {
   int currentQuestionIndex = 0;
   Language selectedLanguage = Language.English;
   late FlutterTts flutterTts;
-  final translator = GoogleTranslator();
+  // final translator = GoogleTranslator();
   bool isLastQuestion = false;
+  bool optionSelected = false;
 
   List<Question> questions = [
     Question(
@@ -86,18 +86,6 @@ class _QuizPageState extends State<QuizPage> {
     flutterTts = FlutterTts();
   }
 
-  Future<void> _translateToSpanish(String text) async {
-    Translation translation = await translator.translate(
-      text,
-      from: 'en',
-      to: 'es',
-    );
-    setState(() {
-      // Display the translated text or use it as needed
-      print(translation.text);
-    });
-  }
-
   Future<void> speakQuestion(String text) async {
     await flutterTts.setLanguage(selectedLanguage == Language.English ? 'en-US' : 'es-ES');
     await flutterTts.setSpeechRate(0.5);
@@ -107,6 +95,7 @@ class _QuizPageState extends State<QuizPage> {
   void checkAnswer(String selectedAnswer) {
     String correctAnswer = questions[currentQuestionIndex].correctAnswer;
     setState(() {
+      optionSelected = true;
       if (selectedAnswer == correctAnswer) {
         score = (score + 25).clamp(0, 100);
       } else {
@@ -140,42 +129,30 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   String getQuestionText() {
-    return selectedLanguage == Language.English
-        ? questions[currentQuestionIndex].questionText
-        : '¿Cuántas naranjas hay?'; // Translate to Spanish or other languages
+    if (selectedLanguage == Language.English) {
+      return questions[currentQuestionIndex].questionText;
+    } else {
+      return questions[currentQuestionIndex].questionText
+          .replaceAll('How many oranges are there?', '¿Cuántas naranjas hay?')
+          .replaceAll('Select the correct option:', 'Seleccione la opción correcta:');
+    }
   }
 
   String getOptionText(String option) {
     return selectedLanguage == Language.English ? option : option; // Translate to Spanish or other languages
   }
+
   void toggleLanguage() {
     setState(() {
       selectedLanguage = selectedLanguage == Language.English ? Language.Spanish : Language.English;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Quiz'),
-        actions: [
-          DropdownButton<Language>(
-            value: selectedLanguage,
-            onChanged: (Language? newValue) {
-              if (newValue != null) {
-                setState(() {
-                  selectedLanguage = newValue;
-                });
-              }
-            },
-            items: Language.values.map<DropdownMenuItem<Language>>((lang) {
-              return DropdownMenuItem<Language>(
-                value: lang,
-                child: Text(lang == Language.English ? 'English' : 'Spanish'),
-              );
-            }).toList(),
-          ),
-        ],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -197,24 +174,25 @@ class _QuizPageState extends State<QuizPage> {
                 getQuestionText(),
                 style: TextStyle(
                   color: Colors.black87,
-                  fontSize: 36,fontWeight: FontWeight.w900
+                  fontSize: 36,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
               SizedBox(height: 20),
               Column(
                 children: questions[currentQuestionIndex].options.map((option) {
                   return Container(
-                    width: 200,
+                    width: 600,
                     child: ElevatedButton(
                       onPressed: () {
-                      checkAnswer(option);
-                    },
-                    child: Text(
-                      getOptionText(option),
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(CommonDesign.primaryColor),
+                        checkAnswer(option);
+                      },
+                      child: Text(
+                        getOptionText(option),
+                        style: TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(CommonDesign.primaryColor),
                       ),
                     ),
                   );
@@ -229,38 +207,38 @@ class _QuizPageState extends State<QuizPage> {
                   fontSize: 30,
                 ),
               ),
-              if (isLastQuestion)
-                Padding(
+              SizedBox(height: 20),
+              Visibility(
+                visible: isLastQuestion && optionSelected,
+                child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: RectangularButton(
                     onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => PlayPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => PlayPage()));
                     },
                     label: 'Back',
                   ),
                 ),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FloatingActionButton(
+                    onPressed: () {
+                      speakQuestion(getQuestionText());
+                    },
+                    child: Icon(Icons.volume_up, size: 40),
+                  ),
+                  SizedBox(width: 20),
+                  FloatingActionButton(
+                    onPressed: toggleLanguage,
+                    child: Icon(Icons.g_translate_sharp, size: 40),
+                  ),
+                ],
+              ),
             ],
           ),
-        ),
-      ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 16.0, right: 16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            FloatingActionButton(
-              onPressed: () {
-                speakQuestion(getQuestionText());
-              },
-              child: Icon(Icons.volume_up, size: 40),
-            ),
-            SizedBox(height: 40, width: 20),
-            FloatingActionButton(
-              onPressed: toggleLanguage,
-              child: Icon(Icons.g_translate_sharp, size: 40),
-            ),
-          ],
         ),
       ),
     );
@@ -348,4 +326,3 @@ class _OrangeWithSpacing extends StatelessWidget {
     );
   }
 }
-
