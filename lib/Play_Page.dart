@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:op_games/OpMatchGame.dart';
 import 'package:op_games/Quiz_page.dart';
+import 'package:op_games/level2_quiz_screen.dart';
 
 class PlayPage extends StatelessWidget {
   const PlayPage({Key? key}) : super(key: key);
@@ -46,6 +47,19 @@ class PlayPage extends StatelessWidget {
                 },
                 child: Text(
                   'Level 1',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PlayScreen()),
+                  );
+                },
+                child: Text(
+                  'Level 2',
                   style: TextStyle(fontSize: 20),
                 ),
               ),
