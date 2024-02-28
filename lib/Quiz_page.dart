@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:translator/translator.dart';
 import 'package:op_games/widgets/next_button.dart';
 import 'package:op_games/Play_Page.dart';
 
@@ -26,7 +25,7 @@ class _QuizPageState extends State<QuizPage> {
   int currentQuestionIndex = 0;
   Language selectedLanguage = Language.English;
   late FlutterTts flutterTts;
-  final translator = GoogleTranslator();
+  // final translator = GoogleTranslator();
   bool isLastQuestion = false;
 
   List<Question> questions = [
@@ -84,18 +83,6 @@ class _QuizPageState extends State<QuizPage> {
   void initState() {
     super.initState();
     flutterTts = FlutterTts();
-  }
-
-  Future<void> _translateToSpanish(String text) async {
-    Translation translation = await translator.translate(
-      text,
-      from: 'en',
-      to: 'es',
-    );
-    setState(() {
-      // Display the translated text or use it as needed
-      print(translation.text);
-    });
   }
 
   Future<void> speakQuestion(String text) async {
@@ -158,24 +145,6 @@ class _QuizPageState extends State<QuizPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Quiz'),
-        actions: [
-          DropdownButton<Language>(
-            value: selectedLanguage,
-            onChanged: (Language? newValue) {
-              if (newValue != null) {
-                setState(() {
-                  selectedLanguage = newValue;
-                });
-              }
-            },
-            items: Language.values.map<DropdownMenuItem<Language>>((lang) {
-              return DropdownMenuItem<Language>(
-                value: lang,
-                child: Text(lang == Language.English ? 'English' : 'Spanish'),
-              );
-            }).toList(),
-          ),
-        ],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -204,7 +173,7 @@ class _QuizPageState extends State<QuizPage> {
               Column(
                 children: questions[currentQuestionIndex].options.map((option) {
                   return Container(
-                    width: 200,
+                    width: 400,
                     child: ElevatedButton(
                       onPressed: () {
                       checkAnswer(option);
