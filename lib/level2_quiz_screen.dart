@@ -138,12 +138,6 @@ class _PlayScreenState extends State<PlayScreen> {
                   border: OutlineInputBorder(),
                 ),
               ),
-              //SizedBox(height: 10),
-              //ElevatedButton(
-              // onPressed: selectedAnswer != null && !isAnswerSubmitted ? submitAnswer : null,
-              // child: Text('Submit'),
-              //),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -175,7 +169,6 @@ class _PlayScreenState extends State<PlayScreen> {
                   SizedBox(width: 40),
                   InkWell(
                     onTap: isAnswerSubmitted || selectedAnswer == null
-                    //  onTap: selectedAnswer != null
                         ? gotoNextQuestion
                         : null,
                     borderRadius: BorderRadius.circular(30),
@@ -229,22 +222,31 @@ class _PlayScreenState extends State<PlayScreen> {
                   ),
                 ],
               ),
-              if (isAnswerSubmitted != null)
-                Text(
+              Container(
+                decoration: isCorrect != null && isCorrect!
+                    ? BoxDecoration(
+                  border: Border.all(color: Colors.black87, width: 8),
+                  borderRadius: BorderRadius.circular(4),
+                )
+                    : null,
+                child: Text(
                   isCorrect == null
                       ? ''
                       : isCorrect!
-                      ? 'Correct answer!'
+                      ? ' You Got It Right! '
                       : 'Incorrect answer. The correct answer is: ${quizquestion.correctAnswer}',
                   style: TextStyle(
-                    color: isCorrect == null ? Colors.transparent : (isCorrect! ? Colors.green : Colors.red),
-                    fontWeight: FontWeight.bold,
+                    color: isCorrect == null
+                        ? Colors.black54
+                        : (isCorrect! ? Colors.black87 : Colors.red),
+                    fontWeight: FontWeight.bold, fontSize: 28
                   ),
                 ),
+              ),
             ],
           ),
-        ),)
-      ,
+        ),
+      ),
     );
   }
 }
