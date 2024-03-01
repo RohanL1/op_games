@@ -3,16 +3,6 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:op_games/widgets/next_button.dart';
 import 'package:op_games/Play_Page.dart';
 
-class CommonDesign {
-  static const String backgroundImage = 'assets/background.png';
-  static const Color primaryColor = Colors.white; // Change as needed
-}
-
-enum Language {
-  English,
-  Spanish,
-}
-
 class QuizPage extends StatefulWidget {
   const QuizPage({Key? key}) : super(key: key);
 
@@ -25,7 +15,6 @@ class _QuizPageState extends State<QuizPage> {
   int currentQuestionIndex = 0;
   Language selectedLanguage = Language.English;
   late FlutterTts flutterTts;
-  // final translator = GoogleTranslator();
   bool isLastQuestion = false;
   bool optionSelected = false;
 
@@ -41,6 +30,7 @@ class _QuizPageState extends State<QuizPage> {
       correctAnswer: 'Four',
       numberOfOranges: 4,
       orangeSets: [2, 2],
+      operation: Operation.Addition,
     ),
     Question(
       questionText: 'How many oranges are there?',
@@ -53,6 +43,7 @@ class _QuizPageState extends State<QuizPage> {
       correctAnswer: 'Two',
       numberOfOranges: 2,
       orangeSets: [1, 1],
+      operation: Operation.Addition,
     ),
     Question(
       questionText: 'How many oranges are there?',
@@ -65,6 +56,7 @@ class _QuizPageState extends State<QuizPage> {
       correctAnswer: 'Eight',
       numberOfOranges: 8,
       orangeSets: [4, 4],
+      operation: Operation.Addition,
     ),
     Question(
       questionText: 'Select the correct option:',
@@ -77,6 +69,46 @@ class _QuizPageState extends State<QuizPage> {
       correctAnswer: '2 oranges + 3 oranges = 5 oranges',
       numberOfOranges: 5,
       orangeSets: [2, 3],
+      operation: Operation.Addition,
+    ),
+    Question(
+      questionText: 'How many oranges are left?',
+      options: [
+        'Two',
+        'Three',
+        'One',
+        'None',
+      ],
+      correctAnswer: 'Two',
+      numberOfOranges: 2,
+      orangeSets: [4, 2],
+      operation: Operation.Subtraction,
+    ),
+    Question(
+      questionText: 'How many oranges are left?',
+      options: [
+        'One',
+        'Two',
+        'Three',
+        'None',
+      ],
+      correctAnswer: 'Three',
+      numberOfOranges: 3,
+      orangeSets: [5, 2],
+      operation: Operation.Subtraction,
+    ),
+    Question(
+      questionText: 'Select the correct option:',
+      options: [
+        '4 oranges - 2 oranges = 2 oranges',
+        '5 oranges - 3 oranges = 2 orange',
+        '6 oranges - 4 oranges = 3 oranges',
+        '7 oranges - 5 oranges = 2 oranges'
+      ],
+      correctAnswer: '5 oranges - 3 oranges = 2 orange',
+      numberOfOranges: 2,
+      orangeSets: [5, 3],
+      operation: Operation.Subtraction,
     ),
   ];
 
@@ -88,7 +120,7 @@ class _QuizPageState extends State<QuizPage> {
 
   Future<void> speakQuestion(String text) async {
     await flutterTts.setLanguage(selectedLanguage == Language.English ? 'en-US' : 'es-ES');
-    await flutterTts.setSpeechRate(0.5);
+    await flutterTts.setSpeechRate(0.35);
     await flutterTts.speak(text);
   }
 
@@ -97,7 +129,7 @@ class _QuizPageState extends State<QuizPage> {
     setState(() {
       optionSelected = true;
       if (selectedAnswer == correctAnswer) {
-        score = (score + 25).clamp(0, 100);
+        score = (score + 15).clamp(0, 100);
       } else {
         showCorrectAnswerDialog(correctAnswer);
         score = (score - 5).clamp(0, 100);
@@ -134,7 +166,8 @@ class _QuizPageState extends State<QuizPage> {
     } else {
       return questions[currentQuestionIndex].questionText
           .replaceAll('How many oranges are there?', '¿Cuántas naranjas hay?')
-          .replaceAll('Select the correct option:', 'Seleccione la opción correcta:');
+          .replaceAll('Select the correct option:', 'Seleccione la opción correcta:')
+          .replaceAll('How many oranges are left?', '¿Cuántas naranjas quedan?');
     }
   }
 
@@ -165,10 +198,16 @@ class _QuizPageState extends State<QuizPage> {
           child: Column(
             children: [
               SizedBox(height: 20),
-              OrangesDisplay(
-                firstSetOfOranges: questions[currentQuestionIndex].orangeSets[0],
-                secondSetOfOranges: questions[currentQuestionIndex].orangeSets[1],
-              ),
+              if (questions[currentQuestionIndex].operation == Operation.Addition)
+                OrangesDisplay(
+                  firstSetOfOranges: questions[currentQuestionIndex].orangeSets[0],
+                  secondSetOfOranges: questions[currentQuestionIndex].orangeSets[1],
+                ),
+              if (questions[currentQuestionIndex].operation == Operation.Subtraction)
+                SubtractionVisual(
+                  minuend: questions[currentQuestionIndex].orangeSets[0],
+                  subtrahend: questions[currentQuestionIndex].orangeSets[1],
+                ),
               SizedBox(height: 20),
               Text(
                 getQuestionText(),
@@ -251,6 +290,7 @@ class Question {
   final String correctAnswer;
   final int numberOfOranges;
   final List<int> orangeSets;
+  final Operation operation;
 
   Question({
     required this.questionText,
@@ -258,6 +298,7 @@ class Question {
     required this.correctAnswer,
     required this.numberOfOranges,
     required this.orangeSets,
+    required this.operation,
   });
 }
 
@@ -277,6 +318,32 @@ class OrangesDisplay extends StatelessWidget {
         Icon(Icons.add, size: 40, color: Colors.green), // Plus sign
         SizedBox(width: 10), // Add some space between plus sign and second set of oranges
         _Oranges(count: secondSetOfOranges),
+      ],
+    );
+  }
+}
+
+class SubtractionVisual extends StatelessWidget {
+  final int minuend;
+  final int subtrahend;
+
+  const SubtractionVisual({Key? key, required this.minuend, required this.subtrahend}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _Oranges(count: minuend),
+        SizedBox(width: 10), // Add some space between minuend and minus sign
+        Icon(Icons.remove, size: 40, color: Colors.red), // Minus sign
+        SizedBox(width: 10), // Add some space between minus sign and subtrahend
+        _Oranges(count: subtrahend),
+        SizedBox(width: 10), // Add some space between subtrahend and equal sign
+        Text('=', style: TextStyle(fontSize: 40)),
+        SizedBox(width: 10), // Add some space between equal sign and result
+        // Text((minuend - subtrahend).toString(), style: TextStyle(fontSize: 40)),
+        Text(' ? ', style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
       ],
     );
   }
@@ -325,4 +392,19 @@ class _OrangeWithSpacing extends StatelessWidget {
       ],
     );
   }
+}
+
+class CommonDesign {
+  static const String backgroundImage = 'assets/background.png';
+  static const Color primaryColor = Colors.white; // Change as needed
+}
+
+enum Language {
+  English,
+  Spanish,
+}
+
+enum Operation {
+  Addition,
+  Subtraction,
 }
