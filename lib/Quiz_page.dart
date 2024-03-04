@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:op_games/widgets/next_button.dart';
 import 'package:op_games/Play_Page.dart';
+import 'dart:math';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({Key? key}) : super(key: key);
@@ -17,6 +17,8 @@ class _QuizPageState extends State<QuizPage> {
   late FlutterTts flutterTts;
   bool isLastQuestion = false;
   bool optionSelected = false;
+  bool questionAnswered = false; // Tracks if the current question has been answered
+  String? selectedOption; // Tracks the selected option
 
   List<Question> questions = [
     Question(
@@ -119,45 +121,35 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   Future<void> speakQuestion(String text) async {
-    await flutterTts.setLanguage(selectedLanguage == Language.English ? 'en-US' : 'es-ES');
+    await flutterTts.setLanguage(
+        selectedLanguage == Language.English ? 'en-US' : 'es-ES');
     await flutterTts.setSpeechRate(0.35);
     await flutterTts.speak(text);
   }
 
   void checkAnswer(String selectedAnswer) {
-    String correctAnswer = questions[currentQuestionIndex].correctAnswer;
     setState(() {
+      selectedOption = selectedAnswer;
+      questionAnswered = true; // Mark the question as answered
       optionSelected = true;
-      if (selectedAnswer == correctAnswer) {
+      if (selectedAnswer == questions[currentQuestionIndex].correctAnswer) {
         score = (score + 15).clamp(0, 100);
       } else {
-        showCorrectAnswerDialog(correctAnswer);
         score = (score - 5).clamp(0, 100);
       }
+      // Automatically move to the next question or show the back button if it's the last question
       if (currentQuestionIndex < questions.length - 1) {
-        currentQuestionIndex++;
+        Future.delayed(Duration(seconds: 4), () {
+          setState(() {
+            currentQuestionIndex++;
+            questionAnswered = false;
+            selectedOption = null;
+          });
+        });
       } else {
         isLastQuestion = true;
       }
     });
-  }
-
-  void showCorrectAnswerDialog(String correctAnswer) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Wrong Answer'),
-        content: Text('The correct answer is $correctAnswer.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('OK'),
-          ),
-        ],
-      ),
-    );
   }
 
   String getQuestionText() {
@@ -166,18 +158,24 @@ class _QuizPageState extends State<QuizPage> {
     } else {
       return questions[currentQuestionIndex].questionText
           .replaceAll('How many oranges are there?', '¿Cuántas naranjas hay?')
-          .replaceAll('Select the correct option:', 'Seleccione la opción correcta:')
-          .replaceAll('How many oranges are left?', '¿Cuántas naranjas quedan?');
+          .replaceAll(
+          'Select the correct option:', 'Seleccione la opción correcta:')
+          .replaceAll(
+          'How many oranges are left?', '¿Cuántas naranjas quedan?');
     }
   }
 
   String getOptionText(String option) {
-    return selectedLanguage == Language.English ? option : option; // Translate to Spanish or other languages
+    return selectedLanguage == Language.English
+        ? option
+        : option; // Translate to Spanish or other languages
   }
 
   void toggleLanguage() {
     setState(() {
-      selectedLanguage = selectedLanguage == Language.English ? Language.Spanish : Language.English;
+      selectedLanguage =
+      selectedLanguage == Language.English ? Language.Spanish : Language
+          .English;
     });
   }
 
@@ -196,14 +194,19 @@ class _QuizPageState extends State<QuizPage> {
         ),
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 20),
-              if (questions[currentQuestionIndex].operation == Operation.Addition)
+              if (questions[currentQuestionIndex].operation ==
+                  Operation.Addition)
                 OrangesDisplay(
-                  firstSetOfOranges: questions[currentQuestionIndex].orangeSets[0],
-                  secondSetOfOranges: questions[currentQuestionIndex].orangeSets[1],
+                  firstSetOfOranges: questions[currentQuestionIndex]
+                      .orangeSets[0],
+                  secondSetOfOranges: questions[currentQuestionIndex]
+                      .orangeSets[1],
                 ),
-              if (questions[currentQuestionIndex].operation == Operation.Subtraction)
+              if (questions[currentQuestionIndex].operation ==
+                  Operation.Subtraction)
                 SubtractionVisual(
                   minuend: questions[currentQuestionIndex].orangeSets[0],
                   subtrahend: questions[currentQuestionIndex].orangeSets[1],
@@ -222,16 +225,33 @@ class _QuizPageState extends State<QuizPage> {
                 children: questions[currentQuestionIndex].options.map((option) {
                   return Container(
                     width: 600,
+                    margin: EdgeInsets.only(bottom: 8),
+                    // Add some spacing between buttons
                     child: ElevatedButton(
-                      onPressed: () {
-                        checkAnswer(option);
-                      },
+                      onPressed: !questionAnswered
+                          ? () => checkAnswer(option)
+                          : null,
                       child: Text(
                         getOptionText(option),
-                        style: TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
+                        style: TextStyle(color: Colors.black87,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold),
                       ),
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(CommonDesign.primaryColor),
+                        backgroundColor: MaterialStateProperty.resolveWith<
+                            Color>((states) {
+                          // Change the color based on the answer status
+                          if (!questionAnswered) return Colors
+                              .white54; // Default color before selection
+                          if (option == selectedOption && option !=
+                              questions[currentQuestionIndex].correctAnswer)
+                            return Colors.redAccent; // Wrong answer
+                          if (option ==
+                              questions[currentQuestionIndex].correctAnswer)
+                            return Colors.greenAccent; // Correct answer
+                          return Colors
+                              .white54; // Default color for unselected options
+                        }),
                       ),
                     ),
                   );
@@ -241,24 +261,26 @@ class _QuizPageState extends State<QuizPage> {
               Text(
                 'Score: $score',
                 style: TextStyle(
-                  color: CommonDesign.primaryColor,
+                  color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontSize: 30,
+                  fontSize: 24,
                 ),
               ),
-              SizedBox(height: 20),
-              Visibility(
-                visible: isLastQuestion && optionSelected,
-                child: Padding(
+              if (isLastQuestion && questionAnswered) // This checks if it's the last question and it has been answered
+                Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: RectangularButton(
+                  child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => PlayPage()));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlayPage())); // Use pushReplacement to prevent going back to the quiz
                     },
-                    label: 'Back',
+                    child: Text('Back to Levels', style: TextStyle(fontSize: 20)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue, // Corrected from 'primary' to 'backgroundColor'
+                      foregroundColor: Colors.white, // Text color remains the same
+                    ),
                   ),
                 ),
-              ),
+
               SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -284,7 +306,7 @@ class _QuizPageState extends State<QuizPage> {
   }
 }
 
-class Question {
+  class Question {
   final String questionText;
   final List<String> options;
   final String correctAnswer;
@@ -408,3 +430,4 @@ enum Operation {
   Addition,
   Subtraction,
 }
+
