@@ -72,6 +72,9 @@ flutter:
     - assets/plus.png
     - assets/orange.png
     - assets/despicable-me-minions.gif
+    - assets/apple.png
+    - assets/egg.png
+    - assets/child.png
   fonts:
     - family: Playful
       fonts:

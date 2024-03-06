@@ -286,7 +286,7 @@ class _QuizPageState extends State<QuizPage> {
                     },
                     child: Text('Back to Levels', style: TextStyle(fontSize: 20)),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue, // Corrected from 'primary' to 'backgroundColor'
+                      backgroundColor: Colors.black, // Corrected from 'primary' to 'backgroundColor'
                       foregroundColor: Colors.white, // Text color remains the same
                     ),
                   ),
