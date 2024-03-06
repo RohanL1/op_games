@@ -139,7 +139,7 @@ class _QuizPageState extends State<QuizPage> {
       }
       // Automatically move to the next question or show the back button if it's the last question
       if (currentQuestionIndex < questions.length - 1) {
-        Future.delayed(Duration(seconds: 4), () {
+        Future.delayed(Duration(seconds: 3), () {
           setState(() {
             currentQuestionIndex++;
             questionAnswered = false;
@@ -183,9 +183,20 @@ class _QuizPageState extends State<QuizPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Quiz'),
-      ),
-      body: Container(
+        title: Text('Quiz',
+            style: TextStyle(fontFamily: 'Playful', color: Colors.black)),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.white, Colors.black],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),      body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(CommonDesign.backgroundImage),
@@ -430,4 +441,5 @@ enum Operation {
   Addition,
   Subtraction,
 }
+
 
