@@ -146,18 +146,17 @@ class _OperatorsMatchingGamePageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Operators Matching Game'),
-        actions: [
-          if (score >= 100)
-            IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-        ],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.lightBlue,
+        shape: CircleBorder(),
+
+        child: const Icon(Icons.arrow_back_ios),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(

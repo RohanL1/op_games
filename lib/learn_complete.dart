@@ -30,9 +30,9 @@ class LearnComplete extends StatelessWidget {
             ),
           ),
           child: Container(
-            margin: EdgeInsets.all(170),
-            padding: EdgeInsets.all(50),
-            height: 400,
+            margin: EdgeInsets.all(120),
+            padding: EdgeInsets.all(30),
+            height: 700,
             width: 1800,
             decoration: BoxDecoration(
               color: Colors.white70,
@@ -41,60 +41,38 @@ class LearnComplete extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-
-                SizedBox(height: 80),
-                Row(
-                  children: [
-                    SizedBox(width: 350),
-                    InkWell(
-                      onTap: () {
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => LearnPage()));
-                      },
+                Icon(
+                  Icons.emoji_events,
+                  size: 150,
+                ),
+                SizedBox(height: 20),
+                Text('Congratulations !!! You have completed this lesson.',
+                  style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 40),
+                ),
+                SizedBox(height: 50),
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  borderRadius: BorderRadius.circular(30),
+                  child: Container(
+                    width: 200,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      child: Container(
-                        width: 100,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.lightGreen,
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.translate,
-                              size: 50,
-                            ),
-                          ],
-                        ),
-                      ),
+                      color: Colors.lightBlue,
                     ),
-                    SizedBox(width: 200),
-                    InkWell(
-                      onTap: () {
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => LearnPage()));
-                      },
-                      borderRadius: BorderRadius.circular(30),
-                      child: Container(
-                        width: 100,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.lightGreen,
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text('Done',
+                          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 40),
                         ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.volume_up,
-                              size: 50,
-                            ),
-                          ],
-                        ),
-                      ),
+                      ],
                     ),
-                  ],
-                )
+                  ),
+                ),
               ],
             ),
           )

@@ -182,21 +182,19 @@ class _QuizPageState extends State<QuizPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Quiz',
-            style: TextStyle(fontFamily: 'Playful', color: Colors.black)),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.white, Colors.black],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),      body: Container(
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.lightBlue,
+        shape: CircleBorder(),
+
+        child: const Icon(Icons.arrow_back_ios),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(CommonDesign.backgroundImage),

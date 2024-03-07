@@ -84,17 +84,17 @@ class _PlayScreenState extends State<PlayScreen> {
     bool isLastQuestion = questionIndex == quizquestions.length - 1;
     bool isFirstQuestion = questionIndex == 0;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Question ${questionIndex + 1}'),
-        leading: isFirstQuestion
-            ? null // If it's the first question, don't show a back button
-            : IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            gotoPreviousQuestion();
-          },
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.lightBlue,
+        shape: CircleBorder(),
+
+        child: const Icon(Icons.arrow_back_ios),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -103,7 +103,7 @@ class _PlayScreenState extends State<PlayScreen> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.fromLTRB(24.0, 50, 24,24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
