@@ -39,13 +39,14 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  collection: ^1.15.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flip_card: ^0.7.0
   number_to_words_english: ^2.0.2
-
+  animated_text_kit: ^4.2.2
   #  tts: ^1.0.2
 
 
@@ -75,10 +76,12 @@ flutter:
     - assets/apple.png
     - assets/egg.png
     - assets/child.png
-  fonts:
-    - family: Playful
-      fonts:
-        - asset: assets/fonts/Playful-Regular.ttf
+
+#  fonts:
+#    - family: Playful
+#      fonts:
+#        - asset: fonts/Playful-Regular.ttf
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
