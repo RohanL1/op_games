@@ -87,6 +87,7 @@ class PlayPage extends StatelessWidget {
                   Row(
                       children :[
                         SizedBox(width: 70),
+
                         LevelSelectionContainer(levelText: 'LVL 0', nextPage: OperatorsMatchingGamePage()),
 
                         SizedBox(width: 50),
@@ -103,7 +104,6 @@ class PlayPage extends StatelessWidget {
 
                         SizedBox(width: 50),
                         LevelSelectionContainer(levelText: 'LVL5', nextPage: ScorePage()),
-
                       ]
                   ),
                   SizedBox(height: 70),
@@ -137,7 +137,7 @@ class PlayPage extends StatelessWidget {
     );
   }
 
-
+  
   Widget levelCard(BuildContext context, String level, IconData icon,
       Widget nextPage) {
     return Card(

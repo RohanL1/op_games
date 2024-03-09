@@ -5,6 +5,7 @@ import 'package:number_to_words_english/number_to_words_english.dart';
 import 'package:op_games/learn_complete.dart';
 import 'package:op_games/operator.dart';
 import 'flash_card_info.dart';
+import 'package:op_games/random_num_gen.dart';
 
 class FlashCard extends StatefulWidget {
   FlashCard({Key? key}) : super(key: key);
@@ -21,46 +22,48 @@ class _FlashCardState extends State<FlashCard> {
   FlutterTts flutterTts = FlutterTts();
   int currentCardIndex = 0;
   var currentLanguage= Language.English;
-
-
-  List<Map<String, dynamic>> flashCards = [
-    {
-      "op_name": "Plus",
-      "op_sign": "+",
-      "op_def": "plus is total that we get on adding two or more numbers",
-      'fst_num': 5,
-      'snd_num': 6
-    },
-    {
-      "op_name": "Psdflus",
-      "op_sign": "+",
-      "op_def": "plus is total that we get on adding two or more numbers",
-      'fst_num': 5,
-      'snd_num': 6
-    },
-    {
-      "op_name": "Psdfdlus",
-      "op_sign": "+",
-      "op_def": "plus is total that we get on adding two or more numbers",
-      'fst_num': 5,
-      'snd_num': 6
-    },
-    {
-      "op_name": "ksdhsdk",
-      "op_sign": "+",
-      "op_def": "plus is total that we get on adding two or more numbers",
-      'fst_num': 5,
-      'snd_num': 6
-    },
-    // Add more flash card data as needed
-  ];
+  late List<List<int>> data;
+  late List<Map<String, dynamic>> flashCards;
 
   Future<void> ReadOut(String text) async {
     await flutterTts.setLanguage(currentLanguage == Language.English ? 'en-US' : 'es-ES');
     await flutterTts.setSpeechRate(0.5);
     await flutterTts.speak(text);
   }
+  @override
+  void initState() {
+    super.initState();
+    data = [
+      getRandomNumbersWithSumLimit(10, 10),
+      getRandomNumbersWithSumLimit(10, 10),
+      getRandomNumbersWithSumLimit(10, 10),
+    ];
 
+    flashCards  = [
+      {
+        "op_name": "Plus",
+        "op_sign": "+",
+        "op_def": "plus is total that we get on adding two or more numbers",
+        'fst_num': 5,
+        'snd_num': 6,
+      },
+      {
+        "op_name": data[0][0].toString() + " + " + data[0][1].toString(),
+        "op_sign": "+",
+        "op_def": "Guess the Answer",
+        'fst_num': data[0][0],
+        'snd_num': data[0][1],
+      },
+      {
+        "op_name": NumberToWordsEnglish.convert(data[1][0]) + " + " + NumberToWordsEnglish.convert(data[1][1]),
+        "op_sign": "+",
+        "op_def": "Guess the Answer",
+        'fst_num': data[1][0],
+        'snd_num': data[1][1],
+      },
+      // Add more flash card data as needed
+    ];
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -263,7 +266,7 @@ class _FlashCardState extends State<FlashCard> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              FlashCardInfo(data["op_sign"], 5, 6),
+              FlashCardInfo(data["op_sign"], data['fst_num'], data['snd_num']),
               SizedBox(height: 80),
               Row(
                 children: [

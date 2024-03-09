@@ -189,7 +189,6 @@ class _OperatorsMatchingGamePageState extends State<OperatorsMatchingGamePage> {
         child: const Icon(Icons.arrow_back_ios),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(

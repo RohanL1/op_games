@@ -37,9 +37,17 @@ class _PracticeScreenState extends State<PracticeScreen> {
     final question = questions[questionIndex];
     bool isLastQuestion = questionIndex == questions.length-1;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Practice Questions'),
-      // ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.lightBlue,
+          shape: CircleBorder(),
+
+          child: const Icon(Icons.arrow_back_ios),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       body:Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -49,7 +57,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
         ),
         child:
       Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.fromLTRB(24,100, 24,24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
@@ -94,8 +102,10 @@ class _PracticeScreenState extends State<PracticeScreen> {
             // Next button
             isLastQuestion
               ? RectangularButton(
-                onPressed:() {} ,
-               label: 'Back',
+                onPressed:() {
+                  Navigator.pop(context);
+                } ,
+               label: 'back',
               )
                 : RectangularButton(
                   onPressed: 
