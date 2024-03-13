@@ -16,8 +16,8 @@ class _OperatorsMatchingGamePageState extends State<OperatorsMatchingGamePage> {
   final List<Map<String, String>> gameItems = [
     {'name': 'Addition', 'symbol': '+'},
     {'name': 'Subtraction', 'symbol': '-'},
-    {'name': 'Multiplication', 'symbol': '×'},
-    {'name': 'Division', 'symbol': '/'},
+    {'name': 'Multiplication', 'symbol': 'x'},
+    {'name': 'Division', 'symbol': '÷'},
   ];
 
   late List<Map<String, String>> shuffledNames;

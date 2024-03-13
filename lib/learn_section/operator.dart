@@ -6,7 +6,9 @@ import 'package:op_games/learn_section/practice_section/practice_screen.dart';
 
 
 class OperatorPage extends StatelessWidget {
-  const OperatorPage({super.key});
+  final Map<String, dynamic> operatorData;
+
+  OperatorPage({required this.operatorData});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,24 @@ class OperatorPage extends StatelessWidget {
             child: Column(
                 children :[
                   SizedBox(height: 80),
-                  ImageBanner('assets/plus.png', 300, 250),
+                  // ImageBanner('assets/plus.png', 300, 250),
+                  Text(
+                    operatorData['op_sign'],
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 200,
+                      height: 0.8,
+                    ),
+                  ),
+                  Text(
+                    operatorData['op_name'],
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 100,
+                    ),
+                  ),
                   SizedBox(height: 20),
                   // Row(
                   //   children: [
@@ -50,7 +69,7 @@ class OperatorPage extends StatelessWidget {
                         SizedBox(width: 400),
                         InkWell(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => FlashCard()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => FlashCard(opSign: operatorData['op_sign'] ,)));
                           },
                           borderRadius: BorderRadius.circular(30),
                           child: Container(
@@ -73,7 +92,7 @@ class OperatorPage extends StatelessWidget {
                         SizedBox(width: 100),
                         InkWell(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => PracticeScreen()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => PracticeScreen(opSign: operatorData['op_sign'],)));
                           },
                           borderRadius: BorderRadius.circular(30),
                           child: Container(

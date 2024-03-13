@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:op_games/question_data/quiz_question.dart';
-import 'package:op_games/question_data/quiz_questions.dart';
-import 'package:op_games/widgets/next_button.dart';
+import 'package:op_games/common/question_data/gen_text_questions.dart';
+import 'package:op_games/common/question_data/text_question.dart';
+// import 'package:op_games/common/widgets/next_button.dart';
 
-class PlayScreen extends StatefulWidget {
-  const PlayScreen({Key? key}) : super(key: key);
+class TextQuiz extends StatefulWidget {
+  final String opSign;
+  const TextQuiz({super.key,required this.opSign});
 
   @override
-  State<PlayScreen> createState() => _PlayScreenState();
+  State<TextQuiz> createState() => _TextQuizState();
 }
 
-class _PlayScreenState extends State<PlayScreen> {
+class _TextQuizState extends State<TextQuiz> {
   String? selectedAnswer;
   int questionIndex = 0;
   bool? isCorrect;
@@ -19,6 +20,14 @@ class _PlayScreenState extends State<PlayScreen> {
   String feedbackMessage = '';
 
   TextEditingController textEditingController = TextEditingController();
+  late List<TextQuestion> questions;
+  @override
+  void initState() {
+    super.initState();
+
+    questions = getTextQuestions(widget.opSign);
+
+  }
 
   void pickAnswer(String value) {
     selectedAnswer = value;
@@ -29,8 +38,11 @@ class _PlayScreenState extends State<PlayScreen> {
   }
 
   void submitAnswer() {
-    final quizquestion = quizquestions[questionIndex];
-    if (selectedAnswer == quizquestion.correctAnswer) {
+    if (isAnswerSubmitted) {
+      return ;
+    }
+    final currQuestion = questions[questionIndex];
+    if (selectedAnswer?.toLowerCase() == currQuestion.answer.toLowerCase()) {
       setState(() {
         isCorrect = true;
         isAnswerSubmitted = true; // Set answer submitted status to true
@@ -56,7 +68,7 @@ class _PlayScreenState extends State<PlayScreen> {
       );
       return;
     } // Exit the function early
-    if (questionIndex < quizquestions.length - 1) {
+    if (questionIndex < questions.length - 1) {
       questionIndex++;
       selectedAnswer = null; // Clear current answer
       isCorrect = null; // Reset correctness feedback
@@ -79,9 +91,9 @@ class _PlayScreenState extends State<PlayScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final quizquestion = quizquestions[questionIndex];
+    final quizquestion = questions[questionIndex];
 
-    bool isLastQuestion = questionIndex == quizquestions.length - 1;
+    bool isLastQuestion = questionIndex == questions.length - 1;
     bool isFirstQuestion = questionIndex == 0;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -116,7 +128,7 @@ class _PlayScreenState extends State<PlayScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
-                  quizquestion.quizquestion,
+                  quizquestion.question,
                   style: const TextStyle(
                     fontSize: 70,
                     fontWeight: FontWeight.bold,
@@ -134,65 +146,46 @@ class _PlayScreenState extends State<PlayScreen> {
                   fontWeight: FontWeight.bold, // Make the text bold
                 ),
                 decoration: InputDecoration(
-                  hintText: 'Enter your Answer...',
+                  hintText: 'Enter your Answer in words...',
                   border: OutlineInputBorder(),
+                  filled: true, // Enable filling of the background
+                  fillColor: isCorrect == null ? Colors.white54 : isCorrect == true ? Colors.green : Colors.red, // Set background color based on correctness
+                  errorBorder: OutlineInputBorder( // Border color when there is an error
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder( // Border color when there is an error and the field is focused
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
                 ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (!isFirstQuestion)
-                    InkWell(
-                      onTap: () {
-                        gotoPreviousQuestion();
-                      },
-                      borderRadius: BorderRadius.circular(30),
-                      child: Container(
-                        width: 200,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.yellow,
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Back',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 40,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  SizedBox(width: 40),
-                  InkWell(
-                    onTap: isAnswerSubmitted || selectedAnswer == null
-                        ? gotoNextQuestion
-                        : null,
-                    borderRadius: BorderRadius.circular(30),
-                    child: Container(
-                      width: 200,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: isAnswerSubmitted || selectedAnswer == null
-                            ? Colors.green
-                            : Colors.lightBlue,
-                      ),
-                      child: Center(
-                        child: Text(
-                          isLastQuestion ? 'Finish' : 'Next',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 40,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // if (!isFirstQuestion)
+                  //   InkWell(
+                  //     onTap: () {
+                  //       gotoPreviousQuestion();
+                  //     },
+                  //     borderRadius: BorderRadius.circular(30),
+                  //     child: Container(
+                  //       width: 200,
+                  //       padding: const EdgeInsets.all(10),
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.circular(30),
+                  //         color: Colors.yellow,
+                  //       ),
+                  //       child: Center(
+                  //         child: Text(
+                  //           'Back',
+                  //           style: TextStyle(
+                  //             color: Colors.white,
+                  //             fontWeight: FontWeight.bold,
+                  //             fontSize: 40,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
                   SizedBox(width: 40),
                   InkWell(
                     onTap: selectedAnswer != null && !isAnswerSubmitted
@@ -214,7 +207,38 @@ class _PlayScreenState extends State<PlayScreen> {
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 40,
+                            fontSize: 30,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 40),
+                  InkWell(
+                    onTap: () {
+                      if (!isLastQuestion || isAnswerSubmitted || selectedAnswer != null) {
+                        gotoNextQuestion() ;
+                      } else {
+                        Navigator.pop(context);
+                      }
+                      },
+                    borderRadius: BorderRadius.circular(30),
+                    child: Container(
+                      width: 200,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: isAnswerSubmitted
+                            ? Colors.lightBlue
+                            : Colors.grey,
+                      ),
+                      child: Center(
+                        child: Text(
+                          isLastQuestion ? 'Finish' : 'Next',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
                           ),
                         ),
                       ),
@@ -222,27 +246,27 @@ class _PlayScreenState extends State<PlayScreen> {
                   ),
                 ],
               ),
-              Container(
-                decoration: isCorrect != null && isCorrect!
-                    ? BoxDecoration(
-                  border: Border.all(color: Colors.black87, width: 8),
-                  borderRadius: BorderRadius.circular(4),
-                )
-                    : null,
-                child: Text(
-                  isCorrect == null
-                      ? ''
-                      : isCorrect!
-                      ? ' You Got It Right! '
-                      : 'Incorrect answer. The correct answer is: ${quizquestion.correctAnswer}',
-                  style: TextStyle(
-                    color: isCorrect == null
-                        ? Colors.black54
-                        : (isCorrect! ? Colors.black87 : Colors.red),
-                    fontWeight: FontWeight.bold, fontSize: 28
-                  ),
-                ),
-              ),
+              // Container(
+              //   decoration: isCorrect != null && isCorrect!
+              //       ? BoxDecoration(
+              //     border: Border.all(color: Colors.black87, width: 8),
+              //     borderRadius: BorderRadius.circular(4),
+              //   )
+              //       : null,
+              //   child: Text(
+              //     isCorrect == null
+              //         ? ''
+              //         : isCorrect!
+              //         ? ' You Got It Right! '
+              //         : 'Incorrect answer. The correct answer is: ${quizquestion.correctAnswer}',
+              //     style: TextStyle(
+              //       color: isCorrect == null
+              //           ? Colors.black54
+              //           : (isCorrect! ? Colors.black87 : Colors.red),
+              //       fontWeight: FontWeight.bold, fontSize: 28
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

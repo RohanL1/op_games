@@ -6,6 +6,24 @@ import 'package:op_games/learn_section/operator.dart';
 
 class LearnPage extends StatelessWidget {
   const LearnPage({super.key});
+  static Map<String, Map<String, dynamic>> data = {
+    '+': {
+      'op_sign': '+',
+      'op_name': 'PLUS',
+    },
+    '-': {
+      'op_sign': '-',
+      'op_name': 'MINUS',
+    },
+    'x': {
+      'op_sign': 'x',
+      'op_name': 'MULTIPLICATION',
+    },
+    '÷': {
+      'op_sign': '÷',
+      'op_name': 'DIVISION',
+    },
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +52,15 @@ class LearnPage extends StatelessWidget {
               children: [
                 SizedBox(height: 100),
                 Text('Operator List',
-                style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 50),
+                style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 70),
                 ),
-                SizedBox(height: 70),
+                SizedBox(height: 120),
                 Row(
                     children :[
                       SizedBox(width: 200),
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => OperatorPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => OperatorPage(operatorData:data['+']! ,)));
                         },
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
@@ -65,7 +83,7 @@ class LearnPage extends StatelessWidget {
                       SizedBox(width: 100),
                       InkWell(
                         onTap: () {
-
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => OperatorPage(operatorData:data['-']! ,)));
                         },
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
@@ -87,7 +105,9 @@ class LearnPage extends StatelessWidget {
                       ),
                       SizedBox(width: 100),
                       InkWell(
-                        onTap: () {SystemNavigator.pop();},
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => OperatorPage(operatorData:data['x']! ,)));
+                          },
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
                           width: 150,
@@ -108,7 +128,9 @@ class LearnPage extends StatelessWidget {
                       ),
                       SizedBox(width: 100),
                       InkWell(
-                        onTap: () {SystemNavigator.pop();},
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => OperatorPage(operatorData:data['÷']! ,)));
+                          },
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
                           width: 150,
@@ -130,98 +152,98 @@ class LearnPage extends StatelessWidget {
                     ]
                 ),
                 SizedBox(height: 70),
-                Row(
-                    children :[
-                      SizedBox(width: 200),
-                      InkWell(
-                        onTap: () {
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => LearnPage()));
-                        },
-                        borderRadius: BorderRadius.circular(30),
-                        child: Container(
-                          width: 150,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.white70,
-                          ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text('<',
-                                style: TextStyle(color: Colors.purple, fontWeight: FontWeight.bold, fontSize: 100),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 100),
-                      InkWell(
-                        onTap: () {
-
-                        },
-                        borderRadius: BorderRadius.circular(30),
-                        child: Container(
-                          width: 150,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.white70,
-                          ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text('>',
-                                style: TextStyle(color: Colors.lightBlue, fontWeight: FontWeight.bold, fontSize: 100),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 100),
-                      InkWell(
-                        onTap: () {SystemNavigator.pop();},
-                        borderRadius: BorderRadius.circular(30),
-                        child: Container(
-                          width: 150,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.white70,
-                          ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text('=',
-                                style: TextStyle(color: Colors.black45, fontWeight: FontWeight.bold, fontSize: 100),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 100),
-                      InkWell(
-                        onTap: () {SystemNavigator.pop();},
-                        borderRadius: BorderRadius.circular(30),
-                        child: Container(
-                          width: 150,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.white70,
-                          ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text('%',
-                                style: TextStyle(color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 100),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ]
-                ),
+                // Row(
+                //     children :[
+                //       SizedBox(width: 200),
+                //       InkWell(
+                //         onTap: () {
+                //           // Navigator.push(context, MaterialPageRoute(builder: (context) => LearnPage()));
+                //         },
+                //         borderRadius: BorderRadius.circular(30),
+                //         child: Container(
+                //           width: 150,
+                //           padding: const EdgeInsets.all(10),
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(30),
+                //             color: Colors.white70,
+                //           ),
+                //           child: const Row(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: <Widget>[
+                //               Text('<',
+                //                 style: TextStyle(color: Colors.purple, fontWeight: FontWeight.bold, fontSize: 100),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //       SizedBox(width: 100),
+                //       InkWell(
+                //         onTap: () {
+                //
+                //         },
+                //         borderRadius: BorderRadius.circular(30),
+                //         child: Container(
+                //           width: 150,
+                //           padding: const EdgeInsets.all(10),
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(30),
+                //             color: Colors.white70,
+                //           ),
+                //           child: const Row(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: <Widget>[
+                //               Text('>',
+                //                 style: TextStyle(color: Colors.lightBlue, fontWeight: FontWeight.bold, fontSize: 100),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //       SizedBox(width: 100),
+                //       InkWell(
+                //         onTap: () {SystemNavigator.pop();},
+                //         borderRadius: BorderRadius.circular(30),
+                //         child: Container(
+                //           width: 150,
+                //           padding: const EdgeInsets.all(10),
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(30),
+                //             color: Colors.white70,
+                //           ),
+                //           child: const Row(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: <Widget>[
+                //               Text('=',
+                //                 style: TextStyle(color: Colors.black45, fontWeight: FontWeight.bold, fontSize: 100),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //       SizedBox(width: 100),
+                //       InkWell(
+                //         onTap: () {SystemNavigator.pop();},
+                //         borderRadius: BorderRadius.circular(30),
+                //         child: Container(
+                //           width: 150,
+                //           padding: const EdgeInsets.all(10),
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(30),
+                //             color: Colors.white70,
+                //           ),
+                //           child: const Row(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: <Widget>[
+                //               Text('%',
+                //                 style: TextStyle(color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 100),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     ]
+                // ),
               ],
             )
           )

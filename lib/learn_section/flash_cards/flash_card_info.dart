@@ -1,32 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:op_games/common/picture_form.dart';
 import 'package:number_to_words_english/number_to_words_english.dart';
-
+import 'package:op_games/common/comm_functions.dart';
 class FlashCardInfo extends StatelessWidget {
-  final String _assetPath = "assets/orange.png";
   final int _f;
   final int _s;
   final String _sign;
   final double _size = 30;
-  FlashCardInfo(this._sign, this._f, this._s);
+  const FlashCardInfo(this._sign, this._f, this._s, {super.key});
 
-  int get_op_result() {
-    switch (_sign) {
-      case '+':
-        return _f + _s;
-      case '-':
-        return _f - _s;
-      case '*':
-        return _f * _s;
-      case '/':
-          return _f ~/ _s; // Performing integer division
-      default:
-        return 0;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    int res = get_op_result(_sign,_f,_s);
+    int rem = (_sign == '÷' ) ? _f % _s : 0 ;
+
     return Column(
       children: [
 
@@ -45,9 +33,16 @@ class FlashCardInfo extends StatelessWidget {
             Text('  =  ',
               style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 50),
             ),
-            Text(get_op_result().toString(),
+            Text(res.toString(),
               style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 50),
             ),
+            _sign == '÷' ? Text(",  ",
+                style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 50))
+                : Text(''),
+            _sign == '÷' ? Text("remainder = " + rem.toString(),
+                          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 50))
+                    : Text(''),
+
           ],
         ),
         Row(
@@ -65,22 +60,45 @@ class FlashCardInfo extends StatelessWidget {
             Text('  =  ',
               style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 50),
             ),
-            Text(NumberToWordsEnglish.convert(get_op_result()),
+            Text(NumberToWordsEnglish.convert(res),
               style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 50),
             ),
+            _sign == '÷' ? Text(",  ",
+                style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 50))
+                : Text(''),
+            _sign == '÷' ? Text("remainder = " + NumberToWordsEnglish.convert(rem),
+                style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 50))
+                : Text(''),
           ],
         ),
+        SizedBox(height: 20),
         Row(
           children: [
-            PictureForm(num:_f,size:30),
+            PictureForm(num:5,size:30),
             Text("  " + _sign + "  ",
               style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 50),
             ),
-            PictureForm(num:_s,size:30),
+            PictureForm(num:5,size:30),
             Text('  =  ',
               style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 50),
             ),
-            PictureForm(num: get_op_result(),size:30),
+            Column(
+              children: [
+                for (int i = 0; i < (res / 15).ceil(); i++)
+                  PictureForm(
+                    num: res > (i + 1) * 15 ? 15 : res - i * 15,
+                    size: 30,
+                  ),
+
+              ],
+            ),
+            _sign == '÷' ? Text(",  ",
+                style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 50))
+                : Text(''),
+            _sign == '÷' ? Text("remainder = " + rem.toString(),
+                style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 50))
+                : Text(''),
+
           ],
         ),
       ]

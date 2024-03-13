@@ -7,9 +7,12 @@ import 'package:op_games/learn_section/operator.dart';
 import 'flash_card_info.dart';
 import 'package:op_games/common/random_num_gen.dart';
 import 'package:op_games/learn_section/op_data.dart';
+import 'package:op_games/common/comm_functions.dart';
+
 
 class FlashCard extends StatefulWidget {
-  FlashCard({Key? key}) : super(key: key);
+  final String opSign;
+  FlashCard({Key? key,required this.opSign}) : super(key: key);
 
   @override
   _FlashCardState createState() => _FlashCardState();
@@ -25,33 +28,19 @@ class _FlashCardState extends State<FlashCard> {
   int currentCardIndex = 0;
   var currentLanguage= Language.English;
   late List<Map<String, dynamic>> flashCards;
-  String _sign = '-';
+
   Future<void> ReadOut(String text) async {
     await flutterTts.setLanguage(currentLanguage == Language.English ? 'en-US' : 'es-ES');
     await flutterTts.setSpeechRate(0.5);
     await flutterTts.speak(text);
   }
 
-  int get_op_result(_f,_s,_sign) {
-    switch (_sign) {
-      case '+':
-        return _f + _s;
-      case '-':
-        return _f - _s;
-      case '*':
-        return _f * _s;
-      case '/':
-        return _f ~/ _s; // Performing integer division
-      default:
-        return 0;
-    }
-  }
 
   @override
   void initState() {
     super.initState();
 
-    flashCards  = get_op_data(_sign);
+    flashCards  = get_op_data(widget.opSign);
   }
   @override
   Widget build(BuildContext context) {
@@ -140,6 +129,20 @@ class _FlashCardState extends State<FlashCard> {
   }
 
   Widget _renderFlashCard(data ) {
+    String rem = 'and remainder = ';
+    if (data["op_sign"] == '÷'){
+      rem +=  '${data['fst_num'] % data['snd_num']}.';
+    }
+    String sign_pron = '';
+    if (data["op_sign"] == '-'){
+      sign_pron = 'minus';
+    }
+    else if (data["op_sign"] == 'x'){
+      sign_pron = 'multiplied by ';
+    }
+    else {
+      sign_pron = data["op_sign"];
+    }
     return Card(
       elevation: 0.0,
       margin: EdgeInsets.only(
@@ -256,7 +259,7 @@ class _FlashCardState extends State<FlashCard> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               FlashCardInfo(data["op_sign"], data['fst_num'], data['snd_num']),
-              SizedBox(height: 80),
+              SizedBox(height: 20),
               Row(
                 children: [
                   SizedBox(width: 350),
@@ -286,7 +289,7 @@ class _FlashCardState extends State<FlashCard> {
                   SizedBox(width: 200),
                   InkWell(
                     onTap: () {
-                      // Navigator.push(context, MaterialPageRoute(builder: (context) => LearnPage()));
+                      ReadOut('${data["fst_num"]} ${sign_pron} ${data["snd_num"]}  = ${get_op_result(data["op_sign"], data["fst_num"], data["snd_num"])} ${data["op_sign"] == "÷" ? rem : "."}');
                     },
                     borderRadius: BorderRadius.circular(30),
                     child: Container(

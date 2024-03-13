@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:op_games/learn_section/flash_cards/flash_cards.dart';
-import 'package:op_games/common/image.dart';
-import 'package:op_games/learn_section/practice_section/practice_screen.dart';
+
 
 
 class LearnComplete extends StatelessWidget {
