@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:op_games/Play_Page.dart';
+import 'package:op_games/quiz_section/Play_Page.dart';
 import 'dart:math';
 
 class QuizPage extends StatefulWidget {
@@ -139,7 +139,7 @@ class _QuizPageState extends State<QuizPage> {
       }
       // Automatically move to the next question or show the back button if it's the last question
       if (currentQuestionIndex < questions.length - 1) {
-        Future.delayed(Duration(seconds: 3), () {
+        Future.delayed(Duration(seconds: 1), () {
           setState(() {
             currentQuestionIndex++;
             questionAnswered = false;

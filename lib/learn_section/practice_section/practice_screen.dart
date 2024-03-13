@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:op_games/operator.dart';
+import 'package:op_games/learn_section/operator.dart';
 import 'package:op_games/question_data/questions.dart';
 import 'package:op_games/widgets/answer_card.dart';
 import 'package:op_games/widgets/next_button.dart';

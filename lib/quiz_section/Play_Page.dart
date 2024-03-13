@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:op_games/OpMatchGame.dart';
-import 'package:op_games/Quiz_page.dart';
-import 'package:op_games/level2_quiz_screen.dart';
-import 'package:op_games/Score_page.dart';
+import 'package:op_games/quiz_section/OpMatchGame.dart';
+import 'package:op_games/quiz_section/Quiz_page.dart';
+import 'package:op_games/quiz_section/level2_quiz_screen.dart';
+import 'package:op_games/quiz_section/Score_page.dart';
 
+const cust_light_green = const Color(0x8AC5C9);
 class LevelSelectionContainer extends StatelessWidget {
   final String levelText;
   final Widget nextPage;
@@ -14,8 +15,8 @@ class LevelSelectionContainer extends StatelessWidget {
     Key? key,
     required this.levelText,
     required this.nextPage,
-    this.startColor = Colors.greenAccent,
-    this.endColor = Colors.white,
+    this.startColor = Colors.blue,
+    this.endColor = Colors.blue,
   }) : super(key: key);
 
   @override
@@ -42,7 +43,7 @@ class LevelSelectionContainer extends StatelessWidget {
           children: <Widget>[
             Text(
               levelText,
-              style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 40),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 40),
             ),
           ],
         ),

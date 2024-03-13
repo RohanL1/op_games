@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:op_games/flash_cards.dart';
-import 'package:op_games/image.dart';
-import 'package:op_games/practice_screen.dart';
+import 'package:op_games/learn_section/flash_cards/flash_cards.dart';
+import 'package:op_games/common/image.dart';
+import 'package:op_games/learn_section/practice_section/practice_screen.dart';
 
 
 class OperatorPage extends StatelessWidget {

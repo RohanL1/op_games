@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:op_games/image.dart';
-import 'package:op_games/operator.dart';
+import 'package:op_games/common/image.dart';
+import 'package:op_games/learn_section/operator.dart';
 
 
 class LearnPage extends StatelessWidget {

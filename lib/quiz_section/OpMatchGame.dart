@@ -144,7 +144,7 @@ class _OperatorsMatchingGamePageState extends State<OperatorsMatchingGamePage> {
           ],
         ),
         actions: [
-          ElevatedButton(
+          FilledButton(
             onPressed: () {
               _restartGame();
               Navigator.pop(context);
@@ -152,7 +152,7 @@ class _OperatorsMatchingGamePageState extends State<OperatorsMatchingGamePage> {
             child: Text('Restart', style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          ElevatedButton(
+          FilledButton(
             onPressed: () {
               Navigator.pop(context);
               Navigator.pop(context);
