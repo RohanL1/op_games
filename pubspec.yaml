@@ -46,6 +46,7 @@ dev_dependencies:
     sdk: flutter
   flip_card: ^0.7.0
   number_to_words_english: ^2.0.2
+  number_to_words: ^1.0.0
   animated_text_kit: ^4.2.2
   #  tts: ^1.0.2
 
