@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:op_games/quiz_section/OpMatchGame.dart';
 import 'package:op_games/quiz_section/Quiz_page.dart';
 import 'package:op_games/quiz_section/text_quiz.dart';
-import 'package:op_games/quiz_section/Score_page.dart';
 import 'package:op_games/quiz_section/mcq_quiz.dart';
 
 class LevelSelectionContainer extends StatelessWidget {
