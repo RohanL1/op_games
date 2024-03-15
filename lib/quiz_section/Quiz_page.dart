@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:op_games/Play_Page.dart';
+import 'package:op_games/quiz_section/Play_Page.dart';
 import 'dart:math';
 import 'package:number_to_words_english/number_to_words_english.dart';
 

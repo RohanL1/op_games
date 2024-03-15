@@ -40,6 +40,7 @@ class AnswerCard extends StatelessWidget {
       child: selectedAnswerIndex != null
           // if one option is chosen
           ? Container(
+              alignment: Alignment.center,
               height: 70,
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
@@ -55,11 +56,12 @@ class AnswerCard extends StatelessWidget {
               ),
               child: Row(
                 children: [
+
                   Expanded(
                     child: Text(
                       question,
                       style: const TextStyle(
-                        fontSize: 20,
+                        fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -87,12 +89,17 @@ class AnswerCard extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: Text(
+                    child:Row (children: [
+                      // SizedBox(width: 450,),
+                      Text(
                       question,
+                      // textAlign: TextAlign.center,
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 30,
+
+                        fontWeight: FontWeight.bold,
                       ),
-                    ),
+                    )]),
                   ),
                 ],
               ),

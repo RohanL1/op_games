@@ -4,7 +4,7 @@ class PictureForm extends StatelessWidget {
   final String _assetPath = "assets/orange.png";
   final int num;
   final double size;
-  PictureForm({this.num = 5, this.size = 40.0});
+  PictureForm({super.key, this.num = 5, this.size = 40.0});
 
   @override
   Widget build(BuildContext context) {

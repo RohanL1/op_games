@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:op_games/OpMatchGame.dart';
-import 'package:op_games/Quiz_page.dart';
-import 'package:op_games/level2_quiz_screen.dart';
-import 'package:op_games/Score_page.dart';
+import 'package:op_games/quiz_section/OpMatchGame.dart';
+import 'package:op_games/quiz_section/Quiz_page.dart';
+import 'package:op_games/quiz_section/text_quiz.dart';
+import 'package:op_games/quiz_section/Score_page.dart';
 
+import 'package:op_games/quiz_section/mcq_quiz.dart';
+
+const cust_light_green = const Color(0x8AC5C9);
 class LevelSelectionContainer extends StatelessWidget {
   final String levelText;
   final Widget nextPage;
@@ -14,8 +17,8 @@ class LevelSelectionContainer extends StatelessWidget {
     Key? key,
     required this.levelText,
     required this.nextPage,
-    this.startColor = Colors.greenAccent,
-    this.endColor = Colors.white,
+    this.startColor = Colors.blue,
+    this.endColor = Colors.blue,
   }) : super(key: key);
 
   @override
@@ -42,7 +45,7 @@ class LevelSelectionContainer extends StatelessWidget {
           children: <Widget>[
             Text(
               levelText,
-              style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 40),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 40),
             ),
           ],
         ),
@@ -91,41 +94,41 @@ class PlayPage extends StatelessWidget {
                         LevelSelectionContainer(levelText: 'LVL 0', nextPage: OperatorsMatchingGamePage()),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 1', nextPage: QuizPage()),
+                        LevelSelectionContainer(levelText: 'LVL 1', nextPage: McqQuiz(opSign: '+',)),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 2', nextPage: PlayScreen()),
+                        LevelSelectionContainer(levelText: 'LVL 2', nextPage: TextQuiz(opSign:'+')),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 3', nextPage: ScorePage()),
+                        LevelSelectionContainer(levelText: 'LVL 3', nextPage: McqQuiz(opSign: '-',)),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 4', nextPage: ScorePage()),
+                        LevelSelectionContainer(levelText: 'LVL 4', nextPage: TextQuiz(opSign:'-')),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL5', nextPage: ScorePage()),
+                        LevelSelectionContainer(levelText: 'LVL5', nextPage: McqQuiz(opSign: 'x',)),
                       ]
                   ),
                   SizedBox(height: 70),
                   Row(
                       children :[
                         SizedBox(width: 70),
-                        LevelSelectionContainer(levelText: 'LVL 6', nextPage: ScorePage()),
+                        LevelSelectionContainer(levelText: 'LVL 6', nextPage: TextQuiz(opSign:'x')),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 7', nextPage: ScorePage()),
+                        LevelSelectionContainer(levelText: 'LVL 7', nextPage: McqQuiz(opSign: '÷',)),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 8', nextPage: ScorePage()),
+                        LevelSelectionContainer(levelText: 'LVL 8', nextPage: TextQuiz(opSign:'÷')),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 9', nextPage: ScorePage()),
+                        LevelSelectionContainer(levelText: 'LVL 9', nextPage: McqQuiz(opSign: 'mix',)),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 10', nextPage: ScorePage()),
+                        LevelSelectionContainer(levelText: 'LVL 10', nextPage: TextQuiz(opSign:'mix')),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 11', nextPage: ScorePage()),
+                        LevelSelectionContainer(levelText: 'LVL 11', nextPage: TextQuiz(opSign:'mix')),
 
                       ]
                   ),

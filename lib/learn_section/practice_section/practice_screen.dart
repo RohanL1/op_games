@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:op_games/operator.dart';
-import 'package:op_games/question_data/questions.dart';
-import 'package:op_games/widgets/answer_card.dart';
-import 'package:op_games/widgets/next_button.dart';
+// import 'package:op_games/learn_section/operator.dart';
+import 'package:op_games/common/widgets/answer_card.dart';
+// import 'package:op_games/widgets/next_button.dart';
+import 'package:op_games/common/question_data/mcq_question.dart';
+import 'package:op_games/common/question_data/gen_mcq_questions.dart';
 
 class PracticeScreen extends StatefulWidget {
-  const PracticeScreen({super.key});
+  final String opSign;
+  const PracticeScreen({Key? key,required this.opSign}) : super(key: key);
 
   @override
   State<PracticeScreen> createState() => _PracticeScreenState();
@@ -14,6 +16,14 @@ class PracticeScreen extends StatefulWidget {
 class _PracticeScreenState extends State<PracticeScreen> {
   int? selectedAnswerIndex;
   int questionIndex = 0;
+  late double screenWidth = MediaQuery.of(context).size.width;
+  late List<McqQuestion> questions;
+
+  @override
+  void initState() {
+    super.initState();
+    questions = getMcqQuestions(widget.opSign);
+  }
 
   void pickAnswer(int value){
     selectedAnswerIndex = value;
@@ -57,7 +67,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
         ),
         child:
       Padding(
-        padding: const EdgeInsets.fromLTRB(24,100, 24,24),
+        padding: const EdgeInsets.fromLTRB(50,100, 50,50),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
@@ -74,7 +84,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
                 question.question,
                 style: const TextStyle(
                   // backgroundColor: Colors.grey,
-                  fontSize: 21,
+                  fontSize: 40,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
@@ -100,21 +110,38 @@ class _PracticeScreenState extends State<PracticeScreen> {
               },
             ),
             // Next button
-            isLastQuestion
-              ? RectangularButton(
-                onPressed:() {
+            SizedBox(height: 10,),
+            InkWell(
+              onTap: () {
+                if (questionIndex == questions.length-1 && selectedAnswerIndex != null) {
                   Navigator.pop(context);
-                } ,
-               label: 'back',
-              )
-                : RectangularButton(
-                  onPressed: 
-                      selectedAnswerIndex != null ? gotoNextQuestion : null , // () => Navigator.push(context, MaterialPageRoute(builder: (context) => OperatorPage())),
-                 label: 'next',
-                 ),
+
+                } else if (selectedAnswerIndex != null){
+                  gotoNextQuestion();
+                }
+              },
+              borderRadius: BorderRadius.circular(30),
+              child: Container(
+                width: screenWidth - screenWidth/2,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: selectedAnswerIndex != null ? Colors.lightBlue : Colors.grey,
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text( 'Next' ,
+                      style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 30),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
           ),
         ),
-      ));
+      )
+    );
   }
 }
