@@ -46,7 +46,6 @@ class _QuizPageState extends State<QuizPage> {
       }
       List<String> options = optionsSet.map((e) => e.toString()).toList();
 
-      // Shuffle options to randomize their positions
       options.shuffle();
 
       String questionText = operation == Operation.Addition ?
@@ -81,7 +80,6 @@ class _QuizPageState extends State<QuizPage> {
       questionAnswered = true;
     });
 
-    // Use a delay to simulate processing time and force a UI update.
     Future.delayed(Duration(seconds: 1), () {
       if (currentQuestionIndex < questions.length - 1) {
         setState(() {
@@ -102,7 +100,6 @@ class _QuizPageState extends State<QuizPage> {
           } else {
             score -= 5;
           }
-          // Consider adding a method call here to handle quiz completion, e.g., show results or reset.
         });
       }
     });
@@ -118,7 +115,6 @@ class _QuizPageState extends State<QuizPage> {
   String getQuestionText() {
     String questionText = questions[currentQuestionIndex].questionText;
     if (selectedLanguage == Language.Spanish) {
-      // Example of simple translation logic
       questionText = questionText.replaceAll('How many oranges are there?', '¿Cuántas naranjas hay?')
           .replaceAll('How many oranges are left?', '¿Cuántas naranjas quedan?');
     }
@@ -147,16 +143,18 @@ class _QuizPageState extends State<QuizPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pop(context),
         foregroundColor: Colors.black,
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Colors.white38,
         shape: CircleBorder(),
         child: const Icon(Icons.arrow_back_ios),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/background.png"),
-            fit: BoxFit.cover,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            // colors: [Color(0xffee9ca7), Color(0xffffdde1)],
+            colors: [Colors.white54, Colors.black54],
           ),
         ),
         child: Center(
@@ -218,21 +216,21 @@ class _QuizPageState extends State<QuizPage> {
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.black, foregroundColor: Colors.white),
                   ),
                 ),
-              SizedBox(height: 20),
-              Text('Score: $score', style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold)),
+              SizedBox(height: 30),
+              Text('Score: $score', style: TextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   FloatingActionButton(
                     onPressed: () => speakQuestion(getQuestionText()),
                     child: Icon(Icons.volume_up, size: 40),
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Colors.white38,
                   ),
                   SizedBox(width: 20),
                   FloatingActionButton(
                     onPressed: toggleLanguage,
                     child: Icon(Icons.g_translate, size: 40),
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Colors.white38,
                   ),
                 ],
               ),
@@ -336,4 +334,3 @@ class _OrangeWithSpacing extends StatelessWidget {
     );
   }
 }
-// Make sure to adjust the `OrangesDisplay` widget or add `SubtractionVisual` if you need different visuals for subtraction.
