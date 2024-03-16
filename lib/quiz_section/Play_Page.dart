@@ -80,20 +80,30 @@ class PlayPage extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: 40),
-                  Text(
-                    'LEVELS',
-                    style: TextStyle(
-                      color: Colors.black87, // Text color
-                      fontWeight: FontWeight.bold,
-                      fontSize: 50,
-                      shadows: [
-                        Shadow( // Shadow for a glowing effect
-                          blurRadius: 10.0,
-                          color: Colors.blue,
-                          offset: Offset(0, 0),
+                  Stack(
+                    children: <Widget>[
+                      // Stroked text as border.
+                      Text(
+                        'LEVELS',
+                        style: TextStyle(
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold,
+                          foreground: Paint()
+                            ..style = PaintingStyle.stroke
+                            ..strokeWidth = 6
+                            ..color = Colors.blue[700]!,
                         ),
-                      ],
-                    ),
+                      ),
+                      // Solid text as fill.
+                      Text(
+                        'LEVELS',
+                        style: TextStyle(
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 70),
                   Row(
