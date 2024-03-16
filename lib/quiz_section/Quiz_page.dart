@@ -68,7 +68,7 @@ class _QuizPageState extends State<QuizPage> {
 
   Future<void> speakQuestion(String text) async {
     await flutterTts.setLanguage(selectedLanguage == Language.English ? 'en-US' : 'es-ES');
-    await flutterTts.setSpeechRate(0.5);
+    await flutterTts.setSpeechRate(0.35);
     await flutterTts.speak(text);
   }
 
@@ -112,14 +112,20 @@ class _QuizPageState extends State<QuizPage> {
     });
   }
 
+
   String getQuestionText() {
+    // Assuming questions[currentQuestionIndex].questionText is in English
     String questionText = questions[currentQuestionIndex].questionText;
+
     if (selectedLanguage == Language.Spanish) {
-      questionText = questionText.replaceAll('How many oranges are there?', '¿Cuántas naranjas hay?')
+      // Translate or replace with the Spanish text
+      // Example:
+      questionText = questionText.replaceAll('How many oranges are there in total?', '¿Cuántas naranjas hay en total?')
           .replaceAll('How many oranges are left?', '¿Cuántas naranjas quedan?');
     }
     return questionText;
   }
+
 
   String getOptionText(String option) {
     try {
@@ -138,6 +144,11 @@ class _QuizPageState extends State<QuizPage> {
   @override
   Widget build(BuildContext context) {
     Question currentQuestion = questions[currentQuestionIndex];
+
+    double screenWidth = MediaQuery.of(context).size.width;
+    double buttonWidth = screenWidth * 0.8;
+    double maxButtonWidth = 800.0;
+    buttonWidth = buttonWidth > maxButtonWidth ? maxButtonWidth : buttonWidth;
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -175,7 +186,7 @@ class _QuizPageState extends State<QuizPage> {
               Column(
                 children: questions[currentQuestionIndex].options.map((option) {
                   return Container(
-                    width: 600, // Consider using MediaQuery to adjust for screen width.
+                    width: buttonWidth, // Consider using MediaQuery to adjust for screen width.
                     margin: EdgeInsets.only(bottom: 8), // Add some spacing between buttons
                     child: ElevatedButton(
                       onPressed: !questionAnswered ? () => checkAnswer(option) : null,
@@ -334,3 +345,4 @@ class _OrangeWithSpacing extends StatelessWidget {
     );
   }
 }
+
