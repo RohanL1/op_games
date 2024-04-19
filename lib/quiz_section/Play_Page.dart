@@ -94,7 +94,7 @@ class PlayPage extends StatelessWidget {
                         LevelSelectionContainer(levelText: 'LVL 0', nextPage: OperatorsMatchingGamePage()),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 1', nextPage: McqQuiz(opSign: '+',)),
+                        LevelSelectionContainer(levelText: 'LVL 1', nextPage: QuizPage()),
 
                         SizedBox(width: 50),
                         LevelSelectionContainer(levelText: 'LVL 2', nextPage: TextQuiz(opSign:'+')),

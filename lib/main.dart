@@ -6,7 +6,7 @@ import 'package:op_games/learn_section/learn_main.dart';
 import 'package:op_games/quiz_section/Score_page.dart';
 import 'package:op_games/quiz_section/Quiz_page.dart';
 import 'package:op_games/quiz_section/Play_Page.dart';
-
+import 'package:op_games/common/widgets/user_card.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -49,7 +49,12 @@ class HomePage extends StatelessWidget {
           child: Center(
             child: Column(
                 children :[
-                  SizedBox(height: 100),
+                  SizedBox(height: 90),
+                  UserCard(
+                    username: 'John Doe',
+                    avatarUrl: "assets/orange.png",
+                    score: 100,
+                  ),
                   ImageBanner("assets/heading.png", 350, 700),
                   SizedBox(height: 70),
                   Row(
