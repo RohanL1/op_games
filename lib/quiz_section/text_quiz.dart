@@ -370,3 +370,159 @@ class _TextQuizState extends State<TextQuiz> {
     );
   }
 }
+
+// import 'package:flutter/material.dart';
+// import 'package:op_games/common/question_data/gen_text_questions.dart';
+// import 'package:number_to_words_english/number_to_words_english.dart';
+// import 'package:op_games/common/question_data/text_question.dart';
+//
+// class TextQuiz extends StatefulWidget {
+//   final String opSign;
+//
+//   const TextQuiz({Key? key, required this.opSign}) : super(key: key);
+//
+//   @override
+//   State<TextQuiz> createState() => _TextQuizState();
+// }
+//
+// class _TextQuizState extends State<TextQuiz> {
+//   String? selectedAnswer;
+//   int questionIndex = 0;
+//   bool? isCorrect;
+//   bool isAnswerSubmitted = false;
+//   int submissionAttempts = 0;
+//   TextEditingController textEditingController = TextEditingController();
+//   late List<TextQuestion> questions;
+//   bool quizHasEnded = false;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     questions = getTextQuestions(widget.opSign, hard: true);
+//   }
+//
+//   void submitAnswer() {
+//     if (isAnswerSubmitted || selectedAnswer == null) {
+//       return;
+//     }
+//     final currQuestion = questions[questionIndex];
+//     setState(() {
+//       isCorrect = selectedAnswer?.toLowerCase() == currQuestion.answer.toLowerCase();
+//       submissionAttempts++;
+//       if (isCorrect! || submissionAttempts >= 3) {
+//         isAnswerSubmitted = true;
+//         if (questionIndex == questions.length - 1) {
+//           quizHasEnded = true;
+//         }
+//       } else {
+//         isAnswerSubmitted = false;
+//       }
+//     });
+//   }
+//
+//   void gotoNextQuestion() {
+//     if (!isAnswerSubmitted) {
+//       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please submit your answer first.')));
+//       return;
+//     }
+//     if (!quizHasEnded) {
+//       setState(() {
+//         questionIndex++;
+//         resetQuestionState();
+//       });
+//     }
+//   }
+//
+//   void resetQuestionState() {
+//     selectedAnswer = null;
+//     isCorrect = null;
+//     isAnswerSubmitted = false;
+//     submissionAttempts = 0;
+//     textEditingController.clear();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final quizQuestion = questions[questionIndex];
+//
+//     return Scaffold(
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: () {
+//           Navigator.pop(context);
+//         },
+//         foregroundColor: Colors.black,
+//         backgroundColor: Colors.lightBlue,
+//         shape: CircleBorder(),
+//
+//         child: const Icon(Icons.arrow_back_ios),
+//       ),
+//       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+//       body: Container(
+//         decoration: const BoxDecoration(
+//           image: DecorationImage(
+//             image: AssetImage('assets/background.png'),
+//             fit: BoxFit.cover,
+//           ),
+//         ),
+//         child: Padding(
+//           padding: const EdgeInsets.all(16.0),
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               Text(
+//                 'Question ${questionIndex + 1}',
+//                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+//               ),
+//               SizedBox(height: 20),
+//               Text(
+//                 quizQuestion.question,
+//                 style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+//                 textAlign: TextAlign.center,
+//               ),
+//               SizedBox(height: 40),
+//               TextField(
+//                 controller: textEditingController,
+//                 style: TextStyle(fontSize: 30),
+//                 onChanged: (value) => selectedAnswer = value,
+//                 decoration: InputDecoration(
+//                   labelText: 'Enter your answer here',
+//                   labelStyle: TextStyle(fontSize: 24),
+//                   border: OutlineInputBorder(borderSide: BorderSide(width: 2.0)),
+//                   suffixIcon: isCorrect == true
+//                       ? Icon(Icons.check_circle, color: Colors.green, size: 30)
+//                       : isCorrect == false
+//                       ? Icon(Icons.cancel, color: Colors.red, size: 30)
+//                       : null,
+//                 ),
+//                 minLines: 1,
+//                 maxLines: 2,
+//               ),
+//               SizedBox(height: 40),
+//               ElevatedButton(
+//                 onPressed: isAnswerSubmitted ? null : submitAnswer,
+//                 child: Text('Submit', style: TextStyle(fontSize: 24)),
+//                 style: ElevatedButton.styleFrom(
+//                   padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+//                 ),
+//               ),
+//               SizedBox(height: 20),
+//               if (!quizHasEnded && isAnswerSubmitted)
+//                 TextButton(
+//                   onPressed: gotoNextQuestion,
+//                   child: Text('Next Question', style: TextStyle(fontSize: 24)),
+//                 ),
+//               if (quizHasEnded)
+//                 ElevatedButton(
+//                   onPressed: () => Navigator.pop(context),
+//                   child: Text('Back to Levels', style: TextStyle(fontSize: 24)),
+//                   style: ElevatedButton.styleFrom(
+//                     padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+//                   ),
+//                 ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
