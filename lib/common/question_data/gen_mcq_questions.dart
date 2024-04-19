@@ -83,6 +83,7 @@ List<McqQuestion> getMcqQuestions(String sign, {bool hard = false}) {
         question: questionText,
         correctAnswerIndex: correctAnswerIndex,
         options: options,
+        sign: sign,
       ),
     );
   }
@@ -175,6 +176,7 @@ List<McqQuestion> getMixMcqQuestions(String sign, {bool hard = false}) {
         question: questionText,
         correctAnswerIndex: correctAnswerIndex,
         options: options,
+        sign: signs[currentSignIdx],
       ),
     );
     cnt += 1;

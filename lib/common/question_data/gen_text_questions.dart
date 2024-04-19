@@ -28,6 +28,7 @@ List<TextQuestion> getTextQuestions(String sign, {bool hard = false}) {
       TextQuestion(
         question: questionText,
         answer: NumberToWordsEnglish.convert(res),
+        sign:sign,
       ),
     );
   }
@@ -63,6 +64,7 @@ List<TextQuestion> getMixTextQuestions(String sign, {bool hard = false}) {
       TextQuestion(
         question: questionText,
         answer: NumberToWordsEnglish.convert(res),
+          sign: signs[currentSignIdx],
       ),
     );
     cnt += 1;
