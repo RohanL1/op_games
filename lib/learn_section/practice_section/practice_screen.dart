@@ -4,6 +4,7 @@ import 'package:op_games/common/widgets/answer_card.dart';
 // import 'package:op_games/widgets/next_button.dart';
 import 'package:op_games/common/question_data/mcq_question.dart';
 import 'package:op_games/common/question_data/gen_mcq_questions.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class PracticeScreen extends StatefulWidget {
   final String opSign;
@@ -13,16 +14,31 @@ class PracticeScreen extends StatefulWidget {
   State<PracticeScreen> createState() => _PracticeScreenState();
 }
 
+
+enum Language {
+  English,
+  Spanish,
+}
+
+
 class _PracticeScreenState extends State<PracticeScreen> {
   int? selectedAnswerIndex;
   int questionIndex = 0;
   late double screenWidth = MediaQuery.of(context).size.width;
   late List<McqQuestion> questions;
+  FlutterTts flutterTts = FlutterTts();
+  var currentLanguage= Language.English;
 
   @override
   void initState() {
     super.initState();
     questions = getMcqQuestions(widget.opSign);
+  }
+
+  Future<void> ReadOut(String text) async {
+    await flutterTts.setLanguage(currentLanguage == Language.English ? 'en-US' : 'es-ES');
+    await flutterTts.setSpeechRate(0.5);
+    await flutterTts.speak(text);
   }
 
   void pickAnswer(int value){
@@ -80,14 +96,27 @@ class _PracticeScreenState extends State<PracticeScreen> {
                 color: Colors.white54,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Text(
-                question.question,
-                style: const TextStyle(
-                  // backgroundColor: Colors.grey,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
+              child: Column(
+                children: [
+                  Text(
+                    'Please select the correct answer from below options',
+                    style: const TextStyle(
+                      // backgroundColor: Colors.grey,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    question.question,
+                    style: const TextStyle(
+                      // backgroundColor: Colors.grey,
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             ),
 
@@ -111,32 +140,84 @@ class _PracticeScreenState extends State<PracticeScreen> {
             ),
             // Next button
             SizedBox(height: 10,),
-            InkWell(
-              onTap: () {
-                if (questionIndex == questions.length-1 && selectedAnswerIndex != null) {
-                  Navigator.pop(context);
-
-                } else if (selectedAnswerIndex != null){
-                  gotoNextQuestion();
-                }
-              },
-              borderRadius: BorderRadius.circular(30),
-              child: Container(
-                width: screenWidth - screenWidth/2,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    ReadOut('Please select the correct answer from below options, ${question.question}');
+                  },
                   borderRadius: BorderRadius.circular(30),
-                  color: selectedAnswerIndex != null ? Colors.lightBlue : Colors.grey,
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Text( 'Next' ,
-                      style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 30),
+                  child: Container(
+                    width: 100,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.lightGreen,
                     ),
-                  ],
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.volume_up,
+                          size: 50,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
+                SizedBox(width: 170,),
+                InkWell(
+                  onTap: () {
+                    if (questionIndex == questions.length-1 && selectedAnswerIndex != null) {
+                      Navigator.pop(context);
+
+                    } else if (selectedAnswerIndex != null){
+                      gotoNextQuestion();
+                    }
+                  },
+                  borderRadius: BorderRadius.circular(30),
+                  child: Container(
+                    width: screenWidth - screenWidth/2,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: selectedAnswerIndex != null ? Colors.lightBlue : Colors.grey,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: const [
+                        Text( 'Next' ,
+                          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 30),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: 170,),
+                InkWell(
+                  onTap: () {
+                    // ReadOut();
+                  },
+                  borderRadius: BorderRadius.circular(30),
+                  child: Container(
+                    width: 100,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.lightGreen,
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.translate,
+                          size: 50,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
           ),
