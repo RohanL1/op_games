@@ -8,7 +8,9 @@ import 'flash_card_info.dart';
 import 'package:op_games/common/random_num_gen.dart';
 import 'package:op_games/learn_section/op_data.dart';
 import 'package:op_games/common/comm_functions.dart';
-
+import 'dart:developer';
+import 'package:op_games/common/global.dart';
+import 'package:op_games/common/translate/translate.dart';
 
 class FlashCard extends StatefulWidget {
   final String opSign;
@@ -17,30 +19,35 @@ class FlashCard extends StatefulWidget {
   @override
   _FlashCardState createState() => _FlashCardState();
 }
-enum Language {
-  English,
-  Spanish,
-}
+
 
 
 class _FlashCardState extends State<FlashCard> {
   FlutterTts flutterTts = FlutterTts();
   int currentCardIndex = 0;
-  var currentLanguage= Language.English;
+  int currentLanguage = 0;
+  List<String> LangKeys = [getSpeakLangKey(GlobalVariables.priLang), getSpeakLangKey(GlobalVariables.secLang)];
   late List<Map<String, dynamic>> flashCards;
 
   Future<void> ReadOut(String text) async {
-    await flutterTts.setLanguage(currentLanguage == Language.English ? 'en-US' : 'es-ES');
+    dynamic languages = await flutterTts.getLanguages ;
+    await flutterTts.setLanguage(LangKeys[currentLanguage] ); // : 'es-ES'
     await flutterTts.setSpeechRate(0.5);
     await flutterTts.speak(text);
   }
-
+  // list og lang : [ko-KR, mr-IN, ru-RU, zh-TW, hu-HU, sw-KE, th-TH, ur-PK, nb-NO, da-DK, tr-TR, et-EE, pt-PT, vi-VN, en-US, sq-AL, sv-SE, ar, su-ID, bs-BA, bn-BD, gu-IN, kn-IN, el-GR, hi-IN, fi-FI, km-KH, bn-IN, fr-FR, uk-UA, pa-IN, en-AU, lv-LV, nl-NL, fr-CA, sr, pt-BR, ml-IN, si-LK, de-DE, cs-CZ, pl-PL, sk-SK, fil-PH, it-IT, ne-NP, ms-MY, hr, en-NG, nl-BE, zh-CN, es-ES, cy, ta-IN, ja-JP, bg-BG, yue-HK, en-IN, es-US, jv-ID, id-ID, te-IN, ro-RO, ca, en-GB]
 
   @override
   void initState() {
     super.initState();
-
     flashCards  = get_op_data(widget.opSign);
+    log("current lang : $flashCards");
+  }
+
+  void changeLang(){
+    setState(() {
+      currentLanguage = currentLanguage == 0 ? 1 : 0;
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -178,7 +185,7 @@ class _FlashCardState extends State<FlashCard> {
                 ),
               ),
               Text(
-                data["op_name"],
+                data["op_name"][currentLanguage],
                 style: TextStyle(
                   color: Colors.black87,
                   fontWeight: FontWeight.bold,
@@ -186,7 +193,7 @@ class _FlashCardState extends State<FlashCard> {
                 ),
               ),
               Text(
-                data["op_def"],
+                data["op_def"][currentLanguage],
                 style: TextStyle(
                   color: Colors.black45,
                   fontWeight: FontWeight.bold,
@@ -199,7 +206,8 @@ class _FlashCardState extends State<FlashCard> {
                   SizedBox(width: 350),
                   InkWell(
                     onTap: () {
-                      // Navigator.push(context, MaterialPageRoute(builder: (context) => LearnPage()));
+                      changeLang();
+
                     },
                     borderRadius: BorderRadius.circular(30),
                     child: Container(
@@ -223,7 +231,7 @@ class _FlashCardState extends State<FlashCard> {
                   SizedBox(width: 200),
                   InkWell(
                     onTap: () {
-                      ReadOut(data['op_def']);
+                      ReadOut(data['op_def'][currentLanguage] + "; " + data['op_name'][currentLanguage]);
                     },
                     borderRadius: BorderRadius.circular(30),
                     child: Container(

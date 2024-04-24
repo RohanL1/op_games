@@ -1,6 +1,6 @@
 class McqQuestion{
-  final String question;
-  final List<String> options;
+  final List<String> question;
+  final List<List<String>> options;
   final int correctAnswerIndex;
   final String sign;
 

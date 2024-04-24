@@ -1,6 +1,6 @@
 
 class TextQuestion{
-  final String question;
+  final List<String> question;
   final String answer;
   final String sign;
 

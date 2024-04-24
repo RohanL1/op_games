@@ -48,6 +48,10 @@ dev_dependencies:
   number_to_words_english: ^2.0.2
   number_to_words: ^1.0.0
   animated_text_kit: ^4.2.2
+  spelling_number: ^0.0.4
+  flutter_svg: ^2.0.9
+  flutter_tts: ^3.0.0
+  translator: ^1.0.0
   #  tts: ^1.0.2
 
 

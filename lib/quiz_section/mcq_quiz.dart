@@ -5,6 +5,8 @@ import 'package:op_games/common/widgets/answer_card.dart';
 import 'package:op_games/common/question_data/mcq_question.dart';
 import 'package:op_games/common/question_data/gen_mcq_questions.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import "package:op_games/common/translate/translate.dart";
+import 'package:op_games/common/global.dart';
 
 class McqQuiz extends StatefulWidget {
   final String opSign;
@@ -14,18 +16,16 @@ class McqQuiz extends StatefulWidget {
   State<McqQuiz> createState() => _McqQuizState();
 }
 
-enum Language {
-  English,
-  Spanish,
-}
-
 class _McqQuizState extends State<McqQuiz> {
   int? selectedAnswerIndex;
   int questionIndex = 0;
   late double screenWidth = MediaQuery.of(context).size.width;
   late List<McqQuestion> questions;
   FlutterTts flutterTts = FlutterTts();
-  var currentLanguage= Language.English;
+  int currentLanguage= 0;
+  late Map<String, dynamic> pageLangData;
+  late List<String> quesHeading;
+  late List<String> LangKeys;
 
   @override
   void initState() {
@@ -36,10 +36,19 @@ class _McqQuizState extends State<McqQuiz> {
     else {
       questions = getMcqQuestions(widget.opSign);
     }
+    pageLangData = getMCQLanguageData(GlobalVariables.priLang, GlobalVariables.secLang);
+    quesHeading = [pageLangData["ques_heading"]["pri_lang"], pageLangData["ques_heading"]["sec_lang"]];
+    LangKeys = [getSpeakLangKey(GlobalVariables.priLang), getSpeakLangKey(GlobalVariables.secLang)];
+  }
+
+  void changeLang(){
+    setState(() {
+      currentLanguage = currentLanguage == 0 ? 1 : 0;
+    });
   }
 
   Future<void> ReadOut(String text) async {
-    await flutterTts.setLanguage(currentLanguage == Language.English ? 'en-US' : 'es-ES');
+    await flutterTts.setLanguage(LangKeys[currentLanguage]);
     await flutterTts.setSpeechRate(0.5);
     await flutterTts.speak(text);
   }
@@ -102,7 +111,7 @@ class _McqQuizState extends State<McqQuiz> {
                   child: Column(
                     children: [
                       Text(
-                        'Please select the correct answer from below options',
+                        quesHeading[currentLanguage],
                         style: const TextStyle(
                           // backgroundColor: Colors.grey,
                           fontSize: 20,
@@ -111,7 +120,7 @@ class _McqQuizState extends State<McqQuiz> {
                         textAlign: TextAlign.center,
                       ),
                       Text(
-                        question.question,
+                        question.question[currentLanguage],
                         style: const TextStyle(
                           // backgroundColor: Colors.grey,
                           fontSize: 40,
@@ -134,7 +143,7 @@ class _McqQuizState extends State<McqQuiz> {
                           : null,
                       child: AnswerCard(
                         currentIndex: index,
-                        question: question.options[index],
+                        question: question.options[index][currentLanguage],
                         isSelected: selectedAnswerIndex == index,
                         selectedAnswerIndex: selectedAnswerIndex,
                         correctAnswerIndex: question.correctAnswerIndex,
@@ -148,7 +157,7 @@ class _McqQuizState extends State<McqQuiz> {
                   children: [
                     InkWell(
                       onTap: () {
-                        ReadOut('Please select the correct answer from below options, ${question.question}');
+                        ReadOut('$quesHeading[currentLanguage], ${question.question}');
                       },
                       borderRadius: BorderRadius.circular(30),
                       child: Container(
@@ -200,7 +209,7 @@ class _McqQuizState extends State<McqQuiz> {
                     SizedBox(width: 170,),
                     InkWell(
                       onTap: () {
-                        // ReadOut();
+                        changeLang();
                       },
                       borderRadius: BorderRadius.circular(30),
                       child: Container(
