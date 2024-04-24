@@ -5,7 +5,9 @@ import 'package:op_games/common/widgets/answer_card.dart';
 import 'package:op_games/common/question_data/mcq_question.dart';
 import 'package:op_games/common/question_data/gen_mcq_questions.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-
+import "package:op_games/common/translate/translate.dart";
+import 'package:op_games/common/global.dart';
+import 'dart:developer';
 class PracticeScreen extends StatefulWidget {
   final String opSign;
   const PracticeScreen({Key? key,required this.opSign}) : super(key: key);
@@ -15,28 +17,29 @@ class PracticeScreen extends StatefulWidget {
 }
 
 
-enum Language {
-  English,
-  Spanish,
-}
-
-
 class _PracticeScreenState extends State<PracticeScreen> {
   int? selectedAnswerIndex;
   int questionIndex = 0;
   late double screenWidth = MediaQuery.of(context).size.width;
   late List<McqQuestion> questions;
   FlutterTts flutterTts = FlutterTts();
-  var currentLanguage= Language.English;
+  int currentLanguage= 0;
+  late Map<String, dynamic> pageLangData;
+  late List<String> quesHeading;
+  late List<String> LangKeys;
 
   @override
   void initState() {
     super.initState();
     questions = getMcqQuestions(widget.opSign);
+    pageLangData = getMCQLanguageData(GlobalVariables.priLang, GlobalVariables.secLang);
+    quesHeading = [pageLangData["ques_heading"]["pri_lang"], pageLangData["ques_heading"]["sec_lang"]];
+    LangKeys = [getSpeakLangKey(GlobalVariables.priLang), getSpeakLangKey(GlobalVariables.secLang)];
+    log("$quesHeading");
   }
 
   Future<void> ReadOut(String text) async {
-    await flutterTts.setLanguage(currentLanguage == Language.English ? 'en-US' : 'es-ES');
+    await flutterTts.setLanguage(LangKeys[currentLanguage]);
     await flutterTts.setSpeechRate(0.5);
     await flutterTts.speak(text);
   }
@@ -48,6 +51,12 @@ class _PracticeScreenState extends State<PracticeScreen> {
 
     }
     setState(() {});
+  }
+
+  void changeLang(){
+    setState(() {
+      currentLanguage = currentLanguage == 0 ? 1 : 0;
+    });
   }
 
   void gotoNextQuestion(){
@@ -99,7 +108,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
               child: Column(
                 children: [
                   Text(
-                    'Please select the correct answer from below options',
+                    quesHeading[currentLanguage],
                     style: const TextStyle(
                       // backgroundColor: Colors.grey,
                       fontSize: 20,
@@ -108,7 +117,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
                     textAlign: TextAlign.center,
                   ),
                   Text(
-                    question.question,
+                    question.question[currentLanguage],
                     style: const TextStyle(
                       // backgroundColor: Colors.grey,
                       fontSize: 40,
@@ -130,7 +139,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
                       : null,
                   child: AnswerCard(
                     currentIndex: index,
-                    question: question.options[index],
+                    question: question.options[index][currentLanguage],
                     isSelected: selectedAnswerIndex == index,
                     selectedAnswerIndex: selectedAnswerIndex,
                     correctAnswerIndex: question.correctAnswerIndex,
@@ -144,7 +153,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
               children: [
                 InkWell(
                   onTap: () {
-                    ReadOut('Please select the correct answer from below options, ${question.question}');
+                    ReadOut('$quesHeading[currentLanguage], ${question.question}');
                   },
                   borderRadius: BorderRadius.circular(30),
                   child: Container(
@@ -196,7 +205,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
                 SizedBox(width: 170,),
                 InkWell(
                   onTap: () {
-                    // ReadOut();
+                    changeLang();
                   },
                   borderRadius: BorderRadius.circular(30),
                   child: Container(

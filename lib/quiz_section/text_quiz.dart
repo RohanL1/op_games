@@ -3,8 +3,9 @@ import 'package:op_games/common/question_data/gen_text_questions.dart';
 import 'package:op_games/common/question_data/text_question.dart';
 // import 'package:op_games/common/widgets/next_button.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'dart:developer';
-
+// import 'dart:developer';
+import "package:op_games/common/translate/translate.dart";
+import 'package:op_games/common/global.dart';
 
 class TextQuiz extends StatefulWidget {
   final String opSign;
@@ -14,12 +15,6 @@ class TextQuiz extends StatefulWidget {
   State<TextQuiz> createState() => _TextQuizState();
 }
 
-enum Language {
-  English,
-  Spanish,
-}
-
-
 class _TextQuizState extends State<TextQuiz> {
   String? selectedAnswer;
   int questionIndex = 0;
@@ -28,18 +23,11 @@ class _TextQuizState extends State<TextQuiz> {
   int submissionAttempts = 0;
   String feedbackMessage = '';
   FlutterTts flutterTts = FlutterTts();
-  var currentLanguage= Language.English;
+  int currentLanguage= 0;
+  late Map<String, dynamic> pageLangData;
+  late List<String> quesHeading;
+  late List<String> LangKeys;
 
-  Map<String,dynamic> component_data = {
-    'ques' : {
-      'eng' : 'Please type your answer below',
-      'es'  : 'Por favor escriba su respuesta a continuación'
-    },
-    'ans' : {
-      'eng' : 'Enter your Answer in words',
-      'es'  : 'Por favor escriba su respuesta a continuación'
-    }
-  };
 
   TextEditingController textEditingController = TextEditingController();
   late List<TextQuestion> questions;
@@ -52,10 +40,13 @@ class _TextQuizState extends State<TextQuiz> {
     else {
       questions = getTextQuestions(widget.opSign);
     }
+    pageLangData = getMCQLanguageData(GlobalVariables.priLang, GlobalVariables.secLang);
+    quesHeading = [pageLangData["ques_heading"]["pri_lang"], pageLangData["ques_heading"]["sec_lang"]];
+    LangKeys = [getSpeakLangKey(GlobalVariables.priLang), getSpeakLangKey(GlobalVariables.secLang)];
   }
 
   Future<void> ReadOut(String text) async {
-    await flutterTts.setLanguage(currentLanguage == Language.English ? 'en-US' : 'es-ES');
+    await flutterTts.setLanguage(LangKeys[currentLanguage]);
     await flutterTts.setSpeechRate(0.5);
     await flutterTts.speak(text);
   }
@@ -125,7 +116,7 @@ class _TextQuizState extends State<TextQuiz> {
   Widget build(BuildContext context) {
 
     final quizquestion = questions[questionIndex];
-    log('data: $questions');
+    // log('data: $questions');
 
     bool isLastQuestion = questionIndex == questions.length - 1;
     bool isFirstQuestion = questionIndex == 0;
@@ -172,7 +163,7 @@ class _TextQuizState extends State<TextQuiz> {
                   textAlign: TextAlign.center,
                 ),
                   Text(
-                  quizquestion.question,
+                  quizquestion.question[currentLanguage],
                   style: const TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,

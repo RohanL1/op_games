@@ -2,6 +2,10 @@
 import 'package:op_games/common/question_data/mcq_question.dart';
 import 'package:op_games/common/random_num_gen.dart';
 import 'package:number_to_words_english/number_to_words_english.dart';
+import 'package:op_games/common/translate/translate.dart';
+import 'package:op_games/common/global.dart';
+import 'package:spelling_number/spelling_number.dart';
+// import 'dart:developer';
 
 List<McqQuestion> getMcqQuestions(String sign, {bool hard = false}) {
 
@@ -9,7 +13,8 @@ List<McqQuestion> getMcqQuestions(String sign, {bool hard = false}) {
   int totalQuestions = 5;
   int numQuesLim = 2;
   numQuesLim -= 1;
-
+  List<String> langKey = [getNumToWordLangKey(GlobalVariables.priLang),getNumToWordLangKey(GlobalVariables.secLang) ];
+  
   List<List<int>> data = [];
 
   for (int i = 0; i < totalQuestions; i++) {
@@ -19,10 +24,13 @@ List<McqQuestion> getMcqQuestions(String sign, {bool hard = false}) {
   List<McqQuestion> questions = [];
 
   for (int i = 0; i < data.length; i++) {
-    String questionText = '${data[i][0]} $sign ${data[i][1]}';
+    List<String> questionText = ['${data[i][0]} $sign ${data[i][1]}', '${data[i][0]} $sign ${data[i][1]}'];
     if (i>numQuesLim) {
-      questionText = '${NumberToWordsEnglish.convert(data[i][0])} $sign ${NumberToWordsEnglish.convert(data[i][1])}';
+      questionText = ['${SpellingNumber(lang: langKey[0]).convert(data[i][0])} $sign ${SpellingNumber(lang: langKey[0]).convert(data[i][1])}',
+        '${SpellingNumber(lang: langKey[1]).convert(data[i][0])} $sign ${SpellingNumber(lang: langKey[1]).convert(data[i][1])}'
+      ];
     }
+    
 
     List<int> rawOptions = [
       data[i][0] + data[i][1],
@@ -60,21 +68,21 @@ List<McqQuestion> getMcqQuestions(String sign, {bool hard = false}) {
     int correctAnswerIndex = shuffledOptions.indexOf(rawOptions[rawCorrect]);
 
     // Create options list with labels
-    List<String> options =[];
+    List<List<String>> options =[];
     if (i>numQuesLim){
       options = [
-        'a) ${NumberToWordsEnglish.convert(shuffledOptions[0])}',
-        'b) ${NumberToWordsEnglish.convert(shuffledOptions[1])}',
-        'c) ${NumberToWordsEnglish.convert(shuffledOptions[2])}',
-        'd) ${NumberToWordsEnglish.convert(shuffledOptions[3])}',
+        ['a) ${SpellingNumber(lang: langKey[0]).convert(shuffledOptions[0])}', 'a) ${SpellingNumber(lang: langKey[1]).convert(shuffledOptions[0])}'],
+        ['b) ${SpellingNumber(lang: langKey[0]).convert(shuffledOptions[1])}', 'b) ${SpellingNumber(lang: langKey[1]).convert(shuffledOptions[1])}'],
+        ['c) ${SpellingNumber(lang: langKey[0]).convert(shuffledOptions[2])}', 'c) ${SpellingNumber(lang: langKey[1]).convert(shuffledOptions[2])}'],
+        ['d) ${SpellingNumber(lang: langKey[0]).convert(shuffledOptions[3])}', 'd) ${SpellingNumber(lang: langKey[1]).convert(shuffledOptions[3])}'],
       ];
     }
     else {
       options = [
-        'a) ${shuffledOptions[0]}',
-        'b) ${shuffledOptions[1]}',
-        'c) ${shuffledOptions[2]}',
-        'd) ${shuffledOptions[3]}',
+        ['a) ${shuffledOptions[0]}','a) ${shuffledOptions[0]}'],
+        ['b) ${shuffledOptions[1]}','b) ${shuffledOptions[1]}'],
+        ['c) ${shuffledOptions[2]}','c) ${shuffledOptions[2]}'],
+        ['d) ${shuffledOptions[3]}','d) ${shuffledOptions[3]}'],
       ];
     }
 
@@ -87,7 +95,7 @@ List<McqQuestion> getMcqQuestions(String sign, {bool hard = false}) {
       ),
     );
   }
-
+  // log("$questions");
   return questions;
 }
 
@@ -102,7 +110,7 @@ List<McqQuestion> getMixMcqQuestions(String sign, {bool hard = false}) {
   int totalQuestions = 20;
   int numQuesLim = 2;
   numQuesLim -= 1;
-
+  List<String> langKey = [getNumToWordLangKey(GlobalVariables.priLang),getNumToWordLangKey(GlobalVariables.secLang) ];
   List<List<int>> data = [];
 
   for (int i = 0; i < totalQuestions; i++) {
@@ -112,9 +120,11 @@ List<McqQuestion> getMixMcqQuestions(String sign, {bool hard = false}) {
   List<McqQuestion> questions = [];
 
   for (int i = 0; i < data.length; i++) {
-    String questionText = '${data[i][0]} ${signs[currentSignIdx]} ${data[i][1]}';
+    List<String> questionText = ['${data[i][0]} $sign ${data[i][1]}', '${data[i][0]} $sign ${data[i][1]}'];
     if (cnt>numQuesLim) {
-      questionText = '${NumberToWordsEnglish.convert(data[i][0])} ${signs[currentSignIdx]} ${NumberToWordsEnglish.convert(data[i][1])}';
+      questionText = ['${SpellingNumber(lang: langKey[0]).convert(data[i][0])} $sign ${SpellingNumber(lang: langKey[0]).convert(data[i][1])}',
+        '${SpellingNumber(lang: langKey[1]).convert(data[i][0])} $sign ${SpellingNumber(lang: langKey[1]).convert(data[i][1])}'
+      ];
     }
 
     List<int> rawOptions = [
@@ -153,21 +163,21 @@ List<McqQuestion> getMixMcqQuestions(String sign, {bool hard = false}) {
     int correctAnswerIndex = shuffledOptions.indexOf(rawOptions[rawCorrect]);
 
     // Create options list with labels
-    List<String> options =[];
+    List<List<String>> options =[];
     if (cnt>numQuesLim){
       options = [
-        'a) ${NumberToWordsEnglish.convert(shuffledOptions[0])}',
-        'b) ${NumberToWordsEnglish.convert(shuffledOptions[1])}',
-        'c) ${NumberToWordsEnglish.convert(shuffledOptions[2])}',
-        'd) ${NumberToWordsEnglish.convert(shuffledOptions[3])}',
+        ['a) ${SpellingNumber(lang: langKey[0]).convert(shuffledOptions[0])}', 'a) ${SpellingNumber(lang: langKey[1]).convert(shuffledOptions[0])}'],
+        ['b) ${SpellingNumber(lang: langKey[0]).convert(shuffledOptions[1])}', 'b) ${SpellingNumber(lang: langKey[1]).convert(shuffledOptions[1])}'],
+        ['c) ${SpellingNumber(lang: langKey[0]).convert(shuffledOptions[2])}', 'c) ${SpellingNumber(lang: langKey[1]).convert(shuffledOptions[2])}'],
+        ['d) ${SpellingNumber(lang: langKey[0]).convert(shuffledOptions[3])}', 'd) ${SpellingNumber(lang: langKey[1]).convert(shuffledOptions[3])}'],
       ];
     }
     else {
       options = [
-        'a) ${shuffledOptions[0]}',
-        'b) ${shuffledOptions[1]}',
-        'c) ${shuffledOptions[2]}',
-        'd) ${shuffledOptions[3]}',
+        ['a) ${shuffledOptions[0]}','a) ${shuffledOptions[0]}'],
+        ['b) ${shuffledOptions[1]}','b) ${shuffledOptions[1]}'],
+        ['c) ${shuffledOptions[2]}','c) ${shuffledOptions[2]}'],
+        ['d) ${shuffledOptions[3]}','d) ${shuffledOptions[3]}'],
       ];
     }
 
@@ -185,6 +195,6 @@ List<McqQuestion> getMixMcqQuestions(String sign, {bool hard = false}) {
       currentSignIdx += 1;
     }
   }
-
+  // log("$questions");
   return questions;
 }
