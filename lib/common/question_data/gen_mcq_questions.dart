@@ -27,7 +27,7 @@ List<McqQuestion> getMcqQuestions(String sign, {bool hard = false}) {
     List<String> questionText = ['${data[i][0]} $sign ${data[i][1]}', '${data[i][0]} $sign ${data[i][1]}'];
     if (i>numQuesLim) {
       questionText = ['${SpellingNumber(lang: langKey[0]).convert(data[i][0])} $sign ${SpellingNumber(lang: langKey[0]).convert(data[i][1])}',
-        '${SpellingNumber(lang: langKey[1]).convert(data[i][0])} $sign ${SpellingNumber(lang: langKey[1]).convert(data[i][1])}'
+          '${SpellingNumber(lang: langKey[1]).convert(data[i][0])} $sign ${SpellingNumber(lang: langKey[1]).convert(data[i][1])}'
       ];
     }
     
