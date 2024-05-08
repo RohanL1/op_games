@@ -7,6 +7,7 @@ import 'package:op_games/common/question_data/gen_mcq_questions.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import "package:op_games/common/translate/translate.dart";
 import 'package:op_games/common/global.dart';
+import 'package:op_games/quiz_section/result_page.dart';
 
 class McqQuiz extends StatefulWidget {
   final String opSign;
@@ -26,6 +27,9 @@ class _McqQuizState extends State<McqQuiz> {
   late Map<String, dynamic> pageLangData;
   late List<String> quesHeading;
   late List<String> LangKeys;
+  int score = 0;
+  int correctAnswersCount = 0;
+  List<Map<String, dynamic>> questionResults = [];
 
   @override
   void initState() {
@@ -39,6 +43,15 @@ class _McqQuizState extends State<McqQuiz> {
     pageLangData = getMCQLanguageData(GlobalVariables.priLang, GlobalVariables.secLang);
     quesHeading = [pageLangData["ques_heading"]["pri_lang"], pageLangData["ques_heading"]["sec_lang"]];
     LangKeys = [getSpeakLangKey(GlobalVariables.priLang), getSpeakLangKey(GlobalVariables.secLang)];
+
+    questionResults = List.generate(questions.length, (_) => {
+      "question": "",
+      "options": [],
+      "selected_ans_index": -1, // -1 means no answer selected
+      "is_right": false,
+      "sign": ""
+    });
+
   }
 
   void changeLang(){
@@ -56,8 +69,18 @@ class _McqQuizState extends State<McqQuiz> {
   void pickAnswer(int value){
     selectedAnswerIndex = value;
     final question = questions[questionIndex];
-    if (selectedAnswerIndex == question.correctAnswerIndex){
 
+    questionResults[questionIndex] = {
+      "question": question.question[0],
+      "options": question.options,
+      "selected_ans_index": selectedAnswerIndex,
+      "correct_ans_index":question.correctAnswerIndex,
+      "is_right": selectedAnswerIndex == question.correctAnswerIndex,
+      "sign": question.sign
+    };
+    if (selectedAnswerIndex == question.correctAnswerIndex){
+      score += 2;
+      correctAnswersCount++;
     }
     setState(() {});
   }
@@ -181,9 +204,16 @@ class _McqQuizState extends State<McqQuiz> {
                     SizedBox(width: 170,),
                     InkWell(
                       onTap: () {
+                        //print("..Current Question Index: $questionIndex");
+                        //print("..Total Questions: ${questions.length}");
                         if (questionIndex == questions.length-1 && selectedAnswerIndex != null) {
-                          Navigator.pop(context);
-
+                          // print("..Navigating to results page.");
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ResultsPage(
+                            correctAnswersCount: correctAnswersCount,
+                            totalQuestions: questions.length,
+                            score: score,
+                            questionResults: questionResults,
+                          )));
                         } else if (selectedAnswerIndex != null){
                           gotoNextQuestion();
                         }
