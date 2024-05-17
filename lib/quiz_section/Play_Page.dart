@@ -3,12 +3,14 @@ import 'package:op_games/quiz_section/OpMatchGame.dart';
 import 'package:op_games/quiz_section/Quiz_page.dart';
 import 'package:op_games/quiz_section/text_quiz.dart';
 import 'package:op_games/quiz_section/mcq_quiz.dart';
+import 'package:op_games/common/global.dart';
 
 class LevelSelectionContainer extends StatelessWidget {
   final String levelText;
   final Widget nextPage;
   final Color startColor;
   final Color endColor;
+  final isUnlocked;
 
   const LevelSelectionContainer({
     Key? key,
@@ -16,13 +18,19 @@ class LevelSelectionContainer extends StatelessWidget {
     required this.nextPage,
     this.startColor = Colors.greenAccent,
     this.endColor = Colors.white,
+    required this.isUnlocked,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var heading = isUnlocked ? Text( levelText, style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 40),)
+        : Icon(Icons.lock, size: 100, color: Colors.black38,);
     return InkWell(
       onTap: () {
+        if (isUnlocked)
         Navigator.push(context, MaterialPageRoute(builder: (context) => nextPage));
+        else
+          ()=> {};
       },
       borderRadius: BorderRadius.circular(30),
       child: Container(
@@ -32,7 +40,7 @@ class LevelSelectionContainer extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           gradient: LinearGradient(
-            colors: [startColor, endColor],
+            colors: isUnlocked ? [startColor, endColor] : [Colors.grey, Colors.black12],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -40,10 +48,7 @@ class LevelSelectionContainer extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              levelText,
-              style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 40),
-            ),
+            heading,
           ],
         ),
       ),
@@ -56,6 +61,10 @@ class PlayPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<bool> isUnlockedList = [] ;
+    for (int i = 0; i <= 11; i++){
+      isUnlockedList.add(GlobalVariables.levels[i].isUnlocked);
+    }
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -109,22 +118,22 @@ class PlayPage extends StatelessWidget {
                   Row(
                       children :[
                         SizedBox(width: 70),
-                        LevelSelectionContainer(levelText: 'LVL 0', nextPage: OperatorsMatchingGamePage()),
+                        LevelSelectionContainer(levelText: '0', isUnlocked: isUnlockedList[0], nextPage: OperatorsMatchingGamePage()),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 1', nextPage: QuizPage()),
+                        LevelSelectionContainer(levelText: '1', isUnlocked: isUnlockedList[1], nextPage: QuizPage()),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 2', nextPage: TextQuiz(opSign:'+')),
+                        LevelSelectionContainer(levelText: '2', isUnlocked: isUnlockedList[2], nextPage: TextQuiz(opSign:'+')),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 3', nextPage: McqQuiz(opSign: '-')),
+                        LevelSelectionContainer(levelText: '3', isUnlocked: isUnlockedList[3], nextPage: McqQuiz(opSign: '-')),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 4', nextPage: TextQuiz(opSign:'-')),
+                        LevelSelectionContainer(levelText: '4', isUnlocked: isUnlockedList[4], nextPage: TextQuiz(opSign:'-')),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL5', nextPage: McqQuiz(opSign: 'x')),
+                        LevelSelectionContainer(levelText: '5', isUnlocked: isUnlockedList[5] ,nextPage: McqQuiz(opSign: 'x')),
 
                       ]
                   ),
@@ -132,22 +141,22 @@ class PlayPage extends StatelessWidget {
                   Row(
                       children :[
                         SizedBox(width: 70),
-                        LevelSelectionContainer(levelText: 'LVL 6', nextPage: TextQuiz(opSign: 'x')),
+                        LevelSelectionContainer(levelText: '6', isUnlocked: isUnlockedList[6], nextPage: TextQuiz(opSign: 'x')),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 7', nextPage: McqQuiz(opSign: '÷')),
+                        LevelSelectionContainer(levelText: '7', isUnlocked: isUnlockedList[7], nextPage: McqQuiz(opSign: '÷')),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 8', nextPage: TextQuiz(opSign: '÷')),
+                        LevelSelectionContainer(levelText: '8', isUnlocked: isUnlockedList[8], nextPage: TextQuiz(opSign: '÷')),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 9', nextPage: McqQuiz(opSign: 'mix')),
+                        LevelSelectionContainer(levelText: '9', isUnlocked: isUnlockedList[9], nextPage: McqQuiz(opSign: 'mix')),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 10', nextPage: TextQuiz(opSign: 'mix')),
+                        LevelSelectionContainer(levelText: '10', isUnlocked: isUnlockedList[10], nextPage: TextQuiz(opSign: 'mix')),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: 'LVL 11', nextPage: TextQuiz(opSign: 'mix')),
+                        LevelSelectionContainer(levelText: '11', isUnlocked: isUnlockedList[11], nextPage: TextQuiz(opSign: 'mix')),
 
                       ]
                   ),
