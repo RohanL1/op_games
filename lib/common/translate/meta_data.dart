@@ -1,6 +1,9 @@
 Map<String, dynamic> languageData = {
   "languages": ["English", "Spanish", "Hindi"],
   "pages": {
+    "TextQuestion" : {
+
+    },
     "MCQ" : {
       "ques_heading" : {
         "English": "Please select the correct answer from below options",
