@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:op_games/quiz_section/single_question_details.dart';
 
 class DetailsPage extends StatelessWidget {
   final List<Map<String, dynamic>> questionResults;
@@ -11,63 +10,64 @@ class DetailsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Details'),
-        backgroundColor: Colors.teal,
       ),
       body: Container(
         decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/background.png'),
-            fit: BoxFit.cover,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.white54, Colors.black54],
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.max, // Ensures it occupies all available space
-            children: [
-              Expanded( // Makes the ListView take all the space minus AppBar and padding
-                child: ListView.builder(
-                  itemCount: questionResults.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    Map<String, dynamic> question = questionResults[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)), // Rounded corners
-          child: Container(
-            constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.8), // Ensures the dialog doesn't take full height
-            child: SingleQuestionPage(questionData: question),
-          ),
-        );
-      },
-    );
-  },
-                        //onPressed: () {
-                         // Navigator.of(context).push(MaterialPageRoute(
-                         // builder: (context) => SingleQuestionPage(questionData: question),
-                        //  ));
-                        //},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: question['is_right'] ? Colors.green : Colors.red,
-                          minimumSize: Size(double.infinity, 50), // Ensures the button stretches to fill the width
-                          padding: EdgeInsets.symmetric(vertical: 20), // Increases button height
-                        ),
-                        child: Text('Question ${index + 1}'),
+        child: ListView.builder(
+          padding: const EdgeInsets.all(16.0),
+          itemCount: questionResults.length,
+          itemBuilder: (context, index) {
+            final result = questionResults[index];
+            return Card(
+              margin: const EdgeInsets.symmetric(vertical: 6.0),
+              color: Colors.white70,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              elevation: 5,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Question ${index + 1}: ${result['question']}',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 1),
+                    Text(
+                      'Your Answer: ${result['options'][result['selected_ans_index']]}',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: result['is_right'] ? Colors.green : Colors.red,
                       ),
-                    );
-                  },
+                    ),
+                    Text(
+                      'Correct Answer: ${result['options'][result['correct_ans_index']]}',
+                      style: const TextStyle(fontSize: 16, color: Colors.blue),
+                    ),
+                    const SizedBox(height: 1),
+                    Text(
+                      'Result: ${result['is_right'] ? 'Correct' : 'Incorrect'}',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: result['is_right'] ? Colors.green : Colors.red,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
   }
 }
-
