@@ -1,8 +1,358 @@
+// import 'package:flutter/material.dart';
+// import 'package:flutter_tts/flutter_tts.dart';
+// import 'package:op_games/quiz_section/Play_Page.dart';
+// import 'dart:math';
+// import 'package:number_to_words_english/number_to_words_english.dart';
+//
+// enum Language { English, Spanish }
+// enum Operation { Addition, Subtraction }
+//
+// class QuizPage extends StatefulWidget {
+//   const QuizPage({Key? key}) : super(key: key);
+//
+//   @override
+//   _QuizPageState createState() => _QuizPageState();
+// }
+//
+// class _QuizPageState extends State<QuizPage> {
+//   int score = 0;
+//   int currentQuestionIndex = 0;
+//   Language selectedLanguage = Language.English;
+//   late FlutterTts flutterTts;
+//   bool isLastQuestion = false;
+//   bool questionAnswered = false;
+//   String? selectedOption;
+//   late List<Question> questions;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     flutterTts = FlutterTts();
+//     questions = generateRandomQuestions(5); // For example, generate 5 random questions at initialization
+//   }
+//   List<Question> generateRandomQuestions(int count) {
+//     List<Question> generatedQuestions = [];
+//     Random random = Random();
+//
+//     for (int i = 0; i < count; i++) {
+//       Operation operation = random.nextBool() ? Operation.Addition : Operation.Subtraction;
+//       int firstNumber = random.nextInt(5) + 1; // Generates a number between 1 and 5
+//       int secondNumber = random.nextInt(5) + 1; // Generates a number between 1 and 5
+//       int result = operation == Operation.Addition ? firstNumber + secondNumber : firstNumber - secondNumber;
+//
+//       Set<int> optionsSet = {result};
+//       while (optionsSet.length < 4) {
+//         optionsSet.add(random.nextInt(10) + 1);
+//       }
+//       List<String> options = optionsSet.map((e) => e.toString()).toList();
+//
+//       options.shuffle();
+//
+//       String questionText = operation == Operation.Addition ?
+//       "How many oranges are there in total?" :
+//       "How many oranges are left?";
+//       String correctAnswer = result.toString();
+//
+//       generatedQuestions.add(Question(
+//         questionText: questionText,
+//         options: options,
+//         correctAnswer: correctAnswer,
+//         numberOfOranges: result, // This might need adjustment based on your visual representation needs
+//         orangeSets: [firstNumber, secondNumber],
+//         operation: operation,
+//       ));
+//     }
+//
+//     return generatedQuestions;
+//   }
+//
+//   Future<void> speakQuestion(String text) async {
+//     await flutterTts.setLanguage(selectedLanguage == Language.English ? 'en-US' : 'es-ES');
+//     await flutterTts.setSpeechRate(0.35);
+//     await flutterTts.speak(text);
+//   }
+//
+//   void checkAnswer(String selectedAnswer) {
+//     bool isCorrect = selectedAnswer == questions[currentQuestionIndex].correctAnswer;
+//
+//     setState(() {
+//       selectedOption = selectedAnswer;
+//       questionAnswered = true;
+//     });
+//
+//     Future.delayed(Duration(seconds: 1), () {
+//       if (currentQuestionIndex < questions.length - 1) {
+//         setState(() {
+//           if (isCorrect) {
+//             score += 10;
+//           } else {
+//             score -= 5;
+//           }
+//           currentQuestionIndex++;
+//           questionAnswered = false;
+//           selectedOption = null;
+//         });
+//       } else {
+//         setState(() {
+//           isLastQuestion = true;
+//           if (isCorrect) {
+//             score += 10;
+//           } else {
+//             score -= 5;
+//           }
+//         });
+//       }
+//     });
+//   }
+//
+//
+//   void toggleLanguage() {
+//     setState(() {
+//       selectedLanguage = selectedLanguage == Language.English ? Language.Spanish : Language.English;
+//     });
+//   }
+//
+//
+//   String getQuestionText() {
+//     // Assuming questions[currentQuestionIndex].questionText is in English
+//     String questionText = questions[currentQuestionIndex].questionText;
+//
+//     if (selectedLanguage == Language.Spanish) {
+//       // Translate or replace with the Spanish text
+//       // Example:
+//       questionText = questionText.replaceAll('How many oranges are there in total?', '¿Cuántas naranjas hay en total?')
+//           .replaceAll('How many oranges are left?', '¿Cuántas naranjas quedan?');
+//     }
+//     return questionText;
+//   }
+//
+//
+//   String getOptionText(String option) {
+//     try {
+//       // Attempt to parse the option to an integer.
+//       final int number = int.parse(option);
+//
+//       // Convert the number to words.
+//       String inWords = NumberToWordsEnglish.convert(number);
+//
+//       return inWords;
+//     } catch (e) {
+//       // If the option is not a number, return it as is.
+//       return option;
+//     }
+//   }
+//   @override
+//   Widget build(BuildContext context) {
+//     Question currentQuestion = questions[currentQuestionIndex];
+//
+//     double screenWidth = MediaQuery.of(context).size.width;
+//     double buttonWidth = screenWidth * 0.8;
+//     double maxButtonWidth = 800.0;
+//     buttonWidth = buttonWidth > maxButtonWidth ? maxButtonWidth : buttonWidth;
+//
+//     return Scaffold(
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: () => Navigator.pop(context),
+//         foregroundColor: Colors.black,
+//         backgroundColor: Colors.white38,
+//         shape: CircleBorder(),
+//         child: const Icon(Icons.arrow_back_ios),
+//       ),
+//       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+//       body: Container(
+//         decoration: BoxDecoration(
+//           gradient: LinearGradient(
+//             begin: Alignment.topLeft,
+//             end: Alignment.bottomRight,
+//             // colors: [Color(0xffee9ca7), Color(0xffffdde1)],
+//             colors: [Colors.white54, Colors.black54],
+//           ),
+//         ),
+//         child: Center(
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               OrangesDisplay(
+//                 firstSetOfOranges: currentQuestion.orangeSets[0],
+//                 secondSetOfOranges: currentQuestion.orangeSets[1],
+//                 operation: currentQuestion.operation,
+//               ),
+//               SizedBox(height: 20),
+//               Text(
+//                 getQuestionText(),
+//                 style: TextStyle(color: Colors.black87, fontSize: 36, fontWeight: FontWeight.w900),
+//               ),
+//               SizedBox(height: 20),
+//               Column(
+//                 children: questions[currentQuestionIndex].options.map((option) {
+//                   return Container(
+//                     width: buttonWidth, // Consider using MediaQuery to adjust for screen width.
+//                     margin: EdgeInsets.only(bottom: 8), // Add some spacing between buttons
+//                     child: ElevatedButton(
+//                       onPressed: !questionAnswered ? () => checkAnswer(option) : null,
+//                       child: Text(
+//                         getOptionText(option), // This method should handle the conversion or fetching of the option text.
+//                         style: TextStyle(
+//                           color: Colors.black87,
+//                           fontSize: 30,
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                       style: ButtonStyle(
+//                         backgroundColor: MaterialStateProperty.resolveWith<Color>(
+//                               (states) {
+//                             // Change the color based on the answer status
+//                             if (!questionAnswered) return Colors.white54; // Default color before selection
+//                             if (option == selectedOption && option != questions[currentQuestionIndex].correctAnswer) return Colors.redAccent; // Wrong answer
+//                             if (option == questions[currentQuestionIndex].correctAnswer) return Colors.greenAccent; // Correct answer
+//                             return Colors.white54; // Default color for unselected options
+//                           },
+//                         ),
+//                       ),
+//                     ),
+//                   );
+//                 }).toList(),
+//               ),
+//
+//
+//
+//               if (isLastQuestion && questionAnswered)
+//                 Padding(
+//                   padding: const EdgeInsets.symmetric(vertical: 16.0),
+//                   child: ElevatedButton(
+//                     onPressed: () {
+//                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlayPage())); // Use pushReplacement to prevent going back to the quiz
+//                     },
+//                     child: Text('Back to Levels', style: TextStyle(fontSize: 20)),
+//                     style: ElevatedButton.styleFrom(backgroundColor: Colors.black, foregroundColor: Colors.white),
+//                   ),
+//                 ),
+//               SizedBox(height: 30),
+//               Text('Score: $score', style: TextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold)),
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   FloatingActionButton(
+//                     onPressed: () => speakQuestion(getQuestionText()),
+//                     child: Icon(Icons.volume_up, size: 40),
+//                     backgroundColor: Colors.white38,
+//                   ),
+//                   SizedBox(width: 20),
+//                   FloatingActionButton(
+//                     onPressed: toggleLanguage,
+//                     child: Icon(Icons.g_translate, size: 40),
+//                     backgroundColor: Colors.white38,
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
+// class Question {
+//   final String questionText;
+//   final List<String> options;
+//   final String correctAnswer;
+//   final int numberOfOranges;
+//   final List<int> orangeSets;
+//   final Operation operation;
+//
+//   Question({
+//     required this.questionText,
+//     required this.options,
+//     required this.correctAnswer,
+//     required this.numberOfOranges,
+//     required this.orangeSets,
+//     required this.operation,
+//   });
+// }
+//
+// class OrangesDisplay extends StatelessWidget {
+//   final int firstSetOfOranges;
+//   final int secondSetOfOranges;
+//   final Operation operation;
+//
+//   const OrangesDisplay({
+//     Key? key,
+//     required this.firstSetOfOranges,
+//     required this.secondSetOfOranges,
+//     required this.operation,
+//   }) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       children: [
+//         _Oranges(count: firstSetOfOranges),
+//         // Displaying operation symbol
+//         Padding(
+//           padding: const EdgeInsets.symmetric(horizontal: 8.0),
+//           child: Text(
+//             operation == Operation.Addition ? '+' : '-',
+//             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+//           ),
+//         ),
+//         _Oranges(count: secondSetOfOranges),
+//       ],
+//     );
+//   }
+// }
+//
+// class _Oranges extends StatelessWidget {
+//   final int count;
+//
+//   const _Oranges({Key? key, required this.count}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       children: List.generate(
+//         count,
+//             (index) => _OrangeWithSpacing(),
+//       ),
+//     );
+//   }
+// }
+//
+// class _Orange extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       decoration: BoxDecoration(
+//         border: Border.all(color: Colors.black, width: 2),
+//         borderRadius: BorderRadius.circular(8),
+//       ),
+//       child: Image.asset(
+//         'assets/orange.png',
+//         width: 60,
+//         height: 60,
+//       ),
+//     );
+//   }
+// }
+//
+// class _OrangeWithSpacing extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 4.0), // Adjust spacing between oranges as needed
+//       child: _Orange(),
+//     );
+//   }
+// }
+//
+
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:op_games/quiz_section/Play_Page.dart';
 import 'dart:math';
 import 'package:number_to_words_english/number_to_words_english.dart';
+import 'package:op_games/quiz_section/result_page.dart';
 
 enum Language { English, Spanish }
 enum Operation { Addition, Subtraction }
@@ -15,21 +365,31 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  int score = 0;
   int currentQuestionIndex = 0;
   Language selectedLanguage = Language.English;
   late FlutterTts flutterTts;
-  bool isLastQuestion = false;
   bool questionAnswered = false;
   String? selectedOption;
   late List<Question> questions;
+
+  int score = 0;
+  int correctAnswersCount = 0;
+  List<Map<String, dynamic>> questionResults = [];
 
   @override
   void initState() {
     super.initState();
     flutterTts = FlutterTts();
     questions = generateRandomQuestions(5); // For example, generate 5 random questions at initialization
+    questionResults = List.generate(questions.length, (_) => {
+      "question": "",
+      "options": [],
+      "selected_ans_index": -1, // -1 means no answer selected
+      "is_right": false,
+      "sign": ""
+    });
   }
+
   List<Question> generateRandomQuestions(int count) {
     List<Question> generatedQuestions = [];
     Random random = Random();
@@ -45,7 +405,6 @@ class _QuizPageState extends State<QuizPage> {
         optionsSet.add(random.nextInt(10) + 1);
       }
       List<String> options = optionsSet.map((e) => e.toString()).toList();
-
       options.shuffle();
 
       String questionText = operation == Operation.Addition ?
@@ -80,31 +439,43 @@ class _QuizPageState extends State<QuizPage> {
       questionAnswered = true;
     });
 
+    final question = questions[currentQuestionIndex];
+    questionResults[currentQuestionIndex] = {
+      "question": question.questionText,
+      "options": question.options,
+      "selected_ans_index": questions[currentQuestionIndex].options.indexOf(selectedAnswer),
+      "correct_ans_index": questions[currentQuestionIndex].options.indexOf(question.correctAnswer),
+      "is_right": isCorrect,
+      "sign": question.operation == Operation.Addition ? "+" : "-"
+    };
+
+    if (isCorrect) {
+      score += 2;
+      correctAnswersCount++;
+    }
+
     Future.delayed(Duration(seconds: 1), () {
       if (currentQuestionIndex < questions.length - 1) {
         setState(() {
-          if (isCorrect) {
-            score += 10;
-          } else {
-            score -= 5;
-          }
           currentQuestionIndex++;
           questionAnswered = false;
           selectedOption = null;
         });
       } else {
-        setState(() {
-          isLastQuestion = true;
-          if (isCorrect) {
-            score += 10;
-          } else {
-            score -= 5;
-          }
-        });
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ResultsPage(
+              correctAnswersCount: correctAnswersCount,
+              totalQuestions: questions.length,
+              score: score,
+              questionResults: questionResults,
+            ),
+          ),
+        );
       }
     });
   }
-
 
   void toggleLanguage() {
     setState(() {
@@ -112,35 +483,25 @@ class _QuizPageState extends State<QuizPage> {
     });
   }
 
-
   String getQuestionText() {
-    // Assuming questions[currentQuestionIndex].questionText is in English
     String questionText = questions[currentQuestionIndex].questionText;
-
     if (selectedLanguage == Language.Spanish) {
-      // Translate or replace with the Spanish text
-      // Example:
       questionText = questionText.replaceAll('How many oranges are there in total?', '¿Cuántas naranjas hay en total?')
           .replaceAll('How many oranges are left?', '¿Cuántas naranjas quedan?');
     }
     return questionText;
   }
 
-
   String getOptionText(String option) {
     try {
-      // Attempt to parse the option to an integer.
       final int number = int.parse(option);
-
-      // Convert the number to words.
       String inWords = NumberToWordsEnglish.convert(number);
-
       return inWords;
     } catch (e) {
-      // If the option is not a number, return it as is.
       return option;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     Question currentQuestion = questions[currentQuestionIndex];
@@ -164,7 +525,6 @@ class _QuizPageState extends State<QuizPage> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            // colors: [Color(0xffee9ca7), Color(0xffffdde1)],
             colors: [Colors.white54, Colors.black54],
           ),
         ),
@@ -186,12 +546,26 @@ class _QuizPageState extends State<QuizPage> {
               Column(
                 children: questions[currentQuestionIndex].options.map((option) {
                   return Container(
-                    width: buttonWidth, // Consider using MediaQuery to adjust for screen width.
-                    margin: EdgeInsets.only(bottom: 8), // Add some spacing between buttons
+                    width: buttonWidth,
+                    margin: EdgeInsets.only(bottom: 8),
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.black, width: 2),
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
                     child: ElevatedButton(
                       onPressed: !questionAnswered ? () => checkAnswer(option) : null,
                       child: Text(
-                        getOptionText(option), // This method should handle the conversion or fetching of the option text.
+                        getOptionText(option),
                         style: TextStyle(
                           color: Colors.black87,
                           fontSize: 30,
@@ -199,49 +573,52 @@ class _QuizPageState extends State<QuizPage> {
                         ),
                       ),
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        backgroundColor: WidgetStateProperty.resolveWith<Color>(
                               (states) {
-                            // Change the color based on the answer status
-                            if (!questionAnswered) return Colors.white54; // Default color before selection
-                            if (option == selectedOption && option != questions[currentQuestionIndex].correctAnswer) return Colors.redAccent; // Wrong answer
-                            if (option == questions[currentQuestionIndex].correctAnswer) return Colors.greenAccent; // Correct answer
-                            return Colors.white54; // Default color for unselected options
+                            if (!questionAnswered) return Colors.white54;
+                            if (option == selectedOption && option != questions[currentQuestionIndex].correctAnswer) return Colors.redAccent;
+                            if (option == questions[currentQuestionIndex].correctAnswer) return Colors.greenAccent;
+                            return Colors.white54;
                           },
                         ),
+                        shadowColor: WidgetStateProperty.all(Colors.transparent),
+                        elevation: WidgetStateProperty.all(0),
                       ),
                     ),
                   );
                 }).toList(),
               ),
-
-
-
-              if (isLastQuestion && questionAnswered)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PlayPage())); // Use pushReplacement to prevent going back to the quiz
-                    },
-                    child: Text('Back to Levels', style: TextStyle(fontSize: 20)),
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.black, foregroundColor: Colors.white),
-                  ),
-                ),
               SizedBox(height: 30),
-              Text('Score: $score', style: TextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.bold)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FloatingActionButton(
-                    onPressed: () => speakQuestion(getQuestionText()),
-                    child: Icon(Icons.volume_up, size: 40),
-                    backgroundColor: Colors.white38,
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.bottomCenter,
+                      child: SizedBox(
+                        width: 80, // Increase the width as needed
+                        height: 80, // Increase the height as needed
+                        child: FloatingActionButton(
+                          onPressed: () => speakQuestion(getQuestionText()),
+                          child: Icon(Icons.volume_up, size: 60),
+                          backgroundColor: Colors.white70,
+                        ),
+                      ),
+                    ),
                   ),
-                  SizedBox(width: 20),
-                  FloatingActionButton(
-                    onPressed: toggleLanguage,
-                    child: Icon(Icons.g_translate, size: 40),
-                    backgroundColor: Colors.white38,
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.bottomCenter,
+                      child: SizedBox(
+                        width: 80, // Increase the width as needed
+                        height: 80, // Increase the height as needed
+                        child: FloatingActionButton(
+                          onPressed: toggleLanguage,
+                          child: Icon(Icons.g_translate, size: 60),
+                          backgroundColor: Colors.white70,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -289,12 +666,11 @@ class OrangesDisplay extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _Oranges(count: firstSetOfOranges),
-        // Displaying operation symbol
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Text(
             operation == Operation.Addition ? '+' : '-',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 64, fontWeight: FontWeight.bold),
           ),
         ),
         _Oranges(count: secondSetOfOranges),
@@ -323,9 +699,19 @@ class _Orange extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(8), // Adjust padding as needed
       decoration: BoxDecoration(
+        color: Colors.white, // Background color for the box
         border: Border.all(color: Colors.black, width: 2),
         borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
       ),
       child: Image.asset(
         'assets/orange.png',
@@ -336,13 +722,13 @@ class _Orange extends StatelessWidget {
   }
 }
 
+
 class _OrangeWithSpacing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0), // Adjust spacing between oranges as needed
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: _Orange(),
     );
   }
 }
-
