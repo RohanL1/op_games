@@ -160,6 +160,7 @@ class _McqQuizState extends State<McqQuiz> {
                 totalQuestions: questions.length,
                 score: score,
                 questionResults: questionResults,
+                questionType: "mcq",
               ),
             ),
           );
@@ -184,6 +185,7 @@ class _McqQuizState extends State<McqQuiz> {
             totalQuestions: questions.length,
             score: score,
             questionResults: questionResults,
+            questionType: "mcq",
           ),
         ),
       );
@@ -320,6 +322,7 @@ class _McqQuizState extends State<McqQuiz> {
                         totalQuestions: questions.length,
                         score: score,
                         questionResults: questionResults,
+                        questionType: "mcq",
                       )));
                     },
                     child: Text('Finish', style: TextStyle(fontSize: 20)),

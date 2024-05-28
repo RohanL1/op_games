@@ -470,6 +470,7 @@ class _QuizPageState extends State<QuizPage> {
               totalQuestions: questions.length,
               score: score,
               questionResults: questionResults,
+              questionType: "mcq",
             ),
           ),
         );
@@ -573,7 +574,7 @@ class _QuizPageState extends State<QuizPage> {
                         ),
                       ),
                       style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                        backgroundColor: MaterialStateProperty.resolveWith<Color>(
                               (states) {
                             if (!questionAnswered) return Colors.white54;
                             if (option == selectedOption && option != questions[currentQuestionIndex].correctAnswer) return Colors.redAccent;
@@ -581,8 +582,8 @@ class _QuizPageState extends State<QuizPage> {
                             return Colors.white54;
                           },
                         ),
-                        shadowColor: WidgetStateProperty.all(Colors.transparent),
-                        elevation: WidgetStateProperty.all(0),
+                        shadowColor: MaterialStateProperty.all(Colors.transparent),
+                        elevation: MaterialStateProperty.all(0),
                       ),
                     ),
                   );

@@ -118,6 +118,7 @@ class _TextQuizState extends State<TextQuiz> {
         totalQuestions: questions.length,
         score: score,
         questionResults: questionResults,
+        questionType: "text",
       )));
     }
     setState(() {});
@@ -177,7 +178,7 @@ class _TextQuizState extends State<TextQuiz> {
                 child: Column(
                   children: [
                     Text(
-                  'Please type your answer below',
+                  'Please enter your answer below',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -207,7 +208,7 @@ class _TextQuizState extends State<TextQuiz> {
                   fontWeight: FontWeight.bold, // Make the text bold
                 ),
                 decoration: InputDecoration(
-                  hintText: '...',
+                  hintText: "Please type your answer in words (e.g., 'Two' instead of '2').",// need to change the hintText according to the user selected language
                   border: OutlineInputBorder(),
                   filled: true, // Enable filling of the background
                   fillColor: isCorrect == null ? Colors.white54 : isCorrect == true ? Colors.green : Colors.red, // Set background color based on correctness

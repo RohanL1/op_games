@@ -6,6 +6,7 @@ class ResultsPage extends StatelessWidget {
   final int totalQuestions;
   final int score;
   final List<Map<String, dynamic>> questionResults; 
+  final String questionType;
 
   const ResultsPage({
     Key? key,
@@ -13,6 +14,7 @@ class ResultsPage extends StatelessWidget {
     required this.totalQuestions,
     required this.score,
     required this.questionResults,
+    required this.questionType
   }) : super(key: key);
 
   @override
@@ -62,7 +64,7 @@ class ResultsPage extends StatelessWidget {
                     SizedBox(height: 10),
                     ElevatedButton(
                           onPressed: () {
-                            Navigator.push(context,MaterialPageRoute(builder: (context) => DetailsPage(questionResults: questionResults),),);        
+                            Navigator.push(context,MaterialPageRoute(builder: (context) => DetailsPage(questionResults: questionResults,questionType: questionType,),),);        
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.teal, 
