@@ -1,33 +1,35 @@
 import 'package:flutter/material.dart';
-// import 'package:op_games/learn_section/operator.dart';
 import 'package:op_games/common/widgets/answer_card.dart';
 // import 'package:op_games/widgets/next_button.dart';
-import 'package:op_games/common/question_data/mcq_question.dart';
-import 'package:op_games/common/question_data/gen_mcq_questions.dart';
+import 'package:op_games/common/question_data/mcq_img_question.dart';
+import 'package:op_games/common/question_data/gen_mcq_img_questions.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import "package:op_games/common/translate/translate.dart";
 import 'package:op_games/common/global.dart';
 import 'package:op_games/quiz_section/result_page.dart';
 import 'package:op_games/common/level/level_info.dart';
-import 'dart:developer';
-class McqQuiz extends StatefulWidget {
+
+
+
+class McqImgQuiz extends StatefulWidget {
   final String opSign;
   final LevelInfo level;
-  const McqQuiz({Key? key,required this.opSign, required this.level }) : super(key: key);
+  const McqImgQuiz({super.key,required this.opSign, required this.level });
 
   @override
-  State<McqQuiz> createState() => _McqQuizState();
+  State<McqImgQuiz> createState() => _McqImgQuizState();
 }
 
-class _McqQuizState extends State<McqQuiz> {
+class _McqImgQuizState extends State<McqImgQuiz> {
   int? selectedAnswerIndex;
   int questionIndex = 0;
   late double screenWidth = MediaQuery.of(context).size.width;
-  late List<McqQuestion> questions;
+  late List<McqImgQuestion> questions;
   FlutterTts flutterTts = FlutterTts();
   int currentLanguage= 0;
   late Map<String, dynamic> pageLangData;
   late List<String> quesHeading;
+  late List<String> imgName;
   late List<String> LangKeys;
   int score = 0;
   int correctAnswersCount = 0;
@@ -37,13 +39,15 @@ class _McqQuizState extends State<McqQuiz> {
   void initState() {
     super.initState();
     if (widget.opSign == 'mix'){
-      questions = getMixMcqQuestions(widget.opSign);
+      questions = getMixMcqImgQuestions(widget.opSign);
     }
     else {
-      questions = getMcqQuestions(widget.opSign);
+      questions = getMcqImgQuestions(widget.opSign);
     }
-    pageLangData = getMCQLanguageData(GlobalVariables.priLang, GlobalVariables.secLang);
+    pageLangData = getMcqImgLanguageData(GlobalVariables.priLang, GlobalVariables.secLang, widget.opSign);
     quesHeading = [pageLangData["ques_heading"]["pri_lang"], pageLangData["ques_heading"]["sec_lang"]];
+    imgName = [pageLangData["img_name"]["pri_lang"], pageLangData["img_name"]["sec_lang"]];
+
     LangKeys = [getSpeakLangKey(GlobalVariables.priLang), getSpeakLangKey(GlobalVariables.secLang)];
 
     questionResults = List.generate(questions.length, (_) => {
@@ -120,13 +124,13 @@ class _McqQuizState extends State<McqQuiz> {
           ),
           child:
           Padding(
-            padding: const EdgeInsets.fromLTRB(50,100, 50,50),
+            padding: const EdgeInsets.fromLTRB(200,100, 200,50),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
               children: [
                 Container(
-                  height: 100,
+                  height: 120,
                   width: 1500,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
@@ -144,15 +148,21 @@ class _McqQuizState extends State<McqQuiz> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      Text(
-                        question.question[currentLanguage],
-                        style: const TextStyle(
-                          // backgroundColor: Colors.grey,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
+                      SizedBox(height: 10,),
+                      OrangesDisplay(
+                        firstSetOfOranges: question.firstNum,
+                        secondSetOfOranges: question.secNum,
+                        sign: question.sign,
                       ),
+                      // Text(
+                      //   question.question[currentLanguage],
+                      //   style: const TextStyle(
+                      //     // backgroundColor: Colors.grey,
+                      //     fontSize: 40,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      //   textAlign: TextAlign.center,
+                      // ),
                     ],
                   )
 
@@ -182,7 +192,8 @@ class _McqQuizState extends State<McqQuiz> {
                   children: [
                     InkWell(
                       onTap: () {
-                        ReadOut('$quesHeading[currentLanguage], ${question.question}');
+                        ReadOut('${quesHeading[currentLanguage]}, ${question.firstNum} ${imgName[currentLanguage]} ${question.sign} '
+                            '${question.secNum} ${imgName[currentLanguage]}');
                       },
                       borderRadius: BorderRadius.circular(30),
                       child: Container(
@@ -211,14 +222,12 @@ class _McqQuizState extends State<McqQuiz> {
                         if (questionIndex == questions.length-1 && selectedAnswerIndex != null) {
                           // print("..Navigating to results page.");
                           widget.level.updateScore(score);
-                          log("global score: " + GlobalVariables.totalScore.toString());
-                          log(GlobalVariables.levels[widget.level.levelNumber].toString());
                           Navigator.push(context, MaterialPageRoute(builder: (context) => ResultsPage(
                             correctAnswersCount: correctAnswersCount,
                             totalQuestions: questions.length,
                             score: score,
                             questionResults: questionResults,
-                            questionType: "mcq",
+                            questionType: "mcq_img",
                           )));
                         } else if (selectedAnswerIndex != null){
                           gotoNextQuestion();
@@ -226,15 +235,15 @@ class _McqQuizState extends State<McqQuiz> {
                       },
                       borderRadius: BorderRadius.circular(30),
                       child: Container(
-                        width: screenWidth - screenWidth/2,
+                        width: screenWidth/4,
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           color: selectedAnswerIndex != null ? Colors.lightBlue : Colors.grey,
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: const [
+                          children: [
                             Text( 'Next' ,
                               style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 30),
                             ),
@@ -272,6 +281,106 @@ class _McqQuizState extends State<McqQuiz> {
             ),
           ),
         )
+    );
+  }
+}
+
+class OrangesWithNumber extends StatelessWidget {
+  final int count;
+
+  const OrangesWithNumber({Key? key, required this.count}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: List.generate(
+            count,
+                (index) => _OrangeWithSpacing(),
+          ),
+        ),
+        // SizedBox(height: 10),
+        // Container(
+        //   padding: EdgeInsets.all(6),
+        //   decoration: BoxDecoration(
+        //     color: Colors.white,
+        //     border: Border.all(color: Colors.black, width: 6),
+        //     borderRadius: BorderRadius.circular(8),
+        //   ),
+        //   child: Text(
+        //     count.toString(),
+        //     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        //   ),
+        // ),
+      ],
+    );
+  }
+}
+
+class OrangesDisplay extends StatelessWidget {
+  final int firstSetOfOranges;
+  final int secondSetOfOranges;
+  final String sign;
+
+  const OrangesDisplay({
+    Key? key,
+    required this.firstSetOfOranges,
+    required this.secondSetOfOranges,
+    required this.sign,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        OrangesWithNumber(count: firstSetOfOranges),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text(
+            sign,
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+          ),
+        ),
+        OrangesWithNumber(count: secondSetOfOranges),
+      ],
+    );
+  }
+}
+class _Orange extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(8), // Adjust padding as needed
+      decoration: BoxDecoration(
+        color: Colors.white, // Background color for the box
+        border: Border.all(color: Colors.black, width: 2),
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Image.asset(
+        'assets/orange.png',
+        width: 50,
+        height: 50,
+      ),
+    );
+  }
+}
+
+class _OrangeWithSpacing extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: _Orange(),
     );
   }
 }

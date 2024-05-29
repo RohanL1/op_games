@@ -1,6 +1,29 @@
 import 'package:op_games/common/translate/meta_data.dart';
 import 'dart:developer';
 
+
+Map<String, dynamic> getTextLanguageData(String language1, String language2) {
+  Map<String, dynamic> result = {};
+  List<String> languages = languageData["languages"];
+  if (!languages.contains(language1) || !languages.contains(language2)) {
+    language1 = language2 = "English";
+  }
+  result["languages"] = [language1, language2];
+  result["ques_heading"] = {
+    "pri_lang": languageData["pages"]["TextQuestion"]["ques_heading"][language1],
+    "sec_lang": languageData["pages"]["TextQuestion"]["ques_heading"][language2],
+  };
+  result["pop_up_heading"] = {
+    "pri_lang": languageData["pages"]["TextQuestion"]["pop_up_heading"][language1],
+    "sec_lang": languageData["pages"]["TextQuestion"]["pop_up_heading"][language2],
+  };
+  result["hint_text"] = {
+    "pri_lang": languageData["pages"]["TextQuestion"]["hint_text"][language1],
+    "sec_lang": languageData["pages"]["TextQuestion"]["hint_text"][language2],
+  };
+  return result;
+}
+
 Map<String, dynamic> getMCQLanguageData(String language1, String language2) {
   Map<String, dynamic> result = {};
   List<String> languages = languageData["languages"];
@@ -14,6 +37,25 @@ Map<String, dynamic> getMCQLanguageData(String language1, String language2) {
   };
   return result;
 }
+
+Map<String, dynamic> getMcqImgLanguageData(String language1, String language2, String sign) {
+  Map<String, dynamic> result = {};
+  List<String> languages = languageData["languages"];
+  if (!languages.contains(language1) || !languages.contains(language2)) {
+    language1 = language2 = "English";
+  }
+  result["languages"] = [language1, language2];
+  result["ques_heading"] = {
+    "pri_lang": languageData["pages"]["MCQ_IMG"]["ques_heading"][sign][language1],
+    "sec_lang": languageData["pages"]["MCQ_IMG"]["ques_heading"][sign][language2],
+  };
+  result["img_name"] = {
+    "pri_lang": languageData["pages"]["MCQ_IMG"]["img_name"][language1],
+    "sec_lang": languageData["pages"]["MCQ_IMG"]["img_name"][language2],
+  };
+  return result;
+}
+
 Map<String, dynamic> getFlashCardLanguageData(String language1, String language2) {
   Map<String, dynamic> result = {};
 

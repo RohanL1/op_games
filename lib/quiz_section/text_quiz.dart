@@ -3,14 +3,16 @@ import 'package:op_games/common/question_data/gen_text_questions.dart';
 import 'package:op_games/common/question_data/text_question.dart';
 // import 'package:op_games/common/widgets/next_button.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-// import 'dart:developer';
+import 'dart:developer';
 import "package:op_games/common/translate/translate.dart";
 import 'package:op_games/common/global.dart';
 import 'package:op_games/quiz_section/result_page.dart';
+import 'package:op_games/common/level/level_info.dart';
 
 class TextQuiz extends StatefulWidget {
   final String opSign;
-  const TextQuiz({super.key,required this.opSign});
+  final LevelInfo level;
+  const TextQuiz({super.key,required this.opSign, required this.level });
 
   @override
   State<TextQuiz> createState() => _TextQuizState();
@@ -27,6 +29,8 @@ class _TextQuizState extends State<TextQuiz> {
   int currentLanguage= 0;
   late Map<String, dynamic> pageLangData;
   late List<String> quesHeading;
+  late List<String> hintText;
+  late List<String> popUpText;
   late List<String> LangKeys;
   int score = 0;
   int correctAnswersCount = 0;
@@ -44,9 +48,17 @@ class _TextQuizState extends State<TextQuiz> {
     else {
       questions = getTextQuestions(widget.opSign);
     }
-    pageLangData = getMCQLanguageData(GlobalVariables.priLang, GlobalVariables.secLang);
+    pageLangData = getTextLanguageData(GlobalVariables.priLang, GlobalVariables.secLang);
     quesHeading = [pageLangData["ques_heading"]["pri_lang"], pageLangData["ques_heading"]["sec_lang"]];
+    hintText = [pageLangData["hint_text"]["pri_lang"], pageLangData["hint_text"]["sec_lang"]];
+    popUpText = [pageLangData["pop_up_heading"]["pri_lang"], pageLangData["pop_up_heading"]["sec_lang"]];
     LangKeys = [getSpeakLangKey(GlobalVariables.priLang), getSpeakLangKey(GlobalVariables.secLang)];
+  }
+
+  void changeLang(){
+    setState(() {
+      currentLanguage = currentLanguage == 0 ? 1 : 0;
+    });
   }
 
   Future<void> ReadOut(String text) async {
@@ -69,7 +81,8 @@ class _TextQuizState extends State<TextQuiz> {
       return ;
     }
     final currQuestion = questions[questionIndex];
-    bool correct = selectedAnswer?.toLowerCase() == currQuestion.answer.toLowerCase();
+    bool correct = selectedAnswer?.toLowerCase() == currQuestion.answer.toLowerCase() ||
+        selectedAnswer?.toLowerCase() == currQuestion.answer.replaceAll("-", "").toLowerCase() ;
     if (correct) {
       setState(() {
         isCorrect = true;
@@ -91,7 +104,7 @@ class _TextQuizState extends State<TextQuiz> {
       'question': currQuestion.question[currentLanguage],
       'correctAnswer': currQuestion.answer,
       'enteredAnswer': selectedAnswer,
-      'isCorrect': correct,
+      'is_right': correct,
       'sign': widget.opSign
     });
   }
@@ -101,7 +114,7 @@ class _TextQuizState extends State<TextQuiz> {
       // Show a SnackBar if no answer is submitted
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Please submit your answer before proceeding.'),
+          content: Text(popUpText[currentLanguage]),
         ),
       );
       return;
@@ -113,11 +126,13 @@ class _TextQuizState extends State<TextQuiz> {
       isAnswerSubmitted = false; // Reset answer submitted status
       textEditingController.clear(); // Clear text field
     }else{
+      widget.level.updateScore(score);
       Navigator.push(context, MaterialPageRoute(builder: (context) => ResultsPage(
         correctAnswersCount: correctAnswersCount,
         totalQuestions: questions.length,
         score: score,
         questionResults: questionResults,
+        questionType: "text",
       )));
     }
     setState(() {});
@@ -177,7 +192,7 @@ class _TextQuizState extends State<TextQuiz> {
                 child: Column(
                   children: [
                     Text(
-                  'Please type your answer below',
+                      quesHeading[currentLanguage],
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -207,7 +222,7 @@ class _TextQuizState extends State<TextQuiz> {
                   fontWeight: FontWeight.bold, // Make the text bold
                 ),
                 decoration: InputDecoration(
-                  hintText: '...',
+                  hintText: hintText[currentLanguage],// need to change the hintText according to the user selected language,
                   border: OutlineInputBorder(),
                   filled: true, // Enable filling of the background
                   fillColor: isCorrect == null ? Colors.white54 : isCorrect == true ? Colors.green : Colors.red, // Set background color based on correctness
@@ -249,7 +264,7 @@ class _TextQuizState extends State<TextQuiz> {
                   //   ),
                   InkWell(
                     onTap: () {
-                      ReadOut('Please type your answer below, ${quizquestion.question}');
+                      ReadOut('${quesHeading[currentLanguage]} ${quizquestion.question[currentLanguage]}');
                     },
                     borderRadius: BorderRadius.circular(30),
                     child: Container(
@@ -331,7 +346,7 @@ class _TextQuizState extends State<TextQuiz> {
                   SizedBox(width: 180),
                   InkWell(
                     onTap: () {
-
+                      changeLang();
                     },
                     borderRadius: BorderRadius.circular(30),
                     child: Container(

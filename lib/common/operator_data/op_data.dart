@@ -1,10 +1,26 @@
-// import 'dart:math';
 import 'package:op_games/common/random_num_gen.dart';
-import 'package:number_to_words_english/number_to_words_english.dart';
 import 'package:op_games/common/translate/translate.dart';
-// import 'dart:developer';
 import 'package:op_games/common/global.dart';
 import 'package:spelling_number/spelling_number.dart';
+
+Map<String, Map<String, dynamic>> data = {
+  '+': {
+    'op_sign': '+',
+    'op_name': 'PLUS',
+  },
+  '-': {
+    'op_sign': '-',
+    'op_name': 'MINUS',
+  },
+  'x': {
+    'op_sign': 'x',
+    'op_name': 'MULTIPLICATION',
+  },
+  '÷': {
+    'op_sign': '÷',
+    'op_name': 'DIVISION',
+  },
+};
 
 List<Map<String, dynamic>> get_op_data(String sign){
   Map<String, dynamic> flashcardLangData= getFlashCardLanguageData(GlobalVariables.priLang, GlobalVariables.secLang);

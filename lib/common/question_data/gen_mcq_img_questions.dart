@@ -1,13 +1,12 @@
 
-import 'package:op_games/common/question_data/mcq_question.dart';
+import 'package:op_games/common/question_data/mcq_img_question.dart';
 import 'package:op_games/common/random_num_gen.dart';
-import 'package:number_to_words_english/number_to_words_english.dart';
 import 'package:op_games/common/translate/translate.dart';
 import 'package:op_games/common/global.dart';
 import 'package:spelling_number/spelling_number.dart';
 // import 'dart:developer';
 
-List<McqQuestion> getMcqQuestions(String sign, {bool hard = false}) {
+List<McqImgQuestion> getMcqImgQuestions(String sign, {bool hard = false}) {
 
   int numLimit = sign== '÷'? hard ? 30 : 20 : hard ? 20 : 10;
   int totalQuestions = 5;
@@ -21,7 +20,7 @@ List<McqQuestion> getMcqQuestions(String sign, {bool hard = false}) {
     data.add(getRandomNumbersWithLimit(numLimit, numLimit));
   }
 
-  List<McqQuestion> questions = [];
+  List<McqImgQuestion> questions = [];
 
   for (int i = 0; i < data.length; i++) {
     List<String> questionText = ['${data[i][0]} $sign ${data[i][1]}', '${data[i][0]} $sign ${data[i][1]}'];
@@ -87,8 +86,10 @@ List<McqQuestion> getMcqQuestions(String sign, {bool hard = false}) {
     }
 
     questions.add(
-      McqQuestion(
+      McqImgQuestion(
         question: questionText,
+        firstNum: data[i][0],
+        secNum: data[i][1],
         correctAnswerIndex: correctAnswerIndex,
         options: options,
         sign: sign,
@@ -101,7 +102,7 @@ List<McqQuestion> getMcqQuestions(String sign, {bool hard = false}) {
 
 
 
-List<McqQuestion> getMixMcqQuestions(String sign, {bool hard = false}) {
+List<McqImgQuestion> getMixMcqImgQuestions(String sign, {bool hard = false}) {
 
   List<String> signs = ['+', '-', 'x', '÷'];
   int cnt = 0;
@@ -117,13 +118,13 @@ List<McqQuestion> getMixMcqQuestions(String sign, {bool hard = false}) {
     data.add(getRandomNumbersWithLimit(numLimit, numLimit));
   }
 
-  List<McqQuestion> questions = [];
+  List<McqImgQuestion> questions = [];
 
   for (int i = 0; i < data.length; i++) {
-    List<String> questionText = ['${data[i][0]} ${signs[currentSignIdx]} ${data[i][1]}', '${data[i][0]} ${signs[currentSignIdx]} ${data[i][1]}'];
+    List<String> questionText = ['${data[i][0]} $sign ${data[i][1]}', '${data[i][0]} $sign ${data[i][1]}'];
     if (cnt>numQuesLim) {
-      questionText = ['${SpellingNumber(lang: langKey[0]).convert(data[i][0])} ${signs[currentSignIdx]} ${SpellingNumber(lang: langKey[0]).convert(data[i][1])}',
-        '${SpellingNumber(lang: langKey[1]).convert(data[i][0])} ${signs[currentSignIdx]} ${SpellingNumber(lang: langKey[1]).convert(data[i][1])}'
+      questionText = ['${SpellingNumber(lang: langKey[0]).convert(data[i][0])} $sign ${SpellingNumber(lang: langKey[0]).convert(data[i][1])}',
+        '${SpellingNumber(lang: langKey[1]).convert(data[i][0])} $sign ${SpellingNumber(lang: langKey[1]).convert(data[i][1])}'
       ];
     }
 
@@ -182,8 +183,10 @@ List<McqQuestion> getMixMcqQuestions(String sign, {bool hard = false}) {
     }
 
     questions.add(
-      McqQuestion(
+      McqImgQuestion(
         question: questionText,
+        firstNum: data[i][0],
+        secNum: data[i][1],
         correctAnswerIndex: correctAnswerIndex,
         options: options,
         sign: signs[currentSignIdx],

@@ -6,7 +6,7 @@ import 'package:op_games/learn_section/learn_complete.dart';
 import 'package:op_games/learn_section/operator.dart';
 import 'flash_card_info.dart';
 import 'package:op_games/common/random_num_gen.dart';
-import 'package:op_games/learn_section/op_data.dart';
+import 'package:op_games/common/operator_data/op_data.dart';
 import 'package:op_games/common/comm_functions.dart';
 import 'dart:developer';
 import 'package:op_games/common/global.dart';

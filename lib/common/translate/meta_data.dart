@@ -2,8 +2,45 @@ Map<String, dynamic> languageData = {
   "languages": ["English", "Spanish", "Hindi"],
   "pages": {
     "TextQuestion" : {
+      'pop_up_heading' :{
+        "English": 'Please submit your answer before proceeding.',
+        "Spanish": 'Por favor envíe su respuesta antes de continuar.',
+        "Hindi": "कृपया आगे बढ़ने से पहले अपना उत्तर प्रस्तुत करें।",
+
+      },
+      'ques_heading':{
+        "English": "Please type your answer below",
+        "Spanish": "Por favor escriba su respuesta a continuación",
+        "Hindi": "कृपया अपना उत्तर नीचे लिखें",
+      },
+      "hint_text":{
+        "English": "Please type your answer in words (e.g., 'Two' instead of '2').",
+        "Spanish": "Escriba su respuesta en palabras (por ejemplo, 'Dos' en lugar de '2')",
+        "Hindi": "कृपया अपना उत्तर शब्दों में लिखें (जैसे, '2' के बजाय 'two')।",
+      }
 
     },
+    "MCQ_IMG" : {
+      "img_name":{
+        "English": 'oranges',
+        "Spanish": 'naranjas',
+        "Hindi": "संतरे",
+      },
+      "ques_heading" :
+      {
+        '-' : {
+          "English": 'How many oranges are left?',
+          "Spanish": '¿Cuántas naranjas quedan?',
+          "Hindi": "कितने संतरे बचे हैं?",
+        },
+        '+' : {
+          "English": 'How many oranges are there in total?',
+          "Spanish": '¿Cuántas naranjas hay en total?',
+          "Hindi": "कुल कितने संतरे हैं?",
+        }
+      }
+    },
+
     "MCQ" : {
       "ques_heading" : {
         "English": "Please select the correct answer from below options",

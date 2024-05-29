@@ -2,28 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:op_games/common/image.dart';
 import 'package:op_games/learn_section/operator.dart';
-
+import 'package:op_games/common/operator_data/op_data.dart';
 
 class LearnPage extends StatelessWidget {
   const LearnPage({super.key});
-  static Map<String, Map<String, dynamic>> data = {
-    '+': {
-      'op_sign': '+',
-      'op_name': 'PLUS',
-    },
-    '-': {
-      'op_sign': '-',
-      'op_name': 'MINUS',
-    },
-    'x': {
-      'op_sign': 'x',
-      'op_name': 'MULTIPLICATION',
-    },
-    '÷': {
-      'op_sign': '÷',
-      'op_name': 'DIVISION',
-    },
-  };
 
   @override
   Widget build(BuildContext context) {

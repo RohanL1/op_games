@@ -1,41 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:op_games/common/level/level_info.dart';
 import 'package:op_games/quiz_section/OpMatchGame.dart';
 import 'package:op_games/quiz_section/Quiz_page.dart';
 import 'package:op_games/quiz_section/text_quiz.dart';
 import 'package:op_games/quiz_section/mcq_quiz.dart';
 import 'package:op_games/common/global.dart';
+import 'package:op_games/quiz_section/mcq_img_quiz.dart';
 
 class LevelSelectionContainer extends StatelessWidget {
-  final String levelText;
+  final int levelNum;
   final Widget nextPage;
   final Color startColor;
   final Color endColor;
-  final isUnlocked;
 
   const LevelSelectionContainer({
-    Key? key,
-    required this.levelText,
+    super.key,
+    required this.levelNum,
     required this.nextPage,
     this.startColor = Colors.greenAccent,
     this.endColor = Colors.white,
-    required this.isUnlocked,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    var heading = isUnlocked ? Text( levelText, style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 40),)
-        : Icon(Icons.lock, size: 100, color: Colors.black38,);
+    final LevelInfo currLevel = GlobalVariables.levels[levelNum];
+    final String levelText= currLevel.levelNumber.toString();
+    final bool isUnlocked = currLevel.isUnlocked;
+    var heading = isUnlocked ? Text( levelText, style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 40),)
+        : const Icon(Icons.lock, size: 100, color: Colors.black38,);
     return InkWell(
       onTap: () {
-        if (isUnlocked)
-        Navigator.push(context, MaterialPageRoute(builder: (context) => nextPage));
-        else
+        if (isUnlocked) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => nextPage));
+        } else
           ()=> {};
       },
       borderRadius: BorderRadius.circular(30),
       child: Container(
-        width: 150,
-        height: 150,
+        width: 120,
+        height: 120,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
@@ -114,49 +117,65 @@ class PlayPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 70),
+                  SizedBox(height: 100),
                   Row(
                       children :[
-                        SizedBox(width: 70),
-                        LevelSelectionContainer(levelText: '0', isUnlocked: isUnlockedList[0], nextPage: OperatorsMatchingGamePage()),
+                        SizedBox(width: 50),
+                        LevelSelectionContainer(levelNum: 0, nextPage: OperatorsMatchingGamePage()),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: '1', isUnlocked: isUnlockedList[1], nextPage: QuizPage()),
+                        LevelSelectionContainer(levelNum: 1,
+                            nextPage: McqImgQuiz(opSign:'+', level: GlobalVariables.levels[1])),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: '2', isUnlocked: isUnlockedList[2], nextPage: TextQuiz(opSign:'+')),
+                        LevelSelectionContainer(levelNum: 2,
+                            nextPage: McqQuiz(opSign: '+', level: GlobalVariables.levels[2],)),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: '3', isUnlocked: isUnlockedList[3], nextPage: McqQuiz(opSign: '-')),
+                        LevelSelectionContainer(levelNum: 3,
+                            nextPage: TextQuiz(opSign:'+', level: GlobalVariables.levels[3])),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: '4', isUnlocked: isUnlockedList[4], nextPage: TextQuiz(opSign:'-')),
+                        LevelSelectionContainer(levelNum: 4,
+                            nextPage: McqImgQuiz(opSign:'-', level: GlobalVariables.levels[4])),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: '5', isUnlocked: isUnlockedList[5] ,nextPage: McqQuiz(opSign: 'x')),
+                        LevelSelectionContainer(levelNum: 5,
+                           nextPage: McqQuiz(opSign: '-', level: GlobalVariables.levels[5],)),
+
+                        SizedBox(width: 50),
+                        LevelSelectionContainer(levelNum: 6,
+                            nextPage: TextQuiz(opSign:'-', level: GlobalVariables.levels[6])),
+
+
 
                       ]
                   ),
                   SizedBox(height: 70),
                   Row(
                       children :[
-                        SizedBox(width: 70),
-                        LevelSelectionContainer(levelText: '6', isUnlocked: isUnlockedList[6], nextPage: TextQuiz(opSign: 'x')),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: '7', isUnlocked: isUnlockedList[7], nextPage: McqQuiz(opSign: '÷')),
+                        LevelSelectionContainer(levelNum: 7,
+                            nextPage: McqQuiz(opSign: 'x', level: GlobalVariables.levels[7],)),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: '8', isUnlocked: isUnlockedList[8], nextPage: TextQuiz(opSign: '÷')),
+                        LevelSelectionContainer(levelNum: 8, nextPage: TextQuiz(opSign: 'x', level: GlobalVariables.levels[8])),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: '9', isUnlocked: isUnlockedList[9], nextPage: McqQuiz(opSign: 'mix')),
+                        LevelSelectionContainer(levelNum: 9, nextPage: McqQuiz(opSign: '÷', level: GlobalVariables.levels[9],)),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: '10', isUnlocked: isUnlockedList[10], nextPage: TextQuiz(opSign: 'mix')),
+                        LevelSelectionContainer(levelNum: 10, nextPage: TextQuiz(opSign: '÷', level: GlobalVariables.levels[10])),
 
                         SizedBox(width: 50),
-                        LevelSelectionContainer(levelText: '11', isUnlocked: isUnlockedList[11], nextPage: TextQuiz(opSign: 'mix')),
+                        LevelSelectionContainer(levelNum: 11, nextPage: McqQuiz(opSign: 'mix', level: GlobalVariables.levels[11],)),
+
+                        SizedBox(width: 50),
+                        LevelSelectionContainer(levelNum: 12, nextPage: TextQuiz(opSign: 'mix', level: GlobalVariables.levels[12])),
+
+                        SizedBox(width: 50),
+                        LevelSelectionContainer(levelNum: 13, nextPage: TextQuiz(opSign: 'mix', level: GlobalVariables.levels[13])),
 
                       ]
                   ),

@@ -18,14 +18,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'OP Game',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
+class _HomePageState extends State<HomePage> {
+  // const HomePage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +38,7 @@ class HomePage extends StatelessWidget {
         },
         foregroundColor: Colors.black,
         backgroundColor: Colors.red,
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
 
         child: const Icon(Icons.clear, size: 40,),
       ),
@@ -51,10 +54,15 @@ class HomePage extends StatelessWidget {
             child: Column(
                 children :[
                   SizedBox(height: 90),
-                  UserCard(
-                    username: '${GlobalVariables.userName}',
-                    avatarUrl: "assets/orange.png",
-                    score: GlobalVariables.totalScore,
+                  ValueListenableBuilder<int>(
+                    valueListenable: GlobalVariables.totalScore,
+                    builder: (context, int score, child) {
+                      return UserCard(
+                        username: GlobalVariables.userName,
+                        avatarUrl: "assets/orange.png",
+                        score: score,
+                      );
+                    },
                   ),
                   ImageBanner("assets/heading.png", 350, 700),
                   SizedBox(height: 70),
