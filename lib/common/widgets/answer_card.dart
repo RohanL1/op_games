@@ -33,6 +33,7 @@ class AnswerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isCorrectAnswer = currentIndex == correctAnswerIndex;
     bool isWrongAnswer = !isCorrectAnswer && isSelected;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 10.0,

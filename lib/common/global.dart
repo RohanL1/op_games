@@ -11,7 +11,7 @@ class GlobalVariables {
   static ValueNotifier<int> totalScore = ValueNotifier<int>(0);
   static List<LevelInfo> levels = initLevelData();
 
-  void setUserData(){
+  static void setUserData(){
     // http get user info
     //
 
@@ -25,7 +25,7 @@ class GlobalVariables {
     userID   = data.containsKey("primary_lang") ? data["primary_lang"]! : "999999"; // Private static variable
   }
 
-  void setLevelData(){
+  static void setLevelData(){
     // http get level info
     // below code repl http resp - data
     // TASK - replace this with api code
@@ -54,6 +54,15 @@ class GlobalVariables {
     levels = out;
   }
 
+  static void postLevelData(){
+    List<Map<String, dynamic>> data = [];
+    for (int i = 0; i <= 13; i++) {
+      data.add(levels[i].toMap());
+    }
+
+    // http post  (data)
+
+  }
   void test(){
     List<LevelInfo> levels = testLevelData();
     List<Map<String, dynamic>> data = [];

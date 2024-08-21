@@ -23,7 +23,7 @@ class McqImgQuiz extends StatefulWidget {
 class _McqImgQuizState extends State<McqImgQuiz> {
   int? selectedAnswerIndex;
   int questionIndex = 0;
-  late double screenWidth = MediaQuery.of(context).size.width;
+
   late List<McqImgQuestion> questions;
   FlutterTts flutterTts = FlutterTts();
   int currentLanguage= 0;
@@ -101,6 +101,7 @@ class _McqImgQuizState extends State<McqImgQuiz> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     final question = questions[questionIndex];
     bool isLastQuestion = questionIndex == questions.length-1;
     return Scaffold(
@@ -108,6 +109,7 @@ class _McqImgQuizState extends State<McqImgQuiz> {
           onPressed: () {
             Navigator.pop(context);
           },
+          // mini: screenWidth/40 > 200,
           foregroundColor: Colors.black,
           backgroundColor: Colors.lightBlue,
           shape: CircleBorder(),
@@ -124,7 +126,7 @@ class _McqImgQuizState extends State<McqImgQuiz> {
           ),
           child:
           Padding(
-            padding: const EdgeInsets.fromLTRB(200,100, 200,50),
+            padding: EdgeInsets.fromLTRB(screenWidth/10,screenWidth/20, screenWidth/10,screenWidth/40),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
@@ -189,6 +191,7 @@ class _McqImgQuizState extends State<McqImgQuiz> {
                 // Next button
                 SizedBox(height: 10,),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     InkWell(
                       onTap: () {
@@ -197,24 +200,25 @@ class _McqImgQuizState extends State<McqImgQuiz> {
                       },
                       borderRadius: BorderRadius.circular(30),
                       child: Container(
-                        width: 100,
+                        width: screenWidth/10,
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           color: Colors.lightGreen,
                         ),
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Icon(
                               Icons.volume_up,
-                              size: 50,
+                              size: screenWidth/40,
                             ),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(width: 170,),
+                    // SizedBox(width: screenWidth/5,),
+                    Spacer(flex: 1),
                     InkWell(
                       onTap: () {
                         //print("..Current Question Index: $questionIndex");
@@ -251,25 +255,26 @@ class _McqImgQuizState extends State<McqImgQuiz> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 170,),
+                    // SizedBox(width: screenWidth/5,),
+                    Spacer(flex: 1),
                     InkWell(
                       onTap: () {
                         changeLang();
                       },
                       borderRadius: BorderRadius.circular(30),
                       child: Container(
-                        width: 100,
+                        width: screenWidth/10,
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           color: Colors.lightGreen,
                         ),
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Icon(
                               Icons.translate,
-                              size: 50,
+                              size: screenWidth/40,
                             ),
                           ],
                         ),
@@ -351,6 +356,7 @@ class OrangesDisplay extends StatelessWidget {
 class _Orange extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Container(
       padding: EdgeInsets.all(8), // Adjust padding as needed
       decoration: BoxDecoration(
@@ -368,8 +374,8 @@ class _Orange extends StatelessWidget {
       ),
       child: Image.asset(
         'assets/orange.png',
-        width: 50,
-        height: 50,
+        width: screenWidth/40,
+        height: screenWidth/40,
       ),
     );
   }

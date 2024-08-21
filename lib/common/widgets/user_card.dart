@@ -14,9 +14,10 @@ class UserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Row(
       children: [
-        SizedBox(width: 100),
+        Spacer(flex: 1),
         Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
@@ -27,32 +28,32 @@ class UserCard extends StatelessWidget {
           ),
           child: CircleAvatar(
             backgroundImage: AssetImage(avatarUrl),
-            radius: 20,
+            radius: screenWidth/80,
           ),
         ),
-        SizedBox(width: 20),
+        SizedBox(width: screenWidth/80),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               username,
               style: TextStyle(
-                fontSize: 30,
+                fontSize: screenWidth/40,
                 fontWeight: FontWeight.bold,
                 color: Colors.white
               ),
             ),
-            SizedBox(width: 700),
+            SizedBox(width: screenWidth/2),
             Text(
               'Score: $score',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: screenWidth/40,
                 color: Colors.white54,
               ),
             ),
           ],
         ),
-      ],
+        Spacer(flex: 1),],
     );
   }
 }

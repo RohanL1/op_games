@@ -23,11 +23,13 @@ class LevelSelectionContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final LevelInfo currLevel = GlobalVariables.levels[levelNum];
     final String levelText= currLevel.levelNumber.toString();
     final bool isUnlocked = currLevel.isUnlocked;
-    var heading = isUnlocked ? Text( levelText, style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 40),)
-        : const Icon(Icons.lock, size: 100, color: Colors.black38,);
+    double screenWidth = MediaQuery.of(context).size.width;
+    var heading = isUnlocked ? Text( levelText, style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: screenWidth/30),)
+        : Icon(Icons.lock, size: screenWidth/20, color: Colors.black38,);
     return InkWell(
       onTap: () {
         if (isUnlocked) {
@@ -37,8 +39,8 @@ class LevelSelectionContainer extends StatelessWidget {
       },
       borderRadius: BorderRadius.circular(30),
       child: Container(
-        width: 120,
-        height: 120,
+        width: screenWidth/12,
+        height: screenWidth/12,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
@@ -65,6 +67,7 @@ class PlayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<bool> isUnlockedList = [] ;
+    double screenWidth = MediaQuery.of(context).size.width;
     for (int i = 0; i <= 11; i++){
       isUnlockedList.add(GlobalVariables.levels[i].isUnlocked);
     }
@@ -90,15 +93,16 @@ class PlayPage extends StatelessWidget {
           ),
           child: Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SizedBox(height: 40),
+                  Spacer(flex: 1),
                   Stack(
                     children: <Widget>[
                       // Stroked text as border.
                       Text(
                         'LEVELS',
                         style: TextStyle(
-                          fontSize: 50,
+                          fontSize: screenWidth/30,
                           fontWeight: FontWeight.bold,
                           foreground: Paint()
                             ..style = PaintingStyle.stroke
@@ -110,40 +114,41 @@ class PlayPage extends StatelessWidget {
                       Text(
                         'LEVELS',
                         style: TextStyle(
-                          fontSize: 50,
+                          fontSize: screenWidth/30,
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 100),
+                  Spacer(flex: 1),
                   Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children :[
-                        SizedBox(width: 50),
+
                         LevelSelectionContainer(levelNum: 0, nextPage: OperatorsMatchingGamePage()),
 
-                        SizedBox(width: 50),
+
                         LevelSelectionContainer(levelNum: 1,
                             nextPage: McqImgQuiz(opSign:'+', level: GlobalVariables.levels[1])),
 
-                        SizedBox(width: 50),
+
                         LevelSelectionContainer(levelNum: 2,
                             nextPage: McqQuiz(opSign: '+', level: GlobalVariables.levels[2],)),
 
-                        SizedBox(width: 50),
+
                         LevelSelectionContainer(levelNum: 3,
                             nextPage: TextQuiz(opSign:'+', level: GlobalVariables.levels[3])),
 
-                        SizedBox(width: 50),
+
                         LevelSelectionContainer(levelNum: 4,
                             nextPage: McqImgQuiz(opSign:'-', level: GlobalVariables.levels[4])),
 
-                        SizedBox(width: 50),
+
                         LevelSelectionContainer(levelNum: 5,
                            nextPage: McqQuiz(opSign: '-', level: GlobalVariables.levels[5],)),
 
-                        SizedBox(width: 50),
+
                         LevelSelectionContainer(levelNum: 6,
                             nextPage: TextQuiz(opSign:'-', level: GlobalVariables.levels[6])),
 
@@ -151,34 +156,37 @@ class PlayPage extends StatelessWidget {
 
                       ]
                   ),
-                  SizedBox(height: 70),
+                  Spacer(flex: 1),
                   Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children :[
 
-                        SizedBox(width: 50),
+
                         LevelSelectionContainer(levelNum: 7,
                             nextPage: McqQuiz(opSign: 'x', level: GlobalVariables.levels[7],)),
 
-                        SizedBox(width: 50),
+
                         LevelSelectionContainer(levelNum: 8, nextPage: TextQuiz(opSign: 'x', level: GlobalVariables.levels[8])),
 
-                        SizedBox(width: 50),
+
                         LevelSelectionContainer(levelNum: 9, nextPage: McqQuiz(opSign: '÷', level: GlobalVariables.levels[9],)),
 
-                        SizedBox(width: 50),
+
                         LevelSelectionContainer(levelNum: 10, nextPage: TextQuiz(opSign: '÷', level: GlobalVariables.levels[10])),
 
-                        SizedBox(width: 50),
+
                         LevelSelectionContainer(levelNum: 11, nextPage: McqQuiz(opSign: 'mix', level: GlobalVariables.levels[11],)),
 
-                        SizedBox(width: 50),
+
                         LevelSelectionContainer(levelNum: 12, nextPage: TextQuiz(opSign: 'mix', level: GlobalVariables.levels[12])),
 
-                        SizedBox(width: 50),
+
                         LevelSelectionContainer(levelNum: 13, nextPage: TextQuiz(opSign: 'mix', level: GlobalVariables.levels[13])),
+
 
                       ]
                   ),
+                  Spacer(flex: 2),
                 ],
               )
           )

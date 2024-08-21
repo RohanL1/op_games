@@ -9,6 +9,7 @@ class LearnPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -31,201 +32,116 @@ class LearnPage extends StatelessWidget {
           ),
           child: Center(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SizedBox(height: 100),
+                Spacer(flex: 1),
                 Text('Operator List',
-                style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 70),
+                style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: screenWidth/15),
                 ),
-                SizedBox(height: 120),
+                Spacer(flex: 1),
                 Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children :[
-                      SizedBox(width: 200),
+                      Spacer(flex: 2),
                       InkWell(
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => OperatorPage(operatorData:data['+']! ,)));
                         },
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
-                          width: 150,
+                          width: screenWidth/7,
+                          height: screenWidth/7,
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             color: Colors.white70,
                           ),
-                          child: const Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text('+',
-                                style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 100),
+                                style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: screenWidth/10),
                               ),
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(width: 100),
+                      Spacer(flex: 1),
                       InkWell(
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => OperatorPage(operatorData:data['-']! ,)));
                         },
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
-                          width: 150,
+                          width: screenWidth/7,
+                          height: screenWidth/7,
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             color: Colors.white70,
                           ),
-                          child: const Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text('-',
-                                style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 100),
+                                style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: screenWidth/10),
                               ),
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(width: 100),
+                      Spacer(flex: 1),
                       InkWell(
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => OperatorPage(operatorData:data['x']! ,)));
                           },
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
-                          width: 150,
+                          width: screenWidth/7,
+                          height: screenWidth/7,
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             color: Colors.white70,
                           ),
-                          child: const Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text('X',
-                                style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold, fontSize: 100),
+                                style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold, fontSize: screenWidth/13),
                               ),
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(width: 100),
+                      Spacer(flex: 1),
                       InkWell(
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => OperatorPage(operatorData:data['÷']! ,)));
                           },
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
-                          width: 150,
+                          width: screenWidth/7,
+                          height: screenWidth/7,
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             color: Colors.white70,
                           ),
-                          child: const Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text('÷',
-                                style: TextStyle(color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 100),
+                                style: TextStyle(color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: screenWidth/10),
                               ),
                             ],
                           ),
                         ),
                       ),
+                      Spacer(flex: 2),
                     ]
                 ),
-                SizedBox(height: 70),
-                // Row(
-                //     children :[
-                //       SizedBox(width: 200),
-                //       InkWell(
-                //         onTap: () {
-                //           // Navigator.push(context, MaterialPageRoute(builder: (context) => LearnPage()));
-                //         },
-                //         borderRadius: BorderRadius.circular(30),
-                //         child: Container(
-                //           width: 150,
-                //           padding: const EdgeInsets.all(10),
-                //           decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(30),
-                //             color: Colors.white70,
-                //           ),
-                //           child: const Row(
-                //             mainAxisAlignment: MainAxisAlignment.center,
-                //             children: <Widget>[
-                //               Text('<',
-                //                 style: TextStyle(color: Colors.purple, fontWeight: FontWeight.bold, fontSize: 100),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //       ),
-                //       SizedBox(width: 100),
-                //       InkWell(
-                //         onTap: () {
-                //
-                //         },
-                //         borderRadius: BorderRadius.circular(30),
-                //         child: Container(
-                //           width: 150,
-                //           padding: const EdgeInsets.all(10),
-                //           decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(30),
-                //             color: Colors.white70,
-                //           ),
-                //           child: const Row(
-                //             mainAxisAlignment: MainAxisAlignment.center,
-                //             children: <Widget>[
-                //               Text('>',
-                //                 style: TextStyle(color: Colors.lightBlue, fontWeight: FontWeight.bold, fontSize: 100),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //       ),
-                //       SizedBox(width: 100),
-                //       InkWell(
-                //         onTap: () {SystemNavigator.pop();},
-                //         borderRadius: BorderRadius.circular(30),
-                //         child: Container(
-                //           width: 150,
-                //           padding: const EdgeInsets.all(10),
-                //           decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(30),
-                //             color: Colors.white70,
-                //           ),
-                //           child: const Row(
-                //             mainAxisAlignment: MainAxisAlignment.center,
-                //             children: <Widget>[
-                //               Text('=',
-                //                 style: TextStyle(color: Colors.black45, fontWeight: FontWeight.bold, fontSize: 100),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //       ),
-                //       SizedBox(width: 100),
-                //       InkWell(
-                //         onTap: () {SystemNavigator.pop();},
-                //         borderRadius: BorderRadius.circular(30),
-                //         child: Container(
-                //           width: 150,
-                //           padding: const EdgeInsets.all(10),
-                //           decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(30),
-                //             color: Colors.white70,
-                //           ),
-                //           child: const Row(
-                //             mainAxisAlignment: MainAxisAlignment.center,
-                //             children: <Widget>[
-                //               Text('%',
-                //                 style: TextStyle(color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 100),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //       ),
-                //     ]
-                // ),
+                Spacer(flex: 2),
               ],
             )
           )

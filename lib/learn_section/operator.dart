@@ -12,6 +12,7 @@ class OperatorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -33,15 +34,16 @@ class OperatorPage extends StatelessWidget {
           ),
           child: Center(
             child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children :[
-                  SizedBox(height: 80),
+                  Spacer(flex: 2),
                   // ImageBanner('assets/plus.png', 300, 250),
                   Text(
                     operatorData['op_sign'],
                     style: TextStyle(
                       color: Colors.green,
                       fontWeight: FontWeight.bold,
-                      fontSize: 200,
+                      fontSize: screenWidth/10,
                       height: 0.8,
                     ),
                   ),
@@ -50,10 +52,10 @@ class OperatorPage extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.black87,
                       fontWeight: FontWeight.w900,
-                      fontSize: 100,
+                      fontSize: screenWidth/15,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  Spacer(flex: 1),
                   // Row(
                   //   children: [
                   //     SizedBox(width: 35),
@@ -63,59 +65,63 @@ class OperatorPage extends StatelessWidget {
                   //   ],
                   // ),
 
-                  SizedBox(height: 80),
+                  Spacer(flex: 1),
                   Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
                       children :[
-                        SizedBox(width: 400),
+                        Spacer(flex: 1),
                         InkWell(
                           onTap: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context) => FlashCard(opSign: operatorData['op_sign'] ,)));
                           },
                           borderRadius: BorderRadius.circular(30),
                           child: Container(
-                            width: 200,
+                            width: screenWidth/5,
+                            // height: screenWidth/15,
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
                               color: Colors.lightGreen,
                             ),
-                            child: const Row(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text('Learn',
-                                  style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 40),
+                                  style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: screenWidth/30),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(width: 100),
+                        Spacer(flex: 1),
                         InkWell(
                           onTap: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context) => PracticeScreen(opSign: operatorData['op_sign'],)));
                           },
                           borderRadius: BorderRadius.circular(30),
                           child: Container(
-                            width: 200,
+                            width: screenWidth/5,
+                            // height: screenWidth/15,
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
                               color: Colors.lightBlue,
                             ),
-                            child: const Row(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text('Practice',
-                                  style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 40),
+                                  style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: screenWidth/30),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(width: 100),
+                        Spacer(flex: 1),
                       ]
                   ),
-
+                  Spacer(flex: 3),
                 ]
             ),
           )

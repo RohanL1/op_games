@@ -8,7 +8,7 @@ import 'package:op_games/quiz_section/Quiz_page.dart';
 import 'package:op_games/quiz_section/Play_Page.dart';
 import 'package:op_games/common/widgets/user_card.dart';
 import 'package:op_games/common/global.dart';
-import 'package:op_games/common/api/common.dart';
+import 'package:op_games/common/api/api_util.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -36,7 +36,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    test();
+    // test();
+    GlobalVariables.setLevelData();
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -58,8 +60,10 @@ class _HomePageState extends State<HomePage> {
         ),
           child: Center(
             child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children :[
-                  SizedBox(height: 90),
+                  // SizedBox(height: 90),
+                  Spacer(flex: 1),
                   ValueListenableBuilder<int>(
                     valueListenable: GlobalVariables.totalScore,
                     builder: (context, int score, child) {
@@ -70,57 +74,62 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                   ),
-                  ImageBanner("assets/heading.png", 350, 700),
-                  SizedBox(height: 70),
+                  Spacer(flex: 1),
+                  ImageBanner("assets/heading.png", screenWidth/5, screenWidth/2.3),
+                  Spacer(flex: 1),
                   Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children :[
-                      SizedBox(width: 400),
+                      // SizedBox(width: 400),
+                      Spacer(flex: 2),
                       InkWell(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => LearnPage()));
                       },
                       borderRadius: BorderRadius.circular(30),
                       child: Container(
-                        width: 200,
+                        width: screenWidth/7,
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           color: Colors.lightGreen,
                         ),
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             Text('Learn',
-                              style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 40),
+                              style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: screenWidth/30),
                             ),
                           ],
                         ),
                       ),
                     ),
-                      SizedBox(width: 100),
+                      Spacer(flex: 1),
                       InkWell(
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => PlayPage()));
                         },
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
-                          width: 200,
+                          width: screenWidth/7,
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             color: Colors.lightBlue,
                           ),
-                          child: const Row(
+                          child:  Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Text('Quiz',
-                                style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 40),
+                                style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: screenWidth/30),
                               ),
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(width: 100),
+                      Spacer(flex: 2),
+                      // SizedBox(width: 100),
+
                       // InkWell(
                       //   onTap: () {
                       //     Navigator.push(
@@ -150,6 +159,7 @@ class _HomePageState extends State<HomePage> {
                       // ),
                     ]
                   ),
+                  Spacer(flex: 2),
 
                 ]
             ),
