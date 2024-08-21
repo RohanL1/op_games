@@ -8,6 +8,7 @@ import 'package:op_games/quiz_section/Quiz_page.dart';
 import 'package:op_games/quiz_section/Play_Page.dart';
 import 'package:op_games/common/widgets/user_card.dart';
 import 'package:op_games/common/global.dart';
+import 'package:op_games/common/api/common.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
       title: 'OP Game',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: HomePage(),
+      routes: {
+        '/level': (context) => PlayPage(),
+      },
     );
   }
 }
@@ -29,8 +33,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
+    test();
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {

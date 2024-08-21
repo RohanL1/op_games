@@ -70,7 +70,13 @@ class ResultsPage extends StatelessWidget {
                         Text("Your Score: $score", style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.black)),
                         SizedBox(height: 10),
                         InkWell(
-                          onTap: () => Navigator.popUntil(context, ModalRoute.withName('/')),
+                          // onTap: () => Navigator.popUntil(context, ModalRoute.withName('/level')),
+
+                          onTap: () {
+                            Navigator.popUntil(context, ModalRoute.withName('/'));
+                            Navigator.pushNamed(context, '/level');
+                          },
+
                           borderRadius: BorderRadius.circular(30),
                           child: Container(
                             width: 200,
@@ -82,7 +88,7 @@ class ResultsPage extends StatelessWidget {
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                Text('Back to Home',
+                                Text('Back to Level',
                                   style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 25),
                                 ),
                               ],
